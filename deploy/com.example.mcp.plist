@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
-  Template. Do not install this file directly.
-
-  Run deploy/install.sh to substitute __PROJECT_DIR__ / __HOME__ / __LABEL__
-  and write the result to ~/Library/LaunchAgents/.
+  Template. Do not install directly.
+  Run deploy/install.sh <server> to substitute the placeholders and load it.
 -->
 <plist version="1.0">
 <dict>
   <key>Label</key>
   <string>__LABEL__</string>
 
-  <!-- Console script created by `uv pip install -e .`, backed by the venv
-       interpreter. -->
+  <!-- Console script from the workspace venv. -->
   <key>ProgramArguments</key>
   <array>
-    <string>__PROJECT_DIR__/.venv/bin/kis-mcp</string>
+    <string>__BIN__</string>
   </array>
 
-  <!-- Required: the server reads .env from the project root. -->
+  <!-- Required: the server reads .env from its own directory. -->
   <key>WorkingDirectory</key>
-  <string>__PROJECT_DIR__</string>
+  <string>__SERVER_DIR__</string>
 
   <key>EnvironmentVariables</key>
   <dict>
@@ -42,9 +39,9 @@
   <integer>10</integer>
 
   <key>StandardOutPath</key>
-  <string>__HOME__/Library/Logs/kis-mcp/stdout.log</string>
+  <string>__LOG_DIR__/stdout.log</string>
   <key>StandardErrorPath</key>
-  <string>__HOME__/Library/Logs/kis-mcp/stderr.log</string>
+  <string>__LOG_DIR__/stderr.log</string>
 
   <key>ProcessType</key>
   <string>Background</string>

@@ -11,6 +11,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+# servers/<name>/src/kis_mcp/config.py -> servers/<name>
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 # Official KIS domains, taken from examples_llm/kis_auth.py in the KIS repo.

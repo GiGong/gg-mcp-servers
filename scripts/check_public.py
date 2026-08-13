@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Complete a full OAuth round trip against the public URL (via the tunnel).
+"""Complete a full OAuth round trip against a server's public URL (via the tunnel).
 
 Reproduces the path Claude.ai takes: DCR -> authorize -> passphrase -> code ->
 token -> MCP initialize.
@@ -7,8 +7,8 @@ token -> MCP initialize.
 If the local macOS resolver cannot resolve the hostname, curl's --resolve can
 bypass DNS; the transport still goes through the real tunnel.
 
-    PYTHONPATH=src .venv/bin/python scripts/check_public.py
-    PYTHONPATH=src .venv/bin/python scripts/check_public.py --resolve 104.21.91.26
+    .venv/bin/python scripts/check_public.py --env servers/kis/.env
+    .venv/bin/python scripts/check_public.py --env servers/kis/.env --resolve 1.2.3.4
 """
 
 from __future__ import annotations
@@ -17,15 +17,13 @@ import argparse
 import base64
 import hashlib
 import json
+import re
 import secrets
 import subprocess
 import sys
+from pathlib import Path
 import tempfile
 from urllib.parse import parse_qs, urlparse
-
-sys.path.insert(0, "src")
-
-from kis_mcp.config import load_settings  # noqa: E402
 
 PASS = "\033[32m PASS\033[0m"
 FAIL = "\033[31m FAIL\033[0m"
@@ -68,6 +66,23 @@ def curl(url: str, *extra: str) -> tuple[int, dict[str, str], str]:
         return status, headers, out.read().strip()
 
 
+def read_env(path: Path) -> dict[str, str]:
+    """Minimal .env reader. Avoids depending on any particular server package."""
+    values: dict[str, str] = {}
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError as exc:
+        print(f"error: cannot read {path}: {exc}", file=sys.stderr)
+        return values
+    for line in lines:
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        values[key.strip()] = value.strip().strip('"').strip("'")
+    return values
+
+
 def pkce() -> tuple[str, str]:
     verifier = secrets.token_urlsafe(64)
     challenge = (
@@ -81,13 +96,22 @@ def pkce() -> tuple[str, str]:
 def main() -> int:
     global _resolve_ip, _host
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--env",
+        default="servers/kis/.env",
+        help="Path to the server's .env (default: servers/kis/.env)",
+    )
     parser.add_argument("--resolve", help="IP to bypass local DNS with")
-    parser.add_argument("--url", help="Public URL (default: MCP_PUBLIC_URL from .env)")
+    parser.add_argument("--url", help="Public URL (overrides MCP_PUBLIC_URL)")
     args = parser.parse_args()
 
-    settings = load_settings()
-    base = (args.url or settings.public_url).rstrip("/")
-    mcp_url = f"{base}{settings.mcp_path}"
+    env = read_env(Path(args.env))
+    base = (args.url or env.get("MCP_PUBLIC_URL", "")).rstrip("/")
+    if not base:
+        print(f"error: MCP_PUBLIC_URL not found in {args.env}", file=sys.stderr)
+        return 1
+    passphrase = env.get("OAUTH_PASSPHRASE", "")
+    mcp_url = f"{base}{env.get('MCP_PATH', '/mcp')}"
     _resolve_ip = args.resolve
     _host = urlparse(base).hostname or ""
 
@@ -144,9 +168,16 @@ def main() -> int:
 
     status, _, body = curl(f"{base}/auth/login?rid={rid}")
     check("login page renders", status == 200)
+    # Word boundaries matter: a substring match would flag the CSS ("border"
+    # contains "order").
+    leaks = [
+        w for w in ("KIS", "Korea Investment", "stock", "order", "quote",
+                    "trading", "broker")
+        if re.search(rf"\b{re.escape(w)}\b", body, re.I)
+    ]
     check("login page reveals nothing about the service",
-          not any(w in body for w in ("KIS", "Korea Investment", "stock", "order", "quote")),
-          "neutral" if status == 200 else "")
+          not leaks,
+          "neutral" if not leaks else f"leaked: {', '.join(leaks)}")
 
     status, _, _ = curl(
         f"{base}/auth/login", "-X", "POST",
@@ -158,7 +189,7 @@ def main() -> int:
     status, headers, _ = curl(
         f"{base}/auth/login", "-X", "POST",
         "--data-urlencode", f"rid={rid}",
-        "--data-urlencode", f"passphrase={settings.oauth_passphrase}",
+        "--data-urlencode", f"passphrase={passphrase}",
     )
     callback = headers.get("location", "")
     code = parse_qs(urlparse(callback).query).get("code", [""])[0]

@@ -12,10 +12,11 @@ from __future__ import annotations
 import asyncio
 import datetime as dt
 import os
+import pathlib
 import sys
 import tempfile
 
-sys.path.insert(0, "src")
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "src"))
 
 _TMP = tempfile.mkdtemp()
 os.environ.update(

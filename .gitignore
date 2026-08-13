@@ -2,6 +2,9 @@
 .env
 .env.*
 !.env.example
+servers/*/.env
+servers/*/.env.*
+!servers/*/.env.example
 *.pem
 *.key
 secrets/

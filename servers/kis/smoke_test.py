@@ -13,10 +13,11 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import pathlib
 import sys
 from typing import Any
 
-sys.path.insert(0, "src")
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "src"))
 
 from kis_mcp.client import KisClient  # noqa: E402
 from kis_mcp.config import load_settings  # noqa: E402

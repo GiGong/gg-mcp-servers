@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-"""Self-check for the built-in OAuth 2.1 flow.
+"""Self-check for the built-in OAuth 2.1 flow (packages/localauth).
 
-Runs without KIS credentials. Starts the server on loopback and reproduces the
-exact path Claude.ai takes: DCR -> authorize -> passphrase -> code -> token ->
-MCP call.
+Server-agnostic and credential-free: it stands up a bare FastMCP server that
+carries only the auth provider, so it verifies localauth rather than any
+particular MCP server. Reproduces the exact path Claude.ai takes:
+DCR -> authorize -> passphrase -> code -> token -> MCP call.
 
-    PYTHONPATH=src .venv/bin/python scripts/check_oauth.py
+    .venv/bin/python scripts/check_oauth.py
 """
 
 from __future__ import annotations
@@ -13,14 +14,20 @@ from __future__ import annotations
 import asyncio
 import base64
 import hashlib
-import os
 import secrets
 import sys
 import tempfile
+from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 import httpx
 import uvicorn
+from fastmcp import FastMCP
+from starlette.responses import JSONResponse
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packages"))
+
+from localauth import PassphraseOAuthProvider  # noqa: E402
 
 PORT = 8799
 BASE = f"http://127.0.0.1:{PORT}"
@@ -259,33 +266,25 @@ async def run_checks() -> None:
 
 def main() -> int:
     tmp = tempfile.mkdtemp()
-    os.environ.update(
-        {
-            "KIS_ENV": "real",
-            "KIS_APP_KEY": "DUMMY-KEY-FOR-OAUTH-CHECK",
-            "KIS_APP_SECRET": "DUMMY-SECRET-FOR-OAUTH-CHECK",
-            "AUTH_MODE": "oauth",
-            "MCP_PUBLIC_URL": BASE,
-            "MCP_PATH": "/mcp",
-            "OAUTH_PASSPHRASE": PASSPHRASE,
-            "OAUTH_SIGNING_SECRET": "signing-secret-for-local-check-only",
-            "OAUTH_STORE": f"{tmp}/oauth.json",
-            "KIS_TOKEN_CACHE": f"{tmp}/token.json",
-            "LOG_LEVEL": "WARNING",
-            "LOG_FILE": "",
-        }
+
+    # A bare FastMCP server carrying only the auth provider. This check is about
+    # localauth, so it must not depend on any particular MCP server.
+    auth = PassphraseOAuthProvider(
+        base_url=BASE,
+        passphrase=PASSPHRASE,
+        signing_secret="signing-secret-for-local-check-only",
+        store_path=Path(tmp) / "oauth.json",
+        server_label="Check server",
     )
+    mcp: FastMCP = FastMCP(name="auth-check", auth=auth)
 
-    from kis_mcp.config import load_settings
-    from kis_mcp.server import build_server
-
-    settings = load_settings(env_file="/nonexistent")
-    mcp, _client = build_server(settings)
+    @mcp.tool
+    async def ping() -> str:
+        """Trivial tool so the server exposes something."""
+        return "pong"
 
     @mcp.custom_route("/healthz", methods=["GET"])
     async def healthz(_request):  # noqa: ANN001, ANN202
-        from starlette.responses import JSONResponse
-
         return JSONResponse({"status": "ok"})
 
     app = mcp.http_app(path="/mcp", transport="http")
