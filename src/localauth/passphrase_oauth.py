@@ -1,17 +1,27 @@
-"""패스프레이즈로 게이트하는 자체 완결형 OAuth 2.1 인가서버.
+"""A self-contained OAuth 2.1 authorization server gated by a passphrase.
 
-왜 이게 필요한가:
-  Claude.ai 의 커스텀 커넥터는 정적 `Authorization: Bearer` 헤더를 보낼 수 없다.
-  고급 설정에 OAuth Client ID/Secret 칸만 있고 임의 헤더 칸이 없다.
-  따라서 원격 MCP 를 인증으로 보호하려면 서버가 OAuth 2.1 + DCR 을 제공해야 한다.
-  이 모듈은 외부 IdP(GitHub, WorkOS 등) 없이 그 역할을 한다.
+Why this exists:
+    Claude.ai custom connectors cannot send a static `Authorization: Bearer`
+    header. The connector settings expose only OAuth Client ID/Secret, so a
+    shared-secret middleware makes the connector fail to connect at all. A
+    browser-login gateway does not work either, because Claude.ai's MCP client
+    is a server-side HTTP client that never completes an interstitial login.
+    The supported path is OAuth 2.1 + Dynamic Client Registration, and most
+    examples delegate that to an external IdP. This module is the authorization
+    server itself, so no third party is involved.
 
-보안 설계:
-  - 인가 코드는 브라우저에서 패스프레이즈를 맞게 입력해야만 발급된다.
-  - 액세스/리프레시 토큰은 평문으로 저장하지 않는다. HMAC-SHA256 해시만 저장한다.
-  - 패스프레이즈 비교는 상수 시간 비교(compare_digest)를 쓴다.
-  - 실패 시도는 지수 백오프로 제한한다.
-  - PKCE(S256)는 MCP SDK 의 인가/토큰 핸들러가 강제한다.
+Design:
+    FastMCP ships an InMemoryOAuthProvider, but it approves every authorization
+    request -- anyone who learns the URL gets a token. This subclasses
+    OAuthProvider directly so that `authorize()` redirects to a passphrase form
+    instead of minting a code.
+
+Security properties:
+    - Authorization codes are issued only after a correct passphrase entry.
+    - Tokens are never persisted in plaintext; only an HMAC-SHA256 digest is.
+    - Passphrase comparison is constant time (`hmac.compare_digest`).
+    - Failed attempts back off exponentially.
+    - PKCE (S256) is enforced by the MCP SDK's authorize/token handlers.
 """
 
 from __future__ import annotations
@@ -50,12 +60,12 @@ AUTH_CODE_TTL = 300
 PENDING_TTL = 600
 LOGIN_PATH = "/auth/login"
 
-# 무차별 대입 방어: 실패가 쌓이면 대기 시간이 늘어난다.
+# Brute-force defence: the wait grows as failures accumulate.
 _LOCKOUT_STEPS = [0, 0, 1, 3, 10, 30, 60, 300]
 
 
 class PassphraseOAuthProvider(OAuthProvider):
-    """DCR 을 받아주되, 사람이 패스프레이즈를 입력해야 토큰을 내주는 인가서버."""
+    """An authorization server that accepts DCR but requires a human passphrase."""
 
     def __init__(
         self,
@@ -67,7 +77,7 @@ class PassphraseOAuthProvider(OAuthProvider):
         access_token_ttl: int = 8 * 3600,
         refresh_token_ttl: int = 30 * 86400,
         server_label: str = "Private connector",
-        page_subtitle: str = "연결하려면 패스프레이즈를 입력하세요.",
+        page_subtitle: str = "Enter the passphrase to connect.",
         required_scopes: list[str] | None = None,
     ) -> None:
         super().__init__(
@@ -88,7 +98,7 @@ class PassphraseOAuthProvider(OAuthProvider):
         self._server_label = server_label
         self._page_subtitle = page_subtitle
 
-        # rid -> {client_id, redirect_uri, state, scopes, code_challenge, ...}
+        # rid -> pending authorization request awaiting passphrase entry
         self._pending: dict[str, dict[str, Any]] = {}
         self._failures = 0
         self._locked_until = 0.0
@@ -154,7 +164,7 @@ class PassphraseOAuthProvider(OAuthProvider):
     async def authorize(
         self, client: OAuthClientInformationFull, params: AuthorizationParams
     ) -> str:
-        """코드를 바로 발급하지 않고 패스프레이즈 입력 화면으로 보낸다."""
+        """Redirect to the passphrase form rather than issuing a code directly."""
         if client.client_id is None or client.client_id not in self._clients():
             raise AuthorizeError(
                 error="unauthorized_client",
@@ -231,7 +241,7 @@ class PassphraseOAuthProvider(OAuthProvider):
         key = self._digest(authorization_code.code)
         if key not in self._codes():
             raise TokenError("invalid_grant", "Authorization code not found or already used.")
-        self._codes().pop(key, None)  # 1회용
+        self._codes().pop(key, None)  # single use
         if client.client_id is None:
             raise TokenError("invalid_client", "Client ID is required")
         logger.info("issued access token to client %s", client.client_id)
@@ -263,7 +273,7 @@ class PassphraseOAuthProvider(OAuthProvider):
         granted = set(refresh_token.scopes)
         if not set(scopes).issubset(granted):
             raise TokenError("invalid_scope", "Requested scopes exceed the granted set.")
-        # OAuth 2.1: public client 의 리프레시 토큰은 회전시킨다.
+        # OAuth 2.1: rotate refresh tokens issued to public clients.
         self._refresh().pop(self._digest(refresh_token.token), None)
         if client.client_id is None:
             raise TokenError("invalid_client", "Client ID is required")
@@ -306,7 +316,14 @@ class PassphraseOAuthProvider(OAuthProvider):
         if request.method == "GET":
             rid = request.query_params.get("rid", "")
             if rid not in self._pending:
-                return HTMLResponse(self._page(error="만료되었거나 알 수 없는 요청입니다. 커넥터에서 다시 연결을 시도하세요.", rid=None), status_code=400)
+                return HTMLResponse(
+                    self._page(
+                        rid=None,
+                        error="This request has expired or is unknown. "
+                        "Start the connection again from your client.",
+                    ),
+                    status_code=400,
+                )
             return HTMLResponse(self._page(rid=rid))
 
         form = await request.form()
@@ -316,21 +333,22 @@ class PassphraseOAuthProvider(OAuthProvider):
         wait = self._lockout_remaining()
         if wait > 0:
             return HTMLResponse(
-                self._page(rid=rid, error=f"시도가 너무 많습니다. {int(wait)}초 후 다시 시도하세요."),
+                self._page(rid=rid, error=f"Too many attempts. Try again in {int(wait)}s."),
                 status_code=429,
             )
 
         pending = self._pending.get(rid)
         if pending is None:
             return HTMLResponse(
-                self._page(rid=None, error="만료되었거나 알 수 없는 요청입니다."), status_code=400
+                self._page(rid=None, error="This request has expired or is unknown."),
+                status_code=400,
             )
 
         if not hmac.compare_digest(supplied.encode(), self._passphrase):
             self._register_failure()
             logger.warning("failed passphrase attempt for authorization request %s", rid)
             return HTMLResponse(
-                self._page(rid=rid, error="패스프레이즈가 올바르지 않습니다."), status_code=401
+                self._page(rid=rid, error="Incorrect passphrase."), status_code=401
             )
 
         self._failures = 0
@@ -362,41 +380,42 @@ class PassphraseOAuthProvider(OAuthProvider):
         self._locked_until = time.time() + _LOCKOUT_STEPS[index]
 
     def _page(self, *, rid: str | None, error: str | None = None) -> str:
-        error_block = (
-            f'<p class="err">{html.escape(error)}</p>' if error else ""
-        )
+        error_block = f'<p class="err">{html.escape(error)}</p>' if error else ""
         form_block = (
             f"""
             <form method="post" autocomplete="off">
               <input type="hidden" name="rid" value="{html.escape(rid)}">
-              <label for="pp">패스프레이즈</label>
+              <label for="pp">Passphrase</label>
               <input id="pp" name="passphrase" type="password" autofocus required>
-              <button type="submit">연결 승인</button>
+              <button type="submit">Approve</button>
             </form>
             """
             if rid
             else ""
         )
         return f"""<!doctype html>
-<html lang="ko"><head><meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>{html.escape(self._server_label)} 연결 승인</title>
+<title>{html.escape(self._server_label)}</title>
 <style>
   :root {{ color-scheme: light dark; }}
   body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
          display: grid; place-items: center; min-height: 100vh; margin: 0;
          background: Canvas; color: CanvasText; }}
-  .card {{ width: min(92vw, 26rem); padding: 2rem; border: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
+  .card {{ width: min(92vw, 26rem); padding: 2rem;
+          border: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
           border-radius: 14px; }}
   h1 {{ font-size: 1.15rem; margin: 0 0 .35rem; }}
   p.sub {{ margin: 0 0 1.5rem; opacity: .7; font-size: .875rem; line-height: 1.5; }}
   label {{ display: block; font-size: .8rem; margin-bottom: .4rem; opacity: .8; }}
   input {{ width: 100%; box-sizing: border-box; padding: .65rem .75rem; font-size: 1rem;
-          border-radius: 8px; border: 1px solid color-mix(in srgb, CanvasText 25%, transparent);
+          border-radius: 8px;
+          border: 1px solid color-mix(in srgb, CanvasText 25%, transparent);
           background: Canvas; color: CanvasText; }}
-  button {{ margin-top: 1rem; width: 100%; padding: .7rem; font-size: .95rem; font-weight: 600;
-           border: 0; border-radius: 8px; background: CanvasText; color: Canvas; cursor: pointer; }}
+  button {{ margin-top: 1rem; width: 100%; padding: .7rem; font-size: .95rem;
+           font-weight: 600; border: 0; border-radius: 8px;
+           background: CanvasText; color: Canvas; cursor: pointer; }}
   .err {{ color: #d33; font-size: .85rem; margin: 0 0 1rem; }}
 </style></head>
 <body><div class="card">

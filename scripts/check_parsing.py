@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-"""KIS 응답 필드 매핑 회귀 테스트. 자격증명도 네트워크도 필요 없다.
+"""Regression test for KIS response field mapping. No credentials, no network.
 
-KisClient.get 을 합성 픽스처로 갈아끼우고 모든 도구를 돌려서
-필드명 오타·부호 복원·정렬·단위 변환이 깨지지 않았는지 확인한다.
+Swaps KisClient.get for synthetic fixtures and exercises every tool, catching
+broken field names, lost signs, wrong ordering and unit conversion errors.
 
     PYTHONPATH=src .venv/bin/python scripts/check_parsing.py
 """
@@ -52,7 +52,7 @@ FIXTURES: dict[str, dict] = {
             "acml_tr_pbmn": "1234567890000", "hts_avls": "1878000", "per": "12.3",
             "pbr": "2.1", "eps": "20900", "bps": "122000", "lstn_stcn": "728002365",
             "vol_tnrt": "0.66", "w52_hgpr": "268000", "w52_lwpr": "151000",
-            "rprs_mrkt_kor_name": "KOSPI", "bstp_kor_isnm": "반도체와반도체장비",
+            "rprs_mrkt_kor_name": "KOSPI", "bstp_kor_isnm": "Semiconductors",
             "iscd_stat_cls_code": "55",
         },
     },
@@ -80,7 +80,8 @@ FIXTURES: dict[str, dict] = {
     "FHKST01010900": {
         "rt_cd": "0",
         "output": [
-            # 장중에는 당일 행의 수급 필드가 빈 문자열로 온다 (실호출로 확인).
+            # During the session the current day's flow fields arrive empty
+            # (verified against the live API).
             {"stck_bsop_date": "20260814", "stck_clpr": "262000", "prdy_vrss": "4000",
              "prdy_vrss_sign": "2", "prsn_ntby_qty": "", "frgn_ntby_qty": "",
              "orgn_ntby_qty": "", "prsn_ntby_tr_pbmn": "", "frgn_ntby_tr_pbmn": "",
@@ -158,90 +159,91 @@ async def main() -> int:
     client = KisClient(settings)
     tools = KisTools(client, MarketCalendar(client))
 
-    print("\n필드 매핑 회귀 테스트 (합성 픽스처)\n" + "-" * 58)
+    print("\nField mapping regression test (synthetic fixtures)\n" + "-" * 58)
 
     quote = await tools.get_quote("000660")
-    check("get_quote 종목명 해석", quote["name"] == "SK하이닉스", str(quote["name"]))
-    check("get_quote 현재가/등락률",
+    check("get_quote resolves the security name", quote["name"] == "SK하이닉스", str(quote["name"]))
+    check("get_quote price and percent change",
           quote["price"]["current"] == 258000.0 and quote["change"]["percent"] == 3.61)
-    check("get_quote 시총 억원→원 환산",
+    check("get_quote converts market cap to KRW",
           quote["valuation"]["market_cap_krw"] == 187_800_000_000_000)
-    # 장 상태는 실행 시각에 따라 달라지므로 특정 phase 를 단언하면 안 된다.
-    # 여기서는 블록이 붙어 있고 값이 유효한지만 본다. phase 판정 자체는
-    # 아래에서 시각을 고정해 따로 검증한다.
+    # Session state depends on wall-clock time, so asserting a specific phase
+    # here would be flaky. Check only that the block is present and valid; the
+    # phase logic itself is verified below against fixed timestamps.
     status = quote["market_status"]
-    check("get_quote 장 상태 블록 포함",
+    check("get_quote includes the session block",
           status["phase"] in _VALID_PHASES
           and isinstance(status["trading_day"], bool)
           and status["kst_time"].endswith(("+09:00", "+0900")),
           f"phase={status['phase']}")
 
     flow = await tools.get_investor_flow("000660")
-    check("investor_flow 잠정/확정 분리",
+    check("investor_flow separates provisional from confirmed",
           flow["provisional"]["is_confirmed"] is False
           and flow["confirmed"]["is_confirmed"] is True)
-    check("investor_flow 잠정 스냅샷 시각 매핑",
+    check("investor_flow maps provisional snapshot times",
           flow["provisional"]["latest"]["approx_kst_time"] == "13:20")
-    check("investor_flow 확정 외국인 순매수",
+    check("investor_flow confirmed foreign net buying",
           flow["confirmed"]["latest"]["foreign_net_qty"] == 288000)
-    check("investor_flow 기관 음수 보존",
+    check("investor_flow preserves negative institutional flow",
           flow["confirmed"]["latest"]["institution_net_qty"] == -78000)
-    check("investor_flow 거래대금 단위 백만원 표기",
+    check("investor_flow labels value in millions of KRW",
           flow["confirmed"]["latest"]["foreign_net_value_krw_mn"] == 742000)
-    check("investor_flow 미발표 당일 행을 pending 으로 분리",
+    check("investor_flow moves unpublished days to pending",
           flow["confirmed"].get("pending_dates") == ["2026-08-14"],
           str(flow["confirmed"].get("pending_dates")))
-    check("investor_flow latest 는 확정된 최신 거래일",
+    check("investor_flow latest is the newest confirmed day",
           flow["confirmed"]["latest"]["date"] == "2026-08-12")
 
     ohlcv = await tools.get_daily_ohlcv("000660", 30)
-    check("daily_ohlcv 과거→최신 정렬",
+    check("daily_ohlcv is ordered oldest to newest",
           ohlcv["candles"][0]["date"] == "2026-08-11"
           and ohlcv["candles"][-1]["date"] == "2026-08-12")
-    check("daily_ohlcv 하락일 부호 복원 (sign=5 → 음수)",
+    check("daily_ohlcv restores negative sign for down days",
           ohlcv["candles"][0]["change"] == -2000.0,
           str(ohlcv["candles"][0]["change"]))
 
     book = await tools.get_orderbook("000660")
-    check("orderbook 총잔량/비율", book["totals"]["bid_to_ask_ratio"] == 0.9)
-    check("orderbook 10단계", len(book["asks"]) == 10 and len(book["bids"]) == 10)
+    check("orderbook totals and ratio", book["totals"]["bid_to_ask_ratio"] == 0.9)
+    check("orderbook returns ten levels", len(book["asks"]) == 10 and len(book["bids"]) == 10)
 
     kospi = await tools.get_index("KOSPI")
-    check("get_index 국내 별칭 → 0001", kospi["index_code"] == "0001")
-    check("get_index 등락 종목수", kospi["breadth"]["advancing"] == 520)
+    check("get_index resolves the domestic alias", kospi["index_code"] == "0001")
+    check("get_index advancing issue count", kospi["breadth"]["advancing"] == 520)
 
     sox = await tools.get_index("SOX")
-    check("get_index 해외 별칭 → SOX (접두 '.' 없음)",
+    check("get_index resolves SOX with no leading dot",
           sox["index_code"] == "SOX" and sox["scope"] == "overseas",
           str(sox.get("index_code")))
-    check("get_index 해외는 지연 표시", sox["delayed"] is True)
+    check("get_index flags overseas as delayed", sox["delayed"] is True)
 
     overseas = await tools.get_overseas_quote("MU")
-    check("overseas 등락 계산", overseas["change"]["value"] == 3.34,
+    check("overseas change calculation", overseas["change"]["value"] == 3.34,
           str(overseas["change"]))
-    check("overseas 원환산 환율 노출",
+    check("overseas exposes the applied FX rate",
           overseas["krw_converted"]["fx_rate_today"] == 1389.5)
-    check("overseas 기본은 지연 표시", overseas["delayed"] is True)
+    check("overseas defaults to delayed", overseas["delayed"] is True)
 
-    # 시각을 고정해 phase 판정 자체를 검증한다. 실행 시각과 무관하게 결정적이다.
+    # Verify the phase logic against fixed timestamps. Deterministic regardless
+    # of when this runs.
     calendar = MarketCalendar(client)
     for label, moment, expected in (
-        ("정규장", dt.datetime(2026, 8, 13, 10, 30, tzinfo=KST), "regular"),
-        ("장전 동시호가", dt.datetime(2026, 8, 13, 8, 45, tzinfo=KST), "pre_open_auction"),
-        ("장 마감 후", dt.datetime(2026, 8, 13, 16, 0, tzinfo=KST), "after_hours"),
-        ("심야", dt.datetime(2026, 8, 13, 23, 30, tzinfo=KST), "closed"),
-        ("주말", dt.datetime(2026, 8, 15, 10, 30, tzinfo=KST), "weekend"),
+        ("regular session", dt.datetime(2026, 8, 13, 10, 30, tzinfo=KST), "regular"),
+        ("pre-open auction", dt.datetime(2026, 8, 13, 8, 45, tzinfo=KST), "pre_open_auction"),
+        ("after hours", dt.datetime(2026, 8, 13, 16, 0, tzinfo=KST), "after_hours"),
+        ("late night", dt.datetime(2026, 8, 13, 23, 30, tzinfo=KST), "closed"),
+        ("weekend", dt.datetime(2026, 8, 15, 10, 30, tzinfo=KST), "weekend"),
     ):
         session = await calendar.session(moment)
-        check(f"장 상태 판정 — {label}", session["phase"] == expected,
-              f"{session['phase']} (기대: {expected})")
+        check(f"session phase - {label}", session["phase"] == expected,
+              f"{session['phase']} (expected {expected})")
 
     await client.aclose()
     print("-" * 58)
     if _failures:
-        print(f"실패 {_failures}건")
+        print(f"{_failures} failed")
         return 1
-    print("전부 통과")
+    print("all passed")
     return 0
 
 

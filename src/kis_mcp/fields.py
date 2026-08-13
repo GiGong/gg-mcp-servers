@@ -1,19 +1,21 @@
-"""KIS 응답 필드 파싱 헬퍼.
+"""Helpers for parsing KIS responses.
 
-KIS 는 숫자도 전부 문자열로 준다. 빈 문자열/공백/'-' 를 None 으로 정규화한다.
+KIS returns every value as a string. Empty strings, whitespace and "-" are
+normalised to None. Note that 0 and "no value" must stay distinguishable, so
+falsy checks are not good enough.
 """
 
 from __future__ import annotations
 
 from typing import Any
 
-# 전일 대비 부호 코드 (KIS 공통)
+# Day-over-day direction codes, shared across KIS endpoints.
 SIGN_CODES = {
-    "1": "상한",
-    "2": "상승",
-    "3": "보합",
-    "4": "하한",
-    "5": "하락",
+    "1": "upper limit",
+    "2": "up",
+    "3": "unchanged",
+    "4": "lower limit",
+    "5": "down",
 }
 
 
@@ -47,16 +49,18 @@ def sign_label(code: Any) -> str | None:
 
 
 def signed(value: Any, sign_code: Any) -> float | None:
-    """KIS 는 대비값을 절대값 + 부호코드로 주는 경우가 있어 부호를 복원한다.
+    """Restore the sign of a change value.
 
-    이미 음수로 온 값은 그대로 둔다.
+    KIS sometimes reports the magnitude of a change alongside a separate
+    direction code (`prdy_vrss_sign`). Missing this flips down days into up
+    days. Values that already carry a sign are left alone.
     """
     parsed = num(value)
     if parsed is None:
         return None
     if parsed <= 0:
         return parsed
-    if text(sign_code) in {"4", "5"}:  # 하한/하락
+    if text(sign_code) in {"4", "5"}:  # lower limit / down
         return -parsed
     return parsed
 

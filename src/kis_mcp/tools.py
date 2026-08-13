@@ -1,7 +1,7 @@
-"""MCP 도구 구현.
+"""MCP tool implementations.
 
-읽기 전용. 여기서 다루는 KIS 경로는 전부 /quotations/ 조회 계열이며
-주문·정정·취소·잔고 계열 경로는 의도적으로 포함하지 않는다.
+Read-only. Every KIS path used here is a /quotations/ inquiry endpoint; order,
+amend, cancel and balance endpoints are deliberately absent.
 """
 
 from __future__ import annotations
@@ -16,7 +16,7 @@ from .market import MarketCalendar, kst_iso, now_kst
 
 logger = logging.getLogger(__name__)
 
-# --- KIS API 좌표 (공식 예제 소스에서 확인한 값) --------------------------------
+# --- KIS API coordinates, taken from the official sample sources ---------------
 DOMESTIC = "/uapi/domestic-stock/v1/quotations"
 OVERSEAS = "/uapi/overseas-price/v1/quotations"
 
@@ -29,7 +29,7 @@ TR_INDEX = ("FHPUP02100000", f"{DOMESTIC}/inquire-index-price")
 TR_OVERSEAS_DETAIL = ("HHDFS76200200", f"{OVERSEAS}/price-detail")
 TR_OVERSEAS_CHART = ("FHKST03030100", f"{OVERSEAS}/inquire-daily-chartprice")
 
-# 국내 업종 지수 코드
+# Domestic sector index codes.
 INDEX_ALIASES = {
     "KOSPI": "0001",
     "코스피": "0001",
@@ -39,9 +39,11 @@ INDEX_ALIASES = {
     "코스피200": "2001",
 }
 
-# 해외 지수 코드 (FHKST03030100, FID_COND_MRKT_DIV_CODE=N)
-# 실호출로 확인한 값이다. 접두 '.' 유무가 지수마다 다르므로 추측하면 안 된다.
-#   SOX / SPX / COMP 는 접두사 없음, 다우만 .DJI
+# Overseas index codes (FHKST03030100 with FID_COND_MRKT_DIV_CODE=N).
+# Verified against the live API. The leading dot is inconsistent between
+# indices, so these must not be guessed: SOX / SPX / COMP take no dot, only
+# the Dow uses .DJI.
+# Korean aliases are kept so Korean-language queries resolve directly.
 OVERSEAS_INDEX_ALIASES = {
     "DJI": ".DJI",
     ".DJI": ".DJI",
@@ -60,24 +62,26 @@ OVERSEAS_INDEX_ALIASES = {
     "필반": "SOX",
 }
 
-# 미국 종목의 거래소를 모를 때 순서대로 시도한다.
-# KIS 는 거래소가 틀려도 rt_cd=0 에 빈 output 을 주므로 값으로 판별해야 한다.
+# Tried in order when the exchange for a US ticker is unknown. KIS answers a
+# wrong exchange with rt_cd=0 and an empty body, so the payload must be
+# inspected rather than the status code.
 US_EXCHANGE_FALLBACKS = ("NAS", "NYS", "AMS")
 
-# 해외 거래소 코드
+# Overseas exchange codes.
 OVERSEAS_EXCHANGES = {
-    "NAS": "나스닥",
-    "NYS": "뉴욕",
-    "AMS": "아멕스",
-    "TSE": "도쿄",
-    "HKS": "홍콩",
-    "SHS": "상해",
-    "SZS": "심천",
-    "HSX": "호치민",
-    "HNX": "하노이",
+    "NAS": "NASDAQ",
+    "NYS": "NYSE",
+    "AMS": "NYSE American",
+    "TSE": "Tokyo",
+    "HKS": "Hong Kong",
+    "SHS": "Shanghai",
+    "SZS": "Shenzhen",
+    "HSX": "Ho Chi Minh",
+    "HNX": "Hanoi",
 }
 
-# 추정 가집계의 입력 시각 (KIS 공식 안내). bsop_hour_gb 순서와 대응한다.
+# Publication times for the provisional estimate, per KIS documentation.
+# These correspond to the bsop_hour_gb values.
 ESTIMATE_SNAPSHOT_TIMES = {
     "1": "09:30",
     "2": "10:00",
@@ -87,17 +91,18 @@ ESTIMATE_SNAPSHOT_TIMES = {
 }
 
 _PROVISIONAL_NOTE = (
-    "증권사 직원이 장중에 집계·입력한 추정 가집계(잠정)입니다. "
-    "외국인은 09:30/11:20/13:20/14:30, 기관종합은 10:00/11:20/13:20/14:30 에 "
-    "갱신되며 확정치와 다를 수 있습니다."
+    "Provisional estimate compiled and entered by brokerage staff during the "
+    "session. Foreign figures update at 09:30/11:20/13:20/14:30 KST and "
+    "institutional figures at 10:00/11:20/13:20/14:30 KST. These may differ "
+    "from the confirmed values."
 )
-_CONFIRMED_NOTE = "거래소 확정 집계(일별 순매수)입니다."
+_CONFIRMED_NOTE = "Exchange-confirmed daily net buying."
 
 
 def _normalise_symbol(symbol: str) -> str:
     cleaned = symbol.strip().upper()
     if not cleaned:
-        raise ValueError("종목코드가 비어 있습니다.")
+        raise ValueError("symbol must not be empty")
     return cleaned
 
 
@@ -109,8 +114,8 @@ class KisTools:
     def __init__(self, client: KisClient, calendar: MarketCalendar) -> None:
         self._client = client
         self._calendar = calendar
-        # inquire-price 응답에는 종목명 필드가 없다(업종명만 있음).
-        # 일별 차트 API 의 hts_kor_isnm 으로 한 번만 채우고 프로세스 수명 동안 캐시한다.
+        # inquire-price carries no security name, only a sector name. Fill it
+        # once from the daily-chart endpoint and cache for the process lifetime.
         self._name_cache: dict[str, str | None] = {}
 
     @property
@@ -122,7 +127,7 @@ class KisTools:
         return self._client.settings.kis_env
 
     async def _resolve_name(self, code: str) -> str | None:
-        """종목 한글명을 일별 차트 API 헤더에서 한 번만 읽어와 캐시한다."""
+        """Read the security name from the daily-chart header once, then cache it."""
         if code in self._name_cache:
             return self._name_cache[code]
 
@@ -150,7 +155,7 @@ class KisTools:
         return name
 
     # ------------------------------------------------------------------
-    # 1순위
+    # Primary tools
     # ------------------------------------------------------------------
 
     async def get_quote(self, symbol: str, market: str = "J") -> dict[str, Any]:
@@ -165,7 +170,7 @@ class KisTools:
 
         price = num(out.get("stck_prpr"))
         prev_close = num(out.get("stck_sdpr"))
-        market_cap_eok = num(out.get("hts_avls"))  # 억원 단위
+        market_cap_eok = num(out.get("hts_avls"))  # unit: 100 million KRW
 
         return {
             "symbol": code,
@@ -210,9 +215,10 @@ class KisTools:
         }
 
     async def get_investor_flow(self, symbol: str, confirmed_days: int = 5) -> dict[str, Any]:
-        """장중 잠정(추정 가집계)과 일별 확정치를 함께 반환한다.
+        """Return the intraday provisional estimate and the confirmed daily flow.
 
-        두 API 는 서로 독립이므로 한쪽이 실패해도 다른 쪽은 그대로 돌려준다.
+        The two endpoints are independent, so a failure on one side still
+        returns the other.
         """
         code = _normalise_symbol(symbol)
         session = await self._calendar.session()
@@ -227,8 +233,9 @@ class KisTools:
             "provisional": provisional,
             "confirmed": confirmed,
             "reading_guide": (
-                "provisional 은 장중 추정 가집계(잠정), confirmed 는 거래소 확정치입니다. "
-                "같은 날짜라도 두 값은 다를 수 있으며, 장 마감 후에는 confirmed 를 신뢰하세요."
+                "provisional is an intraday broker-compiled estimate; confirmed is "
+                "the exchange-confirmed figure. The two can differ for the same date. "
+                "After the close, trust confirmed."
             ),
         }
 
@@ -243,10 +250,10 @@ class KisTools:
             payload = exc.to_dict()
             payload["available"] = False
             payload["hint"] = (
-                "종목별 외인기관 추정가집계(HHPTJ04160200)는 실전투자 계정에서만 "
-                "제공될 수 있습니다. KIS_ENV=real 인지 확인하세요."
+                "The provisional investor-flow endpoint (HHPTJ04160200) may only be "
+                "available on live accounts. Check that KIS_ENV=real."
                 if self._client.settings.is_demo
-                else "KIS 가 반환한 오류 코드를 그대로 전달합니다."
+                else "The KIS error code is passed through unchanged."
             )
             payload["data_type"] = "provisional_estimate"
             return payload
@@ -300,7 +307,8 @@ class KisTools:
         for row in rows[: max(1, days)]:
             foreign = integer(row.get("frgn_ntby_qty"))
             institution = integer(row.get("orgn_ntby_qty"))
-            # 당일 행은 장 마감 전까지 수급 필드가 빈 문자열로 온다.
+            # The current day's row carries empty strings for every flow field
+            # until after the close.
             published = foreign is not None or institution is not None
             series.append(
                 {
@@ -311,7 +319,7 @@ class KisTools:
                     "foreign_net_qty": foreign,
                     "institution_net_qty": institution,
                     "individual_net_qty": integer(row.get("prsn_ntby_qty")),
-                    # KIS 의 *_tr_pbmn 단위는 백만원이다.
+                    # KIS reports *_tr_pbmn in millions of KRW.
                     "foreign_net_value_krw_mn": integer(row.get("frgn_ntby_tr_pbmn")),
                     "institution_net_value_krw_mn": integer(row.get("orgn_ntby_tr_pbmn")),
                     "individual_net_value_krw_mn": integer(row.get("prsn_ntby_tr_pbmn")),
@@ -326,7 +334,7 @@ class KisTools:
             "data_type": "confirmed",
             "is_confirmed": True,
             "note": _CONFIRMED_NOTE,
-            "value_unit": "순매수 수량은 주, *_value_krw_mn 는 백만원 단위입니다.",
+            "value_unit": "Net quantities are in shares; *_value_krw_mn is in millions of KRW.",
             "latest": published[0] if published else None,
             "series": series,
             "source": _source(TR_INVESTOR_CONFIRMED, self._env),
@@ -334,9 +342,10 @@ class KisTools:
         if pending:
             result["pending_dates"] = [row["date"] for row in pending]
             result["pending_note"] = (
-                f"{', '.join(row['date'] for row in pending)} 의 확정 수급은 아직 "
-                "발표되지 않았습니다(장중에는 빈 값). 해당 일자는 provisional 의 "
-                "추정 가집계를 참고하세요. latest 는 확정치가 나온 가장 최근 거래일입니다."
+                f"Confirmed flow for {', '.join(row['date'] for row in pending)} "
+                "has not been published yet (empty during the session). Use the "
+                "provisional estimate for those dates. `latest` is the most recent "
+                "trading day that does have confirmed data."
             )
         return result
 
@@ -344,10 +353,11 @@ class KisTools:
         self, symbol: str, days: int = 30, adjusted: bool = True
     ) -> dict[str, Any]:
         code = _normalise_symbol(symbol)
-        days = max(1, min(days, 100))  # KIS 는 1회 호출당 최대 100건
+        days = max(1, min(days, 100))  # KIS returns at most 100 rows per call
 
         end = now_kst().date()
-        # 거래일 기준이므로 달력일로는 넉넉히 잡는다 (주말/휴일 보정).
+        # The count is in trading days, so widen the calendar range to absorb
+        # weekends and holidays.
         start = end - dt.timedelta(days=int(days * 1.9) + 15)
 
         data = await self._client.get(
@@ -386,7 +396,7 @@ class KisTools:
                 }
             )
 
-        # KIS 는 최신 → 과거 순으로 준다. 오래된 순으로 뒤집고 요청 개수만큼 자른다.
+        # KIS returns newest first. Flip to oldest-first and trim to the request.
         candles.sort(key=lambda c: c["date"])
         candles = candles[-days:]
 
@@ -397,7 +407,7 @@ class KisTools:
             "market_status": await self._calendar.session(),
             "requested_days": days,
             "returned_days": len(candles),
-            "price_basis": "수정주가" if adjusted else "원주가",
+            "price_basis": "adjusted" if adjusted else "unadjusted",
             "range": {
                 "from": candles[0]["date"] if candles else None,
                 "to": candles[-1]["date"] if candles else None,
@@ -407,7 +417,7 @@ class KisTools:
         }
 
     # ------------------------------------------------------------------
-    # 2순위
+    # Secondary tools
     # ------------------------------------------------------------------
 
     async def get_orderbook(self, symbol: str, depth: int = 10) -> dict[str, Any]:
@@ -470,7 +480,7 @@ class KisTools:
                 "volume": integer(extra.get("antc_vol")),
                 "change": signed(extra.get("antc_cntg_vrss"), extra.get("antc_cntg_vrss_sign")),
                 "change_percent": num(extra.get("antc_cntg_prdy_ctrt")),
-                "note": "장전/장마감 동시호가 구간에서만 의미 있는 값입니다.",
+                "note": "Only meaningful during the pre-open and closing auctions.",
             },
             "current_price": num(extra.get("stck_prpr")),
             "source": _source(TR_ORDERBOOK, self._env),
@@ -547,12 +557,12 @@ class KisTools:
 
         current = num(head.get("ovrs_nmix_prpr")) or num(latest.get("ovrs_nmix_prpr"))
         if not current:
-            # 코드가 틀리면 KIS 는 rt_cd=0 에 0.00 과 빈 배열을 돌려준다.
+            # For an unknown code KIS returns rt_cd=0 with 0.00 and an empty list.
             return {
                 "error": True,
                 "message": (
-                    f"지수 코드 {index_code!r} 로 데이터를 받지 못했습니다. "
-                    f"알려진 코드: {', '.join(sorted(set(OVERSEAS_INDEX_ALIASES.values())))}"
+                    f"No data returned for index code {index_code!r}. "
+                    f"Known codes: {', '.join(sorted(set(OVERSEAS_INDEX_ALIASES.values())))}"
                 ),
                 "index_code": index_code,
                 "requested": requested,
@@ -588,8 +598,8 @@ class KisTools:
             ],
             "delayed": True,
             "delay_note": (
-                "해외지수는 일별 차트 API 기반이라 실시간 틱이 아닙니다. "
-                "직전 정규장 종가 기준으로 보세요."
+                "Overseas indices come from the daily-chart endpoint, not a live "
+                "tick. Read them as the previous regular session's close."
             ),
             "source": _source(TR_OVERSEAS_CHART, self._env),
         }
@@ -598,10 +608,11 @@ class KisTools:
         symbol = ticker.strip().upper()
         excd = exchange.strip().upper()
         if not symbol:
-            raise ValueError("티커가 비어 있습니다.")
+            raise ValueError("ticker must not be empty")
 
-        # KIS 는 거래소가 틀려도 rt_cd=0 에 빈 output 을 돌려준다.
-        # 값이 비면 다른 미국 거래소를 순서대로 시도한다 (예: TSM 은 NAS 가 아니라 NYS).
+        # KIS answers a wrong exchange with rt_cd=0 and an empty output, so an
+        # empty payload triggers a retry against the other US exchanges
+        # (TSM, for instance, is NYSE rather than NASDAQ).
         candidates = [excd] + [e for e in US_EXCHANGE_FALLBACKS if e != excd]
         tried: list[str] = []
         out: dict[str, Any] = {}
@@ -619,7 +630,7 @@ class KisTools:
                 out = candidate_out
                 resolved = candidate
                 break
-            # 요청한 거래소가 명시적으로 미국 밖이면 폴백하지 않는다.
+            # Do not fall back when a non-US exchange was requested explicitly.
             if excd not in US_EXCHANGE_FALLBACKS:
                 break
 
@@ -627,9 +638,9 @@ class KisTools:
             return {
                 "error": True,
                 "message": (
-                    f"{symbol} 시세를 찾지 못했습니다. 시도한 거래소: {', '.join(tried)}. "
-                    "KIS 는 거래소 코드가 맞지 않으면 오류 대신 빈 응답을 돌려줍니다. "
-                    "티커 철자와 거래소를 확인하세요."
+                    f"No quote found for {symbol}. Exchanges tried: {', '.join(tried)}. "
+                    "KIS returns an empty response rather than an error when the "
+                    "exchange code does not match. Check the ticker and exchange."
                 ),
                 "ticker": symbol,
                 "requested_exchange": excd,
@@ -682,30 +693,33 @@ class KisTools:
                 "prev_price_krw": num(out.get("p_xprc")),
                 "fx_rate_today": num(out.get("t_rate")),
                 "fx_rate_prev": num(out.get("p_rate")),
-                "note": "KIS 가 적용한 원환산 가격과 환율입니다. ADR-본주 괴리율 계산에 바로 쓸 수 있습니다.",
+                "note": "The KRW-converted price and FX rate as applied by KIS. "
+                        "Usable directly for ADR-versus-home-listing comparisons.",
             },
             "tradable": text(out.get("e_ordyn")),
             "delayed": not realtime,
             "delay_note": (
-                "KIS 실시간 해외시세를 신청한 계정으로 설정되어 있습니다 "
-                "(KIS_OVERSEAS_REALTIME=true)."
+                "Configured as an account subscribed to KIS real-time overseas "
+                "data (KIS_OVERSEAS_REALTIME=true)."
                 if realtime
-                else "KIS 해외주식 기본 시세는 지연 시세입니다(미국 통상 15분). "
-                "실시간 시세를 신청했다면 .env 의 KIS_OVERSEAS_REALTIME=true 로 바꾸세요."
+                else "KIS overseas quotes are delayed by default (typically 15 "
+                "minutes for US markets). If your account subscribes to real-time "
+                "data, set KIS_OVERSEAS_REALTIME=true in .env."
             ),
             "source": _source(TR_OVERSEAS_DETAIL, self._env),
         }
 
     # ------------------------------------------------------------------
-    # 3순위
+    # Optional tools
     # ------------------------------------------------------------------
 
     async def get_fx(self, pair: str = "USDKRW") -> dict[str, Any]:
-        """원달러 환율.
+        """USD/KRW exchange rate.
 
-        1차: 해외 기간별시세 API 의 환율 모드(FID_COND_MRKT_DIV_CODE=X)
-        2차: 실패 시 해외주식 현재가상세의 원환산 적용환율(t_rate)로 대체
-        둘 다 응답에 출처를 명시한다.
+        Primary source: the FX mode of the overseas period-price endpoint
+        (FID_COND_MRKT_DIV_CODE=X). If that fails, fall back to the applied
+        conversion rate (t_rate) from the overseas quote detail endpoint.
+        Either way the response records which path was used.
         """
         normalised = pair.strip().upper().replace("/", "").replace("-", "")
         fx_code = {"USDKRW": "FX@KRW", "KRWUSD": "FX@KRW"}.get(normalised, normalised)
@@ -759,22 +773,24 @@ class KisTools:
             ],
             "method": "kis_fx_chart",
             "delayed": True,
-            "delay_note": "일별 환율 시세 기준입니다. 장중 실시간 호가가 아닙니다.",
+            "delay_note": "Daily FX quotes, not an intraday live rate.",
             "source": _source(TR_OVERSEAS_CHART, self._env),
         }
 
     async def _fx_from_applied_rate(
         self, pair: str, primary_error: KisError | None
     ) -> dict[str, Any]:
-        """대체 경로: 해외주식 현재가상세가 돌려주는 원환산 적용환율을 쓴다."""
+        """Fallback: use the applied conversion rate from the quote detail endpoint."""
         fallback: dict[str, Any] = {
             "pair": "USD/KRW",
             "as_of_kst": kst_iso(),
             "method": "kis_applied_rate_from_price_detail",
             "method_note": (
-                "환율 전용 시세 조회가 실패해 해외주식 현재가상세(HHDFS76200200)의 "
-                "원환산 적용환율(t_rate)로 대체했습니다. KIS 가 원화 환산에 실제로 "
-                "적용하는 환율이므로 ADR 괴리율 계산에는 오히려 정합적입니다."
+                "The dedicated FX lookup failed, so this is the applied conversion "
+                "rate (t_rate) from the overseas quote detail endpoint "
+                "(HHDFS76200200). Since it is the rate KIS actually uses for KRW "
+                "conversion, it is arguably the more consistent choice for ADR "
+                "comparisons."
             ),
             "delayed": True,
         }
@@ -801,7 +817,7 @@ class KisTools:
         return fallback
 
     # ------------------------------------------------------------------
-    # 부가
+    # Auxiliary
     # ------------------------------------------------------------------
 
     async def get_market_status(self) -> dict[str, Any]:

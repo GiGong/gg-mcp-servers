@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-"""KIS 실호출 검증. .env 의 실제 자격증명이 필요하다.
+"""Live KIS verification. Requires real credentials in .env.
 
     PYTHONPATH=src .venv/bin/python scripts/smoke_test.py
-    PYTHONPATH=src .venv/bin/python scripts/smoke_test.py --tier 1   # 1순위만
+    PYTHONPATH=src .venv/bin/python scripts/smoke_test.py --tier 1   # primary only
 
-각 도구를 실제로 한 번씩 호출하고 핵심 필드가 채워졌는지 확인한다.
-KIS 오류는 삼키지 않고 코드/메시지를 그대로 출력한다.
+Calls each tool once against the live API and checks that key fields are
+populated. KIS errors are printed with their original code and message.
 """
 
 from __future__ import annotations
@@ -28,8 +28,8 @@ OK = "\033[32m OK \033[0m"
 BAD = "\033[31mFAIL\033[0m"
 WARN = "\033[33mWARN\033[0m"
 
-SKHY = "000660"  # SK하이닉스
-SEC = "005930"  # 삼성전자
+SKHY = "000660"  # SK hynix
+SEC = "005930"  # Samsung Electronics
 
 
 def dig(payload: dict[str, Any], path: str) -> Any:
@@ -58,11 +58,11 @@ class Report:
             result = await coro
         except Exception as exc:  # noqa: BLE001
             self.failures += 1
-            print(f"{BAD}  {label}\n        예외: {type(exc).__name__}: {exc}")
+            print(f"{BAD}  {label}\n        exception: {type(exc).__name__}: {exc}")
             return None
 
         if result.get("error"):
-            marker, note = (WARN, "KIS 오류") if allow_error else (BAD, "KIS 오류")
+            marker, note = (WARN, "KIS error") if allow_error else (BAD, "KIS error")
             if allow_error:
                 self.warnings += 1
             else:
@@ -76,7 +76,7 @@ class Report:
         missing = [p for p in expect if dig(result, p) in (None, [], "")]
         if missing:
             self.failures += 1
-            print(f"{BAD}  {label}\n        비어 있는 필드: {', '.join(missing)}")
+            print(f"{BAD}  {label}\n        empty fields: {', '.join(missing)}")
         else:
             summary = " | ".join(f"{p.split('.')[-1]}={dig(result, p)}" for p in expect[:4])
             print(f"{OK}  {label}\n        {summary}")
@@ -85,15 +85,15 @@ class Report:
 
 async def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--tier", type=int, default=3, help="1=1순위만, 2=2순위까지, 3=전부")
-    parser.add_argument("--json", action="store_true", help="전체 응답을 JSON 으로 덤프")
+    parser.add_argument("--tier", type=int, default=3, help="1=primary only, 2=through secondary, 3=all")
+    parser.add_argument("--json", action="store_true", help="dump the full responses as JSON")
     args = parser.parse_args()
 
     settings = load_settings()
     setup_logging("WARNING", None)
 
-    print(f"\nKIS 실호출 검증  env={settings.kis_env}  appkey={settings.masked_app_key()}")
-    print(f"스로틀={settings.kis_rate_limit_per_sec}/s  타임아웃={settings.kis_timeout}s")
+    print(f"\nLive KIS check  env={settings.kis_env}  appkey={settings.masked_app_key()}")
+    print(f"throttle={settings.kis_rate_limit_per_sec}/s  timeout={settings.kis_timeout}s")
     print("-" * 70)
 
     client = KisClient(settings)
@@ -104,27 +104,27 @@ async def main() -> int:
     try:
         try:
             await client.warmup()
-            print(f"{OK}  접근토큰 발급/캐시")
+            print(f"{OK}  access token issued and cached")
         except Exception as exc:  # noqa: BLE001
-            print(f"{BAD}  접근토큰 발급 실패: {exc}")
+            print(f"{BAD}  access token issuance failed: {exc}")
             return 1
 
         status = await report.run(
-            "장 상태 (chk-holiday CTCA0903R)",
+            "market status (chk-holiday CTCA0903R)",
             tools.get_market_status(),
             expect=["krx.phase", "krx.trading_day", "as_of_kst"],
         )
         dumps["market_status"] = status
 
-        print("\n[1순위]")
+        print("\n[primary]")
         dumps["quote_skhy"] = await report.run(
-            f"get_quote({SKHY}) SK하이닉스",
+            f"get_quote({SKHY}) SK hynix",
             tools.get_quote(SKHY),
             expect=["name", "price.current", "change.percent", "volume.shares",
                     "price.prev_close", "valuation.market_cap_krw_eok"],
         )
         dumps["quote_sec"] = await report.run(
-            f"get_quote({SEC}) 삼성전자",
+            f"get_quote({SEC}) Samsung Electronics",
             tools.get_quote(SEC),
             expect=["name", "price.current", "change.percent", "volume.shares"],
         )
@@ -137,16 +137,16 @@ async def main() -> int:
         if dumps["flow"] and not dumps["flow"].get("error"):
             prov = dumps["flow"].get("provisional", {})
             if prov.get("available"):
-                print(f"        └ 잠정(추정 가집계): latest={prov.get('latest')}")
+                print(f"        - provisional estimate: latest={prov.get('latest')}")
             else:
                 report.warnings += 1
                 print(
-                    f"{WARN}  └ 추정 가집계(HHPTJ04160200) 미제공: "
+                    f"{WARN}  - provisional estimate (HHPTJ04160200) unavailable: "
                     f"{prov.get('kis_msg_cd')} / {prov.get('kis_msg1')}"
                 )
             conf = dumps["flow"].get("confirmed", {})
             if conf.get("pending_dates"):
-                print(f"        └ 확정치 미발표 일자: {conf['pending_dates']}")
+                print(f"        - confirmed data pending for: {conf['pending_dates']}")
 
         dumps["ohlcv"] = await report.run(
             f"get_daily_ohlcv({SKHY}, 30)",
@@ -154,10 +154,10 @@ async def main() -> int:
             expect=["returned_days", "range.from", "range.to", "candles"],
         )
         if dumps["ohlcv"] and dumps["ohlcv"].get("candles"):
-            print(f"        └ 마지막 캔들: {dumps['ohlcv']['candles'][-1]}")
+            print(f"        - last candle: {dumps['ohlcv']['candles'][-1]}")
 
         if args.tier >= 2:
-            print("\n[2순위]")
+            print("\n[secondary]")
             dumps["orderbook"] = await report.run(
                 f"get_orderbook({SKHY})",
                 tools.get_orderbook(SKHY),
@@ -175,11 +175,11 @@ async def main() -> int:
             )
             for alias in ("SOX", "COMP", "SPX"):
                 dumps[f"idx_{alias}"] = await report.run(
-                    f"get_index({alias}) 해외지수",
+                    f"get_index({alias}) overseas index",
                     tools.get_index(alias),
                     expect=["price.current", "index_code"],
                 )
-            # TSM 은 NYSE 상장이다. NAS 로 요청해도 폴백이 찾아내야 한다.
+            # TSM lists on NYSE. Requesting NAS should still resolve via fallback.
             for ticker in ("MU", "NVDA", "TSM", "SKHY"):
                 result = await report.run(
                     f"get_overseas_quote({ticker}, NAS)",
@@ -189,10 +189,10 @@ async def main() -> int:
                 )
                 dumps[f"os_{ticker}"] = result
                 if result and result.get("exchange_resolved_by_fallback"):
-                    print(f"        └ 거래소 폴백으로 해결: {result['exchange']}")
+                    print(f"        - resolved via exchange fallback: {result['exchange']}")
 
         if args.tier >= 3:
-            print("\n[3순위]")
+            print("\n[optional]")
             dumps["fx"] = await report.run(
                 "get_fx(USDKRW)",
                 tools.get_fx("USDKRW"),
@@ -206,9 +206,9 @@ async def main() -> int:
         print(json.dumps(dumps, ensure_ascii=False, indent=2, default=str))
 
     if report.failures:
-        print(f"실패 {report.failures}건, 경고 {report.warnings}건")
+        print(f"{report.failures} failed, {report.warnings} warnings")
         return 1
-    print(f"전부 통과 (경고 {report.warnings}건)")
+    print(f"all passed ({report.warnings} warnings)")
     return 0
 
 

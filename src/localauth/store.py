@@ -1,7 +1,7 @@
-"""0600 권한으로 원자적 저장되는 아주 작은 JSON 상태 저장소.
+"""A tiny JSON state store written atomically with 0600 permissions.
 
-서버 재시작 후에도 등록된 OAuth 클라이언트와 발급 토큰이 살아남아야
-Claude.ai 커넥터가 매번 재인증을 요구하지 않는다.
+Registered OAuth clients and issued tokens must survive a restart, otherwise
+the connector is forced to re-authenticate every time the server bounces.
 """
 
 from __future__ import annotations

@@ -1,7 +1,8 @@
-"""한국 시장 시간대/세션 판정.
+"""Korean market clock and session state.
 
-모든 MCP 응답에 KST 타임스탬프와 "지금 장이 열려 있는가"를 붙이기 위한 계층.
-휴장일은 추측하지 않고 KIS 국내휴장일조회(CTCA0903R) 결과를 캐시해서 쓴다.
+Every tool response carries a KST timestamp and an answer to "is the market
+open right now". Holidays are not guessed: they come from the KIS holiday
+endpoint (CTCA0903R) and are cached per date.
 """
 
 from __future__ import annotations
@@ -21,7 +22,8 @@ KST = ZoneInfo("Asia/Seoul")
 HOLIDAY_PATH = "/uapi/domestic-stock/v1/quotations/chk-holiday"
 HOLIDAY_TR_ID = "CTCA0903R"
 
-# KRX 정규장 09:00–15:30, 장전 동시호가 08:30–09:00, 시간외 15:40–18:00.
+# KRX regular session 09:00-15:30, pre-open auction 08:30-09:00,
+# after-hours trading until 18:00.
 _PRE_OPEN = dt.time(8, 30)
 _OPEN = dt.time(9, 0)
 _CLOSE = dt.time(15, 30)
@@ -37,7 +39,7 @@ def kst_iso(moment: dt.datetime | None = None) -> str:
 
 
 class MarketCalendar:
-    """휴장일 조회 결과를 날짜 단위로 캐시한다."""
+    """Caches holiday lookups per date."""
 
     def __init__(self, client: KisClient) -> None:
         self._client = client
@@ -45,7 +47,7 @@ class MarketCalendar:
         self._lock = asyncio.Lock()
 
     async def is_open_day(self, day: dt.date) -> bool | None:
-        """개장일이면 True, 휴장일이면 False, 조회 실패 시 None."""
+        """True if the exchange trades that day, False if closed, None if unknown."""
         key = day.strftime("%Y%m%d")
         if key in self._cache:
             return self._cache[key]
@@ -60,7 +62,8 @@ class MarketCalendar:
                     params={"BASS_DT": key, "CTX_AREA_FK": "", "CTX_AREA_NK": ""},
                 )
             except KisError as exc:
-                # 휴장일 조회는 부가정보다. 실패해도 본 도구는 계속 동작해야 한다.
+                # This is supplementary information. A failure here must not
+                # take down the tool that asked for it.
                 logger.warning("holiday lookup failed for %s: %s", key, exc)
                 return None
 
@@ -81,7 +84,8 @@ class MarketCalendar:
 
         open_day = await self.is_open_day(moment.date())
         if open_day is None:
-            # KIS 조회 실패 시 주말만 확실히 걸러내고 나머지는 unknown 으로 남긴다.
+            # If the lookup failed, only weekends can be ruled out with
+            # confidence; say so rather than implying a holiday check ran.
             trading_day = weekday < 5
             day_source = "weekday-heuristic (KIS holiday lookup unavailable)"
         else:
@@ -112,11 +116,17 @@ class MarketCalendar:
 
 
 _PHASE_NOTE = {
-    "holiday": "한국거래소 휴장일입니다. 표시된 값은 직전 거래일 기준입니다.",
-    "weekend": "주말입니다. 표시된 값은 직전 거래일 기준입니다.",
-    "before_pre_open": "장 개시 전(08:30 이전)입니다. 값은 직전 거래일 종가 기준입니다.",
-    "pre_open_auction": "장전 동시호가 시간(08:30~09:00)입니다.",
-    "regular": "정규장(09:00~15:30) 진행 중입니다.",
-    "after_hours": "정규장 마감 후(15:30 이후)입니다. 값은 당일 종가 기준입니다.",
-    "closed": "장 마감 후입니다. 값은 당일 종가 기준입니다.",
+    "holiday": "Exchange holiday. Values are from the previous trading day.",
+    "weekend": "Weekend. Values are from the previous trading day.",
+    "before_pre_open": (
+        "Before the pre-open auction (earlier than 08:30 KST). "
+        "Values are the previous trading day's close."
+    ),
+    "pre_open_auction": "Pre-open auction (08:30-09:00 KST).",
+    "regular": "Regular session in progress (09:00-15:30 KST).",
+    "after_hours": (
+        "After the regular close (later than 15:30 KST). "
+        "Values are today's closing figures."
+    ),
+    "closed": "Market closed. Values are today's closing figures.",
 }

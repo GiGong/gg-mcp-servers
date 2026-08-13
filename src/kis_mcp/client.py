@@ -1,9 +1,10 @@
-"""KIS Open API 클라이언트.
+"""KIS Open API client.
 
-책임:
-  - 접근토큰 발급/캐싱/갱신 (파일 캐시, 만료 임박 시에만 재발급)
-  - 유량 제한 준수 (RateLimiter)
-  - KIS 에러코드를 삼키지 않고 구조화해서 위로 전달
+Responsibilities:
+  - Issue, cache and refresh the access token (file-backed; refreshed only
+    when expiry is near)
+  - Respect the request-rate limit (RateLimiter)
+  - Surface KIS error codes structurally instead of swallowing them
 """
 
 from __future__ import annotations
@@ -25,27 +26,28 @@ from .throttle import RateLimiter
 
 logger = logging.getLogger(__name__)
 
-# 만료까지 이만큼 남으면 미리 갱신한다.
+# Refresh once this little time remains before expiry.
 TOKEN_REFRESH_MARGIN_SEC = 900
 
-# KIS 는 접근토큰 발급을 1분에 1회로 제한한다 (초과 시 EGW00133).
+# KIS allows one token issuance per minute (EGW00133 when exceeded).
 TOKEN_MIN_ISSUE_INTERVAL_SEC = 60.0
 
-# 토큰 만료/무효를 뜻하는 KIS 메시지 코드.
-#   EGW00121 유효하지 않은 token / EGW00123 기간이 만료된 token
+# KIS message codes meaning the token is invalid or expired.
+#   EGW00121 invalid token / EGW00123 expired token
 _TOKEN_EXPIRED_CODES = {"EGW00121", "EGW00123"}
 
-# 접근토큰 발급 빈도 초과 (1분 1회).
+# Token issuance frequency exceeded (one per minute).
 _TOKEN_RATE_LIMIT_CODE = "EGW00133"
 
-# 호출 유량 초과. 토큰 문제가 아니므로 재발급하면 안 되고 잠깐 쉬었다 재시도해야 한다.
+# Request rate exceeded. This is not a token problem: reissuing would trip the
+# one-per-minute limit. Back off briefly and retry instead.
 _THROTTLE_CODE = "EGW00201"
 _THROTTLE_BACKOFF_SEC = 1.0
 _MAX_ATTEMPTS = 3
 
 
 class KisError(RuntimeError):
-    """KIS 호출 실패. 에러코드/메시지를 그대로 보존한다."""
+    """A failed KIS call. Preserves the original error code and message."""
 
     def __init__(
         self,
@@ -91,13 +93,16 @@ class _CachedToken:
 
 
 def _fingerprint(settings: Settings) -> str:
-    """앱키/환경이 바뀌면 캐시를 자동 무효화하기 위한 지문. 키 자체는 저장하지 않는다."""
+    """Fingerprint that invalidates the cache when the key or environment changes.
+
+    The key itself is never stored.
+    """
     raw = f"{settings.kis_env}:{settings.kis_app_key}".encode()
     return hashlib.sha256(raw).hexdigest()[:16]
 
 
 class TokenManager:
-    """접근토큰을 메모리 + 파일에 캐시하고 만료 임박 시에만 재발급한다."""
+    """Caches the access token in memory and on disk, refreshing only near expiry."""
 
     def __init__(self, settings: Settings, http: httpx.AsyncClient) -> None:
         self._settings = settings
@@ -138,7 +143,7 @@ class TokenManager:
             "issued_at": token.issued_at,
             "fingerprint": token.fingerprint,
         }
-        # 0600 으로 만든 뒤 원자적으로 교체한다.
+        # Create with 0600, then replace atomically.
         fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
             json.dump(payload, fh)
@@ -148,7 +153,7 @@ class TokenManager:
     # -- issuance --------------------------------------------------------
 
     async def _issue(self) -> _CachedToken:
-        """POST /oauth2/tokenP 로 새 토큰을 발급받는다. 1분 1회 제한을 지킨다."""
+        """Request a new token, honouring the one-per-minute issuance limit."""
         since = time.monotonic() - self._last_issue_attempt
         if self._last_issue_attempt and since < TOKEN_MIN_ISSUE_INTERVAL_SEC:
             wait = TOKEN_MIN_ISSUE_INTERVAL_SEC - since
@@ -201,7 +206,7 @@ class TokenManager:
             )
 
         now = time.time()
-        # expires_in 은 보통 86400(24h). 없으면 보수적으로 12시간으로 잡는다.
+        # expires_in is normally 86400 (24h); fall back to a conservative 12h.
         expires_in = float(data.get("expires_in") or 43200)
         token = _CachedToken(
             access_token=data["access_token"],
@@ -238,7 +243,7 @@ class TokenManager:
 
 
 class KisClient:
-    """읽기 전용 KIS 호출기. 주문/정정/취소 계열 경로는 아예 다루지 않는다."""
+    """Read-only KIS caller. Order, amend and cancel paths are never handled."""
 
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
@@ -257,7 +262,7 @@ class KisClient:
         await self._http.aclose()
 
     async def warmup(self) -> None:
-        """기동 시 토큰을 한 번 확보해 첫 호출 지연을 없앤다."""
+        """Fetch a token at startup so the first tool call is not delayed."""
         await self._tokens.get_token()
 
     async def _headers(self, tr_id: str, tr_cont: str, token: str) -> dict[str, str]:
@@ -279,7 +284,7 @@ class KisClient:
         params: dict[str, str],
         tr_cont: str = "",
     ) -> dict[str, Any]:
-        """조회 API 호출. rt_cd != '0' 이면 KisError 를 던진다."""
+        """Call an inquiry endpoint. Raises KisError when rt_cd != "0"."""
         if not path.startswith("/uapi/"):
             raise ValueError(f"unexpected KIS path: {path!r}")
 
@@ -331,7 +336,7 @@ class KisClient:
                 continue
 
             if msg_cd == _THROTTLE_CODE and attempt < _MAX_ATTEMPTS:
-                # 유량 초과. 토큰 문제가 아니므로 재발급하지 않는다.
+                # Rate limited. Not a token problem, so do not reissue.
                 backoff = _THROTTLE_BACKOFF_SEC * attempt
                 logger.warning(
                     "KIS throttled the call (%s); backing off %.1fs (attempt %d/%d)",

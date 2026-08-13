@@ -1,7 +1,7 @@
-"""localauth — 외부 IdP 없이 동작하는 재사용 가능한 MCP 인증 모듈.
+"""localauth - a reusable MCP authentication module with no external IdP.
 
-이 패키지는 kis-mcp 에 종속되지 않는다. 다른 로컬 MCP 서버에서도
-그대로 복사하거나 import 해서 쓸 수 있도록 설계했다.
+This package does not depend on any particular MCP server. Copy it or import
+it from any FastMCP project.
 
     from localauth import PassphraseOAuthProvider
 

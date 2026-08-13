@@ -1,7 +1,8 @@
-"""KIS 유량 제한 대응 스로틀러.
+"""Throttling that respects the KIS request-rate limit.
 
-KIS 는 앱키 단위로 초당 요청 수를 제한한다 (실전 20건/초, 모의 5건/초).
-동시 호출이 몰려도 최소 간격이 보장되도록 단일 락 기반 큐로 직렬화한다.
+KIS limits requests per second per app key (20/s live, 5/s paper). Calls are
+serialised through a single lock so that a burst of concurrent tool invocations
+still cannot exceed the limit.
 """
 
 from __future__ import annotations
@@ -11,10 +12,11 @@ import time
 
 
 class RateLimiter:
-    """초당 N건을 넘지 않도록 호출 간 최소 간격을 강제한다.
+    """Enforces a minimum interval between calls.
 
-    슬라이딩 윈도우가 아니라 '직전 호출로부터 1/rate 초' 방식이다.
-    버스트를 허용하지 않는 대신 KIS 쪽 카운터를 절대 넘지 않는다.
+    This is a "1/rate seconds since the previous call" limiter rather than a
+    sliding window. It gives up burst capacity in exchange for never exceeding
+    the counter on the KIS side.
     """
 
     def __init__(self, per_second: float) -> None:
@@ -29,7 +31,7 @@ class RateLimiter:
         return self._min_interval
 
     async def acquire(self) -> float:
-        """슬롯을 얻을 때까지 대기한다. 실제로 대기한 초를 돌려준다."""
+        """Wait for a slot. Returns how many seconds were spent waiting."""
         async with self._lock:
             now = time.monotonic()
             wait = self._next_allowed - now

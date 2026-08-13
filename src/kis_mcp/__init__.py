@@ -1,3 +1,3 @@
-"""kis-mcp — 한국투자증권 Open API 조회 전용 MCP 서버."""
+"""kis-mcp - a read-only MCP server over the Korea Investment & Securities Open API."""
 
 __version__ = "0.1.0"

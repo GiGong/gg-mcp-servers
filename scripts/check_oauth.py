@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-"""내장 OAuth 2.1 플로우 자체 점검.
+"""Self-check for the built-in OAuth 2.1 flow.
 
-KIS 자격증명 없이도 돌아간다. 서버를 루프백에 띄우고 Claude.ai 가 밟는
-경로(DCR → authorize → 패스프레이즈 → code → token → MCP 호출)를 그대로 재현한다.
+Runs without KIS credentials. Starts the server on loopback and reproduces the
+exact path Claude.ai takes: DCR -> authorize -> passphrase -> code -> token ->
+MCP call.
 
     PYTHONPATH=src .venv/bin/python scripts/check_oauth.py
 """
@@ -24,8 +25,9 @@ import uvicorn
 PORT = 8799
 BASE = f"http://127.0.0.1:{PORT}"
 
-# 이 프로세스에서만 쓰고 버리는 값이다. 스크립트가 띄우는 임시 서버에 주입되며
-# .env 나 실제 배포와는 무관하다. 하드코딩하지 않아야 시크릿 스캐너에도 걸리지 않는다.
+# Ephemeral, used only by this process. Injected into the temporary server the
+# script starts; unrelated to .env or any real deployment. Generating it avoids
+# tripping secret scanners.
 PASSPHRASE = "ephemeral-check-" + secrets.token_urlsafe(24)
 
 PASS = "\033[32m PASS\033[0m"
@@ -53,7 +55,7 @@ def pkce() -> tuple[str, str]:
 
 async def run_checks() -> None:
     async with httpx.AsyncClient(timeout=10, follow_redirects=False) as http:
-        # 0. 서버가 뜰 때까지 대기
+        # 0. wait for the server to come up
         for _ in range(100):
             try:
                 await http.get(f"{BASE}/healthz")
@@ -61,33 +63,33 @@ async def run_checks() -> None:
             except httpx.ConnectError:
                 await asyncio.sleep(0.1)
 
-        # 1. 인증 없이 MCP 접근 → 거부되어야 한다
+        # 1. unauthenticated MCP access must be rejected
         anon = await http.post(
             f"{BASE}/mcp",
             json={"jsonrpc": "2.0", "id": 1, "method": "tools/list"},
             headers={"accept": "application/json, text/event-stream"},
         )
         check(
-            "인증 없이 /mcp 접근이 거부됨",
+            "unauthenticated /mcp access is rejected",
             anon.status_code == 401,
             f"HTTP {anon.status_code}",
         )
         check(
-            "401 응답에 WWW-Authenticate 헤더 포함 (MCP 스펙 요구사항)",
+            "401 carries WWW-Authenticate (required by the MCP spec)",
             "www-authenticate" in {k.lower() for k in anon.headers},
-            anon.headers.get("www-authenticate", "(없음)"),
+            anon.headers.get("www-authenticate", "(none)"),
         )
 
-        # 2. 보호 리소스 메타데이터
+        # 2. protected resource metadata
         meta = await http.get(f"{BASE}/.well-known/oauth-protected-resource/mcp")
-        check("protected-resource 메타데이터 제공", meta.status_code == 200)
+        check("protected-resource metadata served", meta.status_code == 200)
 
         as_meta = await http.get(f"{BASE}/.well-known/oauth-authorization-server")
-        check("authorization-server 메타데이터 제공", as_meta.status_code == 200)
+        check("authorization-server metadata served", as_meta.status_code == 200)
         reg_endpoint = as_meta.json().get("registration_endpoint", "")
-        check("DCR 지원 (registration_endpoint 광고)", bool(reg_endpoint), reg_endpoint)
+        check("DCR supported (registration_endpoint advertised)", bool(reg_endpoint), reg_endpoint)
 
-        # 3. 동적 클라이언트 등록 (Claude.ai 가 하는 것)
+        # 3. dynamic client registration, as Claude.ai does it
         redirect_uri = "https://claude.ai/api/mcp/auth_callback"
         reg = await http.post(
             f"{BASE}/register",
@@ -98,11 +100,11 @@ async def run_checks() -> None:
                 "token_endpoint_auth_method": "none",
             },
         )
-        check("동적 클라이언트 등록 성공", reg.status_code in (200, 201), f"HTTP {reg.status_code}")
+        check("dynamic client registration succeeds", reg.status_code in (200, 201), f"HTTP {reg.status_code}")
         client_id = reg.json().get("client_id", "")
-        check("client_id 발급", bool(client_id))
+        check("client_id issued", bool(client_id))
 
-        # 4. authorize → 패스프레이즈 화면으로 리다이렉트
+        # 4. authorize redirects to the passphrase page
         verifier, challenge = pkce()
         authz = await http.get(
             f"{BASE}/authorize",
@@ -117,23 +119,23 @@ async def run_checks() -> None:
         )
         located = authz.headers.get("location", "")
         check(
-            "authorize 가 패스프레이즈 화면으로 리다이렉트",
+            "authorize redirects to the passphrase page",
             authz.status_code in (302, 307) and "/auth/login" in located,
             f"HTTP {authz.status_code} → {located[:60]}",
         )
         rid = parse_qs(urlparse(located).query).get("rid", [""])[0]
-        check("인가 요청 rid 발급", bool(rid))
+        check("authorization request id issued", bool(rid))
 
         login_page = await http.get(f"{BASE}/auth/login", params={"rid": rid})
-        check("로그인 페이지 렌더링", login_page.status_code == 200)
+        check("login page renders", login_page.status_code == 200)
 
-        # 5. 틀린 패스프레이즈는 거부
+        # 5. a wrong passphrase is rejected
         bad = await http.post(
             f"{BASE}/auth/login", data={"rid": rid, "passphrase": "wrong-passphrase"}
         )
-        check("틀린 패스프레이즈 거부", bad.status_code == 401, f"HTTP {bad.status_code}")
+        check("wrong passphrase rejected", bad.status_code == 401, f"HTTP {bad.status_code}")
 
-        # 6. 맞는 패스프레이즈 → 인가 코드
+        # 6. the correct passphrase yields an authorization code
         good = await http.post(
             f"{BASE}/auth/login", data={"rid": rid, "passphrase": PASSPHRASE}
         )
@@ -141,13 +143,13 @@ async def run_checks() -> None:
         params = parse_qs(urlparse(cb).query)
         code = params.get("code", [""])[0]
         check(
-            "올바른 패스프레이즈 → 콜백으로 code 반환",
+            "correct passphrase returns a code to the callback",
             good.status_code == 302 and bool(code) and cb.startswith(redirect_uri),
             f"HTTP {good.status_code}",
         )
-        check("state 값 보존", params.get("state", [""])[0] == "st-123")
+        check("state is preserved", params.get("state", [""])[0] == "st-123")
 
-        # 7. 잘못된 PKCE verifier 는 거부되어야 한다
+        # 7. a mismatched PKCE verifier must be rejected
         bad_token = await http.post(
             f"{BASE}/token",
             data={
@@ -158,9 +160,9 @@ async def run_checks() -> None:
                 "code_verifier": secrets.token_urlsafe(64),
             },
         )
-        check("잘못된 PKCE verifier 거부", bad_token.status_code >= 400, f"HTTP {bad_token.status_code}")
+        check("mismatched PKCE verifier rejected", bad_token.status_code >= 400, f"HTTP {bad_token.status_code}")
 
-        # 위 시도로 코드가 소모됐을 수 있으니 인가를 다시 받는다
+        # that attempt may have consumed the code, so authorize again
         verifier, challenge = pkce()
         authz = await http.get(
             f"{BASE}/authorize",
@@ -179,7 +181,7 @@ async def run_checks() -> None:
         )
         code = parse_qs(urlparse(good.headers["location"]).query)["code"][0]
 
-        # 8. 토큰 교환
+        # 8. token exchange
         tok = await http.post(
             f"{BASE}/token",
             data={
@@ -190,14 +192,14 @@ async def run_checks() -> None:
                 "code_verifier": verifier,
             },
         )
-        check("인가 코드 → 액세스 토큰 교환", tok.status_code == 200, f"HTTP {tok.status_code} {tok.text[:120]}")
+        check("authorization code exchanges for an access token", tok.status_code == 200, f"HTTP {tok.status_code} {tok.text[:120]}")
         payload = tok.json() if tok.status_code == 200 else {}
         access = payload.get("access_token", "")
         refresh = payload.get("refresh_token", "")
-        check("access_token 발급", bool(access))
-        check("refresh_token 발급", bool(refresh))
+        check("access_token issued", bool(access))
+        check("refresh_token issued", bool(refresh))
 
-        # 9. 코드 재사용 차단
+        # 9. authorization code replay is blocked
         replay = await http.post(
             f"{BASE}/token",
             data={
@@ -208,9 +210,9 @@ async def run_checks() -> None:
                 "code_verifier": verifier,
             },
         )
-        check("인가 코드 재사용 차단", replay.status_code >= 400, f"HTTP {replay.status_code}")
+        check("authorization code replay blocked", replay.status_code >= 400, f"HTTP {replay.status_code}")
 
-        # 10. 토큰으로 MCP 호출
+        # 10. call MCP with the token
         authed = await http.post(
             f"{BASE}/mcp",
             json={
@@ -228,9 +230,9 @@ async def run_checks() -> None:
                 "accept": "application/json, text/event-stream",
             },
         )
-        check("유효한 Bearer 토큰으로 MCP 접근 허용", authed.status_code == 200, f"HTTP {authed.status_code}")
+        check("valid bearer token grants MCP access", authed.status_code == 200, f"HTTP {authed.status_code}")
 
-        # 11. 위조 토큰 거부
+        # 11. a forged token is rejected
         forged = await http.post(
             f"{BASE}/mcp",
             json={"jsonrpc": "2.0", "id": 1, "method": "tools/list"},
@@ -239,9 +241,9 @@ async def run_checks() -> None:
                 "accept": "application/json, text/event-stream",
             },
         )
-        check("위조 토큰 거부", forged.status_code == 401, f"HTTP {forged.status_code}")
+        check("forged token rejected", forged.status_code == 401, f"HTTP {forged.status_code}")
 
-        # 12. 리프레시 토큰 회전
+        # 12. refresh token rotation
         refreshed = await http.post(
             f"{BASE}/token",
             data={
@@ -250,9 +252,9 @@ async def run_checks() -> None:
                 "client_id": client_id,
             },
         )
-        check("리프레시 토큰으로 재발급", refreshed.status_code == 200, f"HTTP {refreshed.status_code}")
+        check("refresh token yields new tokens", refreshed.status_code == 200, f"HTTP {refreshed.status_code}")
         if refreshed.status_code == 200:
-            check("리프레시 토큰 회전됨", refreshed.json().get("refresh_token") != refresh)
+            check("refresh token rotated", refreshed.json().get("refresh_token") != refresh)
 
 
 def main() -> int:
@@ -298,13 +300,13 @@ def main() -> int:
             server.should_exit = True
             await task
 
-    print(f"\n내장 OAuth 2.1 플로우 점검 ({BASE})\n" + "-" * 52)
+    print(f"\nBuilt-in OAuth 2.1 flow check ({BASE})\n" + "-" * 52)
     asyncio.run(orchestrate())
     print("-" * 52)
     if _failures:
-        print(f"실패 {_failures}건")
+        print(f"{_failures} failed")
         return 1
-    print("전부 통과")
+    print("all passed")
     return 0
 
 

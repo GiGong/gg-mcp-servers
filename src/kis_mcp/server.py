@@ -1,7 +1,7 @@
-"""FastMCP 서버 조립. Streamable HTTP 로 서비스한다.
+"""FastMCP server assembly, served over Streamable HTTP.
 
-노출하는 도구는 전부 조회 전용이다. 주문/정정/취소/이체 계열 KIS API 는
-이 서버에 구현되어 있지 않으며 도구로도 등록하지 않는다.
+Every exposed tool is read-only. Order, amend, cancel and transfer endpoints are
+not implemented anywhere in this server and are not registered as tools.
 """
 
 from __future__ import annotations
@@ -23,28 +23,31 @@ from .tools import KisTools
 logger = logging.getLogger(__name__)
 
 SERVER_INSTRUCTIONS = """\
-한국투자증권(KIS) Open API 를 감싼 조회 전용 MCP 서버입니다.
+Read-only market data from the Korea Investment & Securities (KIS) Open API.
 
-제공 범위
-  - 국내주식 현재가/일봉/호가/투자자 수급
-  - 국내외 지수, 해외주식(미국) 시세, 원달러 환율
+Coverage
+  - Korean equities: quotes, daily OHLCV, order book, investor flow
+  - Domestic and overseas indices, US equities, USD/KRW
 
-중요한 해석 규칙
-  - 모든 응답의 as_of_kst 는 한국시간(KST)입니다.
-  - market_status.phase 로 정규장/장마감/휴장 여부를 판단하세요.
-    장 마감 후나 휴장일에는 값이 직전 거래일 기준입니다.
-  - get_investor_flow 는 provisional(장중 추정 가집계, 잠정)과
-    confirmed(거래소 확정치)를 나눠서 돌려줍니다. 둘을 섞지 마세요.
-  - 해외 시세는 별도 신청이 없으면 지연 시세입니다. delayed 필드를 확인하세요.
-  - KIS 가 오류를 반환하면 error/kis_msg_cd/kis_msg1 필드로 그대로 전달됩니다.
-    값을 지어내지 말고 그 오류를 사용자에게 알리세요.
+How to read the responses
+  - `as_of_kst` on every response is Korea Standard Time.
+  - Use `market_status.phase` to tell a live figure from a stale one. After the
+    close or on a holiday, values are from the previous trading day.
+  - `get_investor_flow` returns `provisional` (intraday broker-compiled
+    estimate) and `confirmed` (exchange-confirmed) separately. Never mix them.
+    The current day's confirmed figures are not published until after the close,
+    so during the session you must read `provisional` and say so.
+  - Overseas quotes are delayed unless the account subscribes to real-time data.
+    Check the `delayed` field.
+  - When KIS returns an error it is passed through as `error` / `kis_msg_cd` /
+    `kis_msg1`. Report that error rather than inventing a value.
 
-이 서버는 매매 주문을 실행할 수 없습니다.
+This server cannot place trades.
 """
 
 
 def _wrap(result_factory):
-    """KIS 오류를 삼키지 않고 구조화된 결과로 바꿔주는 데코레이터용 헬퍼."""
+    """Turn KisError into a structured result instead of swallowing it."""
 
     async def runner(*args, **kwargs) -> dict[str, Any]:
         try:
@@ -85,52 +88,56 @@ def build_server(settings: Settings) -> tuple[FastMCP, KisClient]:
         auth=auth,
     )
 
-    # ---------------- 1순위 ----------------
+    # ---------------- primary ----------------
 
     @mcp.tool
     async def get_quote(
-        symbol: Annotated[str, Field(description="국내 종목코드 6자리. 예: SK하이닉스 000660")],
+        symbol: Annotated[
+            str, Field(description="Six-digit Korean ticker, e.g. 000660 for SK hynix")
+        ],
     ) -> dict[str, Any]:
-        """국내주식 현재가 시세.
+        """Current quote for a Korean listed security.
 
-        현재가, 등락률, 시가/고가/저가, 전일종가, 거래량, 시가총액, PER/PBR 을
-        한국시간 타임스탬프 및 장 상태와 함께 반환합니다.
+        Returns price, percent change, open/high/low, previous close, volume,
+        market capitalisation and valuation ratios, along with a KST timestamp
+        and the current market session state.
         """
         return await _wrap(tools.get_quote)(symbol)
 
     @mcp.tool
     async def get_investor_flow(
-        symbol: Annotated[str, Field(description="국내 종목코드 6자리. 예: 000660")],
+        symbol: Annotated[str, Field(description="Six-digit Korean ticker, e.g. 000660")],
         confirmed_days: Annotated[
-            int, Field(description="확정치를 며칠치 돌려줄지 (1~30)", ge=1, le=30)
+            int, Field(description="How many days of confirmed data to return", ge=1, le=30)
         ] = 5,
     ) -> dict[str, Any]:
-        """종목별 외국인·기관 매매 동향.
+        """Foreign and institutional net buying for a Korean security.
 
-        provisional 은 장중 추정 가집계(잠정, 하루 4회 갱신),
-        confirmed 는 거래소 확정 일별 순매수입니다. 두 값은 명확히 구분됩니다.
+        `provisional` is the intraday broker-compiled estimate, refreshed four
+        times a session. `confirmed` is the exchange-confirmed daily figure.
+        The two are reported separately and must not be conflated.
         """
         return await _wrap(tools.get_investor_flow)(symbol, confirmed_days)
 
     @mcp.tool
     async def get_daily_ohlcv(
-        symbol: Annotated[str, Field(description="국내 종목코드 6자리")],
+        symbol: Annotated[str, Field(description="Six-digit Korean ticker")],
         days: Annotated[
-            int, Field(description="최근 몇 거래일치 (1~100, 기본 30)", ge=1, le=100)
+            int, Field(description="Number of recent trading days", ge=1, le=100)
         ] = 30,
-        adjusted: Annotated[bool, Field(description="수정주가 사용 여부")] = True,
+        adjusted: Annotated[bool, Field(description="Use split-adjusted prices")] = True,
     ) -> dict[str, Any]:
-        """국내주식 일별 OHLCV. 오래된 날짜 → 최신 날짜 순으로 정렬해 반환합니다."""
+        """Daily OHLCV for a Korean security, ordered oldest to newest."""
         return await _wrap(tools.get_daily_ohlcv)(symbol, days, adjusted)
 
-    # ---------------- 2순위 ----------------
+    # ---------------- secondary ----------------
 
     @mcp.tool
     async def get_orderbook(
-        symbol: Annotated[str, Field(description="국내 종목코드 6자리")],
-        depth: Annotated[int, Field(description="호가 단계 수 (1~10)", ge=1, le=10)] = 10,
+        symbol: Annotated[str, Field(description="Six-digit Korean ticker")],
+        depth: Annotated[int, Field(description="Number of price levels", ge=1, le=10)] = 10,
     ) -> dict[str, Any]:
-        """국내주식 호가 잔량. 총 매수/매도 잔량과 매수·매도 비율을 포함합니다."""
+        """Order book depth, including total bid and ask size and their ratio."""
         return await _wrap(tools.get_orderbook)(symbol, depth)
 
     @mcp.tool
@@ -139,42 +146,52 @@ def build_server(settings: Settings) -> tuple[FastMCP, KisClient]:
             str,
             Field(
                 description=(
-                    "지수 코드 또는 별칭. 국내: KOSPI, KOSDAQ, KOSPI200, 0001, 1001, 2001. "
-                    "해외: SOX(필라델피아 반도체), NASDAQ, SPX, DJI 또는 .으로 시작하는 원본 코드."
+                    "Index code or alias. Domestic: KOSPI, KOSDAQ, KOSPI200, or the "
+                    "raw codes 0001/1001/2001. Overseas: SOX (Philadelphia "
+                    "Semiconductor), NASDAQ, SPX, DJI."
                 )
             ),
         ] = "KOSPI",
     ) -> dict[str, Any]:
-        """지수 현재가와 등락률. 국내 지수는 실시간, 해외 지수는 일별 종가 기준입니다."""
+        """Index level and percent change.
+
+        Domestic indices are live; overseas indices reflect the previous regular
+        session's close.
+        """
         return await _wrap(tools.get_index)(code)
 
     @mcp.tool
     async def get_overseas_quote(
-        ticker: Annotated[str, Field(description="해외 티커. 예: SKHY, MU, NVDA, TSM")],
+        ticker: Annotated[str, Field(description="Overseas ticker, e.g. MU, NVDA, TSM")],
         exchange: Annotated[
             str,
-            Field(description="거래소 코드. NAS(나스닥), NYS(뉴욕), AMS(아멕스) 등"),
+            Field(description="Exchange code: NAS, NYS, AMS. Corrected automatically if wrong."),
         ] = "NAS",
     ) -> dict[str, Any]:
-        """해외주식 현재가.
+        """Current quote for an overseas listed security.
 
-        원환산 가격(t_xprc)과 KIS 적용 환율(t_rate)을 함께 돌려주므로
-        ADR-본주 괴리율을 바로 계산할 수 있습니다. 지연 시세 여부는 delayed 필드 참고.
+        Also returns the KRW-converted price and the FX rate KIS applied, so an
+        ADR can be compared against its home listing without a separate FX call.
+        Check the `delayed` field for quote latency.
         """
         return await _wrap(tools.get_overseas_quote)(ticker, exchange)
 
-    # ---------------- 3순위 / 부가 ----------------
+    # ---------------- optional ----------------
 
     @mcp.tool
     async def get_fx(
-        pair: Annotated[str, Field(description="통화쌍. 기본 USDKRW")] = "USDKRW",
+        pair: Annotated[str, Field(description="Currency pair; USDKRW by default")] = "USDKRW",
     ) -> dict[str, Any]:
-        """원달러 환율. 환율 시세 조회가 막히면 KIS 원환산 적용환율로 대체합니다."""
+        """USD/KRW exchange rate.
+
+        Falls back to the conversion rate KIS applies to overseas quotes if the
+        dedicated FX lookup is unavailable; the response records which was used.
+        """
         return await _wrap(tools.get_fx)(pair)
 
     @mcp.tool
     async def get_market_status() -> dict[str, Any]:
-        """지금 한국 증시가 열려 있는지, 휴장일인지 확인합니다."""
+        """Whether the Korean market is currently open, closed or on holiday."""
         return await _wrap(tools.get_market_status)()
 
     return mcp, client
@@ -184,7 +201,7 @@ async def _warmup(client: KisClient) -> None:
     try:
         await client.warmup()
     except KisError as exc:
-        # 토큰 발급 실패해도 서버는 뜨게 둔다. 도구 호출 시 오류가 그대로 노출된다.
+        # Start anyway. A token failure will surface on the first tool call.
         logger.error("KIS token warmup failed: %s", exc)
 
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-"""공개 URL(Cloudflare Tunnel 경유)에서 OAuth 전체 왕복을 실제로 완주시킨다.
+"""Complete a full OAuth round trip against the public URL (via the tunnel).
 
-Claude.ai 가 밟는 경로를 그대로 재현한다: DCR → authorize → 패스프레이즈 →
-code → token → MCP tools/list. 마지막에 실제 도구를 호출해 KIS 값까지 확인한다.
+Reproduces the path Claude.ai takes: DCR -> authorize -> passphrase -> code ->
+token -> MCP initialize.
 
-로컬 macOS 리졸버가 호스트명을 못 찾는 경우를 대비해 curl 의 --resolve 로
-DNS 를 우회할 수 있다 (전송 경로 자체는 진짜 터널을 지난다).
+If the local macOS resolver cannot resolve the hostname, curl's --resolve can
+bypass DNS; the transport still goes through the real tunnel.
 
     PYTHONPATH=src .venv/bin/python scripts/check_public.py
     PYTHONPATH=src .venv/bin/python scripts/check_public.py --resolve 104.21.91.26
@@ -42,7 +42,7 @@ def check(label: str, condition: bool, detail: str = "") -> None:
 
 
 def curl(url: str, *extra: str) -> tuple[int, dict[str, str], str]:
-    """(status, headers, body) 를 돌려준다. 헤더와 본문은 별도 파일로 받는다."""
+    """Return (status, headers, body). Headers and body are captured separately."""
     with (
         tempfile.NamedTemporaryFile("r+", suffix=".hdr") as hdr,
         tempfile.NamedTemporaryFile("r+", suffix=".body") as out,
@@ -81,8 +81,8 @@ def pkce() -> tuple[str, str]:
 def main() -> int:
     global _resolve_ip, _host
     parser = argparse.ArgumentParser()
-    parser.add_argument("--resolve", help="로컬 DNS 를 우회할 IP")
-    parser.add_argument("--url", help="공개 URL (기본: .env 의 MCP_PUBLIC_URL)")
+    parser.add_argument("--resolve", help="IP to bypass local DNS with")
+    parser.add_argument("--url", help="Public URL (default: MCP_PUBLIC_URL from .env)")
     args = parser.parse_args()
 
     settings = load_settings()
@@ -91,13 +91,13 @@ def main() -> int:
     _resolve_ip = args.resolve
     _host = urlparse(base).hostname or ""
 
-    print(f"\n공개 URL 전체 왕복 점검  {base}")
+    print(f"\nPublic URL round-trip check  {base}")
     if _resolve_ip:
-        print(f"(로컬 DNS 우회: {_host} → {_resolve_ip} / 전송은 실제 터널 경유)")
+        print(f"(bypassing local DNS: {_host} -> {_resolve_ip}; transport still uses the tunnel)")
     print("-" * 60)
 
     status, _, body = curl(f"{base}/healthz")
-    check("healthz 도달", status == 200, body[:60])
+    check("healthz reachable", status == 200, body[:60])
 
     status, headers, _ = curl(
         mcp_url, "-X", "POST",
@@ -105,17 +105,17 @@ def main() -> int:
         "-H", "accept: application/json, text/event-stream",
         "-d", '{"jsonrpc":"2.0","id":1,"method":"tools/list"}',
     )
-    check("무인증 MCP 접근 거부", status == 401, f"HTTP {status}")
-    check("WWW-Authenticate 가 공개 URL 을 가리킴",
+    check("unauthenticated MCP access rejected", status == 401, f"HTTP {status}")
+    check("WWW-Authenticate points at the public URL",
           base in headers.get("www-authenticate", ""),
-          headers.get("www-authenticate", "(없음)")[:80])
+          headers.get("www-authenticate", "(none)")[:80])
 
     status, _, body = curl(f"{base}/.well-known/oauth-authorization-server")
     meta = json.loads(body) if status == 200 else {}
-    check("인가서버 메타데이터", status == 200)
-    check("issuer 가 공개 URL", meta.get("issuer", "").rstrip("/") == base,
+    check("authorization-server metadata", status == 200)
+    check("issuer matches the public URL", meta.get("issuer", "").rstrip("/") == base,
           meta.get("issuer", ""))
-    check("PKCE S256 광고", "S256" in (meta.get("code_challenge_methods_supported") or []))
+    check("PKCE S256 advertised", "S256" in (meta.get("code_challenge_methods_supported") or []))
 
     redirect_uri = "https://claude.ai/api/mcp/auth_callback"
     status, _, body = curl(
@@ -129,7 +129,7 @@ def main() -> int:
         }),
     )
     client_id = (json.loads(body).get("client_id", "") if status in (200, 201) else "")
-    check("동적 클라이언트 등록(DCR)", bool(client_id), f"HTTP {status}")
+    check("dynamic client registration (DCR)", bool(client_id), f"HTTP {status}")
 
     verifier, challenge = pkce()
     status, headers, _ = curl(
@@ -139,21 +139,21 @@ def main() -> int:
     )
     location = headers.get("location", "")
     rid = parse_qs(urlparse(location).query).get("rid", [""])[0]
-    check("authorize → 패스프레이즈 화면", status in (302, 307) and bool(rid),
+    check("authorize reaches the passphrase page", status in (302, 307) and bool(rid),
           f"HTTP {status}")
 
     status, _, body = curl(f"{base}/auth/login?rid={rid}")
-    check("인증 화면 렌더링", status == 200)
-    check("인증 화면에 KIS/증권 문구 없음",
-          not any(w in body for w in ("KIS", "한국투자", "증권", "주문", "시세")),
-          "중립화됨" if status == 200 else "")
+    check("login page renders", status == 200)
+    check("login page reveals nothing about the service",
+          not any(w in body for w in ("KIS", "Korea Investment", "stock", "order", "quote")),
+          "neutral" if status == 200 else "")
 
     status, _, _ = curl(
         f"{base}/auth/login", "-X", "POST",
         "--data-urlencode", f"rid={rid}",
         "--data-urlencode", "passphrase=definitely-not-the-passphrase",
     )
-    check("틀린 패스프레이즈 거부", status == 401, f"HTTP {status}")
+    check("wrong passphrase rejected", status == 401, f"HTTP {status}")
 
     status, headers, _ = curl(
         f"{base}/auth/login", "-X", "POST",
@@ -162,7 +162,7 @@ def main() -> int:
     )
     callback = headers.get("location", "")
     code = parse_qs(urlparse(callback).query).get("code", [""])[0]
-    check("올바른 패스프레이즈 → 인가 코드",
+    check("correct passphrase yields an authorization code",
           status == 302 and bool(code) and callback.startswith(redirect_uri),
           f"HTTP {status}")
 
@@ -175,7 +175,7 @@ def main() -> int:
         "--data-urlencode", f"code_verifier={verifier}",
     )
     token = json.loads(body).get("access_token", "") if status == 200 else ""
-    check("토큰 교환", bool(token), f"HTTP {status}")
+    check("token exchange", bool(token), f"HTTP {status}")
 
     auth_header = f"authorization: Bearer {token}"
     status, _, body = curl(
@@ -189,13 +189,13 @@ def main() -> int:
                        "clientInfo": {"name": "public-check", "version": "0"}},
         }),
     )
-    check("인증된 MCP initialize", status == 200, f"HTTP {status}")
+    check("authenticated MCP initialize", status == 200, f"HTTP {status}")
 
     print("-" * 60)
     if _failures:
-        print(f"실패 {_failures}건")
+        print(f"{_failures} failed")
         return 1
-    print("전부 통과 — 공개 URL 에서 Claude.ai 와 동일한 경로가 완주됩니다.")
+    print("all passed - the public URL completes the same path Claude.ai uses.")
     return 0
 
 

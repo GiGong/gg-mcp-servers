@@ -1,4 +1,7 @@
-"""환경설정 로딩. 자격증명은 .env / 환경변수에서만 읽고 절대 로그로 내보내지 않는다."""
+"""Configuration loading.
+
+Credentials are read only from .env or the environment and are never logged.
+"""
 
 from __future__ import annotations
 
@@ -10,13 +13,13 @@ from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-# KIS 공식 도메인. examples_llm/kis_auth.py 에서 확인.
+# Official KIS domains, taken from examples_llm/kis_auth.py in the KIS repo.
 KIS_DOMAINS = {
     "real": "https://openapi.koreainvestment.com:9443",
     "demo": "https://openapivts.koreainvestment.com:29443",
 }
 
-# KIS 공식 유량 한도 (앱키 단위). 설정값은 이 값을 넘을 수 없다.
+# Official KIS rate ceilings, per app key. Configuration may not exceed these.
 KIS_MAX_RATE = {"real": 20.0, "demo": 5.0}
 
 
@@ -72,7 +75,7 @@ class Settings:
         return self.kis_env == "demo"
 
     def masked_app_key(self) -> str:
-        """로그용. 앞 4자만 남기고 마스킹한다."""
+        """Masked form for logs: first four characters only."""
         if len(self.kis_app_key) <= 4:
             return "****"
         return f"{self.kis_app_key[:4]}{'*' * 8}"
@@ -120,7 +123,7 @@ def load_settings(env_file: Path | None = None) -> Settings:
             raise ConfigError(
                 "OAUTH_SIGNING_SECRET must be at least 16 characters when AUTH_MODE=oauth."
             )
-        # 루프백 주소는 로컬 OAuth 플로우 검증용으로 http 를 허용한다.
+        # Allow http on loopback so the OAuth flow can be exercised locally.
         is_loopback = public_url.startswith(("http://127.0.0.1", "http://localhost"))
         if not public_url.startswith("https://") and not is_loopback:
             raise ConfigError(
@@ -149,8 +152,8 @@ def load_settings(env_file: Path | None = None) -> Settings:
         oauth_access_ttl=int(os.getenv("OAUTH_ACCESS_TOKEN_TTL", "28800")),
         oauth_refresh_ttl=int(os.getenv("OAUTH_REFRESH_TOKEN_TTL", "2592000")),
         oauth_store=_expand(os.getenv("OAUTH_STORE", "~/.cache/kis-mcp/oauth-store.json")),
-        # 인증 화면은 인증 없이 누구나 열 수 있다. 서버 용도가 드러나지 않도록
-        # 기본값을 중립적으로 둔다. 배포자는 .env 에서 원하는 문구로 바꾼다.
+        # The login page is reachable without authentication, so the default
+        # wording stays neutral. Operators override it in .env.
         auth_page_label=os.getenv("AUTH_PAGE_LABEL", "Private connector"),
         auth_page_subtitle=os.getenv(
             "AUTH_PAGE_SUBTITLE", "Enter the passphrase to connect."
