@@ -149,10 +149,11 @@ def load_settings(env_file: Path | None = None) -> Settings:
         oauth_access_ttl=int(os.getenv("OAUTH_ACCESS_TOKEN_TTL", "28800")),
         oauth_refresh_ttl=int(os.getenv("OAUTH_REFRESH_TOKEN_TTL", "2592000")),
         oauth_store=_expand(os.getenv("OAUTH_STORE", "~/.cache/kis-mcp/oauth-store.json")),
-        # 인증 화면은 인증 없이 누구나 열 수 있다. 용도가 드러나지 않는 문구를 기본값으로 둔다.
-        auth_page_label=os.getenv("AUTH_PAGE_LABEL", "mcp.example.com"),
+        # 인증 화면은 인증 없이 누구나 열 수 있다. 서버 용도가 드러나지 않도록
+        # 기본값을 중립적으로 둔다. 배포자는 .env 에서 원하는 문구로 바꾼다.
+        auth_page_label=os.getenv("AUTH_PAGE_LABEL", "Private connector"),
         auth_page_subtitle=os.getenv(
-            "AUTH_PAGE_SUBTITLE", "연결하려면 패스프레이즈를 입력하세요."
+            "AUTH_PAGE_SUBTITLE", "Enter the passphrase to connect."
         ),
         log_level=os.getenv("LOG_LEVEL", "INFO").upper(),
         log_file=_expand(log_file_raw) if log_file_raw else None,
