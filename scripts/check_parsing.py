@@ -10,6 +10,7 @@ KisClient.get 을 합성 픽스처로 갈아끼우고 모든 도구를 돌려서
 from __future__ import annotations
 
 import asyncio
+import datetime as dt
 import os
 import sys
 import tempfile
@@ -32,7 +33,7 @@ os.environ.update(
 
 from kis_mcp.client import KisClient  # noqa: E402
 from kis_mcp.config import load_settings  # noqa: E402
-from kis_mcp.market import MarketCalendar  # noqa: E402
+from kis_mcp.market import KST, MarketCalendar  # noqa: E402
 from kis_mcp.tools import KisTools  # noqa: E402
 
 _ASK = {f"askp{i}": str(258000 + i * 500) for i in range(1, 11)}
@@ -134,6 +135,11 @@ async def _fake_get(self, path, *, tr_id, params, tr_cont=""):  # noqa: ANN001
     return dict(FIXTURES[tr_id])
 
 
+_VALID_PHASES = {
+    "holiday", "weekend", "before_pre_open", "pre_open_auction",
+    "regular", "after_hours", "closed",
+}
+
 PASS = "\033[32m PASS\033[0m"
 FAIL = "\033[31m FAIL\033[0m"
 _failures = 0
@@ -160,7 +166,15 @@ async def main() -> int:
           quote["price"]["current"] == 258000.0 and quote["change"]["percent"] == 3.61)
     check("get_quote 시총 억원→원 환산",
           quote["valuation"]["market_cap_krw"] == 187_800_000_000_000)
-    check("get_quote 장 상태 포함", quote["market_status"]["phase"] == "regular")
+    # 장 상태는 실행 시각에 따라 달라지므로 특정 phase 를 단언하면 안 된다.
+    # 여기서는 블록이 붙어 있고 값이 유효한지만 본다. phase 판정 자체는
+    # 아래에서 시각을 고정해 따로 검증한다.
+    status = quote["market_status"]
+    check("get_quote 장 상태 블록 포함",
+          status["phase"] in _VALID_PHASES
+          and isinstance(status["trading_day"], bool)
+          and status["kst_time"].endswith(("+09:00", "+0900")),
+          f"phase={status['phase']}")
 
     flow = await tools.get_investor_flow("000660")
     check("investor_flow 잠정/확정 분리",
@@ -208,6 +222,19 @@ async def main() -> int:
     check("overseas 원환산 환율 노출",
           overseas["krw_converted"]["fx_rate_today"] == 1389.5)
     check("overseas 기본은 지연 표시", overseas["delayed"] is True)
+
+    # 시각을 고정해 phase 판정 자체를 검증한다. 실행 시각과 무관하게 결정적이다.
+    calendar = MarketCalendar(client)
+    for label, moment, expected in (
+        ("정규장", dt.datetime(2026, 8, 13, 10, 30, tzinfo=KST), "regular"),
+        ("장전 동시호가", dt.datetime(2026, 8, 13, 8, 45, tzinfo=KST), "pre_open_auction"),
+        ("장 마감 후", dt.datetime(2026, 8, 13, 16, 0, tzinfo=KST), "after_hours"),
+        ("심야", dt.datetime(2026, 8, 13, 23, 30, tzinfo=KST), "closed"),
+        ("주말", dt.datetime(2026, 8, 15, 10, 30, tzinfo=KST), "weekend"),
+    ):
+        session = await calendar.session(moment)
+        check(f"장 상태 판정 — {label}", session["phase"] == expected,
+              f"{session['phase']} (기대: {expected})")
 
     await client.aclose()
     print("-" * 58)
