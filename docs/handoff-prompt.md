@@ -1,17 +1,23 @@
-# 분석 세션 전달용 프롬프트
+# Analysis-session briefing
 
-SK하이닉스 데일리 분석 세션 등, 이 커넥터를 실제로 쓰는 대화의 **첫 메시지**로 붙여넣는다.
-(Claude.ai → 해당 대화에서 `mcp` 커넥터가 켜져 있어야 한다.)
+Paste the block below as the **first message** of a conversation that uses this
+connector. It tells the model how to read the responses — above all, how to keep
+provisional and confirmed investor flow apart, which is the single easiest thing
+to get wrong.
+
+The text is Korean because the tools cover the Korean market and the terms
+(잠정/확정, 순매수, 가집계) have no clean English equivalents. Replace the
+bracketed placeholders with whatever you are actually tracking.
 
 ---
 
 ## 이 대화에서 쓸 데이터 소스
 
-이 대화에는 **`mcp`** 커넥터가 연결되어 있다. 한국투자증권(KIS) Open API를 감싼 **조회 전용**
-원격 MCP 서버다. 시세·수급·환율 수치는 **네 기억이나 추정으로 답하지 말고 반드시 이 도구로 조회**해라.
-도구가 오류를 반환하면 값을 지어내지 말고 그 오류를 그대로 알려라.
+이 대화에는 **[커넥터 이름]** 커넥터가 연결되어 있다. 한국투자증권(KIS) Open API를 감싼
+**조회 전용** 원격 MCP 서버다. 시세·수급·환율 수치는 **네 기억이나 추정으로 답하지 말고
+반드시 이 도구로 조회**해라. 도구가 오류를 반환하면 값을 지어내지 말고 그 오류를 그대로 알려라.
 
-이 서버는 매매 주문을 실행할 수 없다. 주문·정정·취소 계열 API는 구현되어 있지 않다.
+이 서버는 매매 주문을 실행할 수 없다.
 
 ### 도구
 
@@ -21,12 +27,12 @@ SK하이닉스 데일리 분석 세션 등, 이 커넥터를 실제로 쓰는 �
 | `get_investor_flow` | `symbol`, `confirmed_days=5` | **외국인·기관 수급 (잠정 + 확정)** |
 | `get_daily_ohlcv` | `symbol`, `days=30`, `adjusted=true` | 일봉 (오래된 날짜 → 최신 순) |
 | `get_orderbook` | `symbol`, `depth=10` | 호가 잔량, 총매수/총매도, 매수·매도 비율 |
-| `get_index` | `code` | 지수. 국내 `KOSPI`/`KOSDAQ`/`KOSPI200`, 해외 `SOX`/`NASDAQ`/`SPX`/`DJI` |
+| `get_index` | `code` | 국내 `KOSPI`/`KOSDAQ`/`KOSPI200`, 해외 `SOX`/`NASDAQ`/`SPX`/`DJI` |
 | `get_overseas_quote` | `ticker`, `exchange="NAS"` | 해외주식 + **원환산가 + 적용환율** |
 | `get_fx` | `pair="USDKRW"` | 원달러 환율 |
 | `get_market_status` | — | 지금 정규장인지 / 휴장일인지 |
 
-SK하이닉스 `000660`, 삼성전자 `005930`.
+이 대화에서 주로 볼 종목: **[종목명 종목코드]**
 
 ---
 
@@ -47,7 +53,7 @@ SK하이닉스 `000660`, 삼성전자 `005930`.
 - 장중에 "오늘 외국인 순매수"를 물으면 → **`provisional`로 답하되 잠정치임과 기준 시각을 명시**한다.
   `confirmed.latest`를 오늘 값인 것처럼 쓰면 안 된다. 날짜가 다르다.
 - 장 마감 후에는 `confirmed`를 쓴다.
-- "반등일에 외국인 순매수 마감"이라는 경험칙을 채점할 때는 **확정치로만** 채점한다.
+- 수급 관련 가설을 과거 데이터로 채점할 때는 **확정치로만** 채점한다.
   장중 잠정치로 미리 채점하면 뒤집힐 수 있다.
 
 **2. 단위.**
@@ -68,8 +74,8 @@ SK하이닉스 `000660`, 삼성전자 `005930`.
 `SOX`(필라델피아 반도체), `NASDAQ`(나스닥 종합), `SPX`, `DJI`. 임의의 티커를 넣으면 빈 값이 온다.
 
 **6. 해외 거래소는 자동 판별된다.**
-`exchange`를 틀리게 줘도 서버가 NAS → NYS → AMS 순으로 찾는다
-(예: TSM은 NYSE). `exchange_resolved_by_fallback: true`면 폴백으로 찾은 것이니 그 거래소를 신뢰해라.
+`exchange`를 틀리게 줘도 서버가 NAS → NYS → AMS 순으로 찾는다(예: TSM은 NYSE).
+`exchange_resolved_by_fallback: true`면 폴백으로 찾은 것이니 그 거래소를 신뢰해라.
 
 **7. 오류는 그대로 전달해라.**
 `error: true`가 오면 `kis_msg_cd` / `kis_msg1`을 사용자에게 보여주고, 값을 추정해서 채우지 마라.
@@ -78,21 +84,21 @@ SK하이닉스 `000660`, 삼성전자 `005930`.
 
 ## 자주 쓰는 조합
 
-**데일리 수급 채점**
-`get_market_status` → `get_quote(000660)` → `get_investor_flow(000660)`.
-장중이면 잠정치 + 기준 시각, 마감 후면 확정치로 채점.
+**일별 수급 점검**
+`get_market_status` → `get_quote(종목코드)` → `get_investor_flow(종목코드)`.
+장중이면 잠정치 + 기준 시각, 마감 후면 확정치.
 
 **밤사이 미국 반도체**
 `get_index("SOX")` + `get_overseas_quote("MU")`, `("NVDA")`, `("TSM")`.
 전부 직전 미국장 종가 기준이다.
 
 **ADR-본주 괴리율**
-`get_overseas_quote("SKHY")` 한 번이면 `price.current`(USD),
+`get_overseas_quote("[ADR 티커]")` 한 번이면 `price.current`(USD),
 `krw_converted.price_krw`(원환산가), `krw_converted.fx_rate_today`(KIS 적용환율)가 다 나온다.
-별도로 `get_fx`를 부를 필요 없다. 여기에 `get_quote("000660")`의 본주가를 붙여 비교한다.
+별도로 `get_fx`를 부를 필요 없다. 여기에 `get_quote("[본주 종목코드]")`의 가격을 붙여 비교한다.
 
 > **주의**: 서버는 **ADR 전환비율을 제공하지 않는다.** 원환산가를 본주가와 그냥 나누면
-> 비율만큼 틀린다. 괴리율을 계산하기 전에 SKHY의 ADR 1주당 보통주 수를 1차 출처에서
+> 비율만큼 틀린다. 괴리율을 계산하기 전에 해당 ADR 1주당 보통주 수를 1차 출처에서
 > 확인하고, 그 비율을 명시한 뒤 계산해라. 비율이 확인되지 않으면 괴리율을 단정하지 말고
 > 원화 환산가와 본주가를 나란히 제시하는 선에서 멈춰라.
 
@@ -101,4 +107,4 @@ SK하이닉스 `000660`, 삼성전자 `005930`.
 ## 마지막
 
 수치를 제시할 때는 **언제 기준인지(KST)** 와 **잠정/확정 여부**를 항상 함께 적어라.
-이 두 가지가 빠진 수급 숫자는 이 분석에서 쓸모가 없다.
+이 두 가지가 빠진 수급 숫자는 쓸모가 없다.

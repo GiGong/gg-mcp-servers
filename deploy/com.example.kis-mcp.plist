@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Template. Do not install this file directly.
+
+  Run deploy/install.sh to substitute __PROJECT_DIR__ / __HOME__ / __LABEL__
+  and write the result to ~/Library/LaunchAgents/.
+-->
 <plist version="1.0">
 <dict>
   <key>Label</key>
-  <string>com.example.kis-mcp</string>
+  <string>__LABEL__</string>
 
-  <!-- .venv/bin/kis-mcp 는 editable 설치로 만들어진 콘솔 스크립트다.
-       인터프리터는 uv 관리 CPython 3.13 을 가리킨다. -->
+  <!-- Console script created by `uv pip install -e .`, backed by the venv
+       interpreter. -->
   <key>ProgramArguments</key>
   <array>
-    <string>/path/to/kis-mcp/.venv/bin/kis-mcp</string>
+    <string>__PROJECT_DIR__/.venv/bin/kis-mcp</string>
   </array>
 
-  <!-- .env 를 프로젝트 루트에서 읽으므로 반드시 필요하다. -->
+  <!-- Required: the server reads .env from the project root. -->
   <key>WorkingDirectory</key>
-  <string>/path/to/kis-mcp</string>
+  <string>__PROJECT_DIR__</string>
 
   <key>EnvironmentVariables</key>
   <dict>
@@ -24,7 +30,7 @@
     <string>1</string>
   </dict>
 
-  <!-- 부팅/로그인 시 자동 기동, 죽으면 자동 재시작 -->
+  <!-- Start at login/boot, restart on abnormal exit. -->
   <key>RunAtLoad</key>
   <true/>
   <key>KeepAlive</key>
@@ -36,9 +42,9 @@
   <integer>10</integer>
 
   <key>StandardOutPath</key>
-  <string>/Users/you/Library/Logs/kis-mcp/stdout.log</string>
+  <string>__HOME__/Library/Logs/kis-mcp/stdout.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/you/Library/Logs/kis-mcp/stderr.log</string>
+  <string>__HOME__/Library/Logs/kis-mcp/stderr.log</string>
 
   <key>ProcessType</key>
   <string>Background</string>
