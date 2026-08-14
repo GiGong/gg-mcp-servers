@@ -226,7 +226,9 @@ def main() -> None:
     async def healthz(_request):  # noqa: ANN001, ANN202
         from starlette.responses import JSONResponse
 
-        return JSONResponse({"status": "ok", "kis_env": settings.kis_env})
+        # Reachable without authentication through the tunnel, so it reports
+        # liveness only. Which KIS environment is in use is not public business.
+        return JSONResponse({"status": "ok"})
 
     mcp.run(
         transport="http",

@@ -26,6 +26,7 @@ Security properties:
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import hmac
 import html
@@ -60,8 +61,27 @@ AUTH_CODE_TTL = 300
 PENDING_TTL = 600
 LOGIN_PATH = "/auth/login"
 
-# Brute-force defence: the wait grows as failures accumulate.
-_LOCKOUT_STEPS = [0, 0, 1, 3, 10, 30, 60, 300]
+# Dynamic client registration is unauthenticated by design (the MCP spec needs
+# it), so the store must not grow without bound. Eviction is least-recently-used
+# and never touches a client that still holds a live token, so flooding the
+# endpoint cannot dislodge a connector that is actually in use.
+MAX_CLIENTS = 50
+
+# Response headers for the login page. It carries a passphrase form, so it must
+# not be framable and should not leak its URL to third parties.
+_PAGE_HEADERS = {
+    "Content-Security-Policy": (
+        "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; "
+        "frame-ancestors 'none'; base-uri 'none'"
+    ),
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+}
+
+# Brute-force defence: a wrong guess costs the caller this many seconds.
+# Applied to the failing response only, never to a correct passphrase.
+_BACKOFF_STEPS = [0, 0, 1, 3, 10, 30, 60, 60]
 
 
 class PassphraseOAuthProvider(OAuthProvider):
@@ -101,7 +121,6 @@ class PassphraseOAuthProvider(OAuthProvider):
         # rid -> pending authorization request awaiting passphrase entry
         self._pending: dict[str, dict[str, Any]] = {}
         self._failures = 0
-        self._locked_until = 0.0
 
     # -- helpers ---------------------------------------------------------
 
@@ -136,12 +155,48 @@ class PassphraseOAuthProvider(OAuthProvider):
 
     # -- client registration --------------------------------------------
 
+    def _active_client_ids(self) -> set[str]:
+        """Clients holding a live access or refresh token."""
+        active: set[str] = set()
+        for section in (self._access(), self._refresh()):
+            for record in section.values():
+                cid = record.get("client_id")
+                if cid:
+                    active.add(cid)
+        return active
+
+    def _evict_clients(self, clients: dict[str, Any]) -> None:
+        """Trim the client store, least recently used first.
+
+        Clients with a live token are never evicted: an unauthenticated flood of
+        registrations must not be able to disconnect a working connector.
+        """
+        if len(clients) <= MAX_CLIENTS:
+            return
+        protected = self._active_client_ids()
+        evictable = [
+            (raw.get("_last_used") or raw.get("_registered_at", 0.0), cid)
+            for cid, raw in clients.items()
+            if cid not in protected
+        ]
+        evictable.sort()
+        for _, cid in evictable[: len(clients) - MAX_CLIENTS]:
+            clients.pop(cid, None)
+        logger.info(
+            "client store trimmed to %d entries (%d protected by live tokens)",
+            len(clients),
+            len(protected),
+        )
+
     async def get_client(self, client_id: str) -> OAuthClientInformationFull | None:
         raw = self._clients().get(client_id)
         if raw is None:
             return None
+        raw["_last_used"] = time.time()
         try:
-            return OAuthClientInformationFull.model_validate(raw)
+            return OAuthClientInformationFull.model_validate(
+                {k: v for k, v in raw.items() if not k.startswith("_")}
+            )
         except Exception:
             logger.warning("stored client %s is unreadable; dropping", client_id)
             self._clients().pop(client_id, None)
@@ -151,7 +206,12 @@ class PassphraseOAuthProvider(OAuthProvider):
     async def register_client(self, client_info: OAuthClientInformationFull) -> None:
         if client_info.client_id is None:
             raise ValueError("client_id is required for client registration")
-        self._clients()[client_info.client_id] = client_info.model_dump(mode="json")
+        record = client_info.model_dump(mode="json")
+        record["_registered_at"] = time.time()
+        clients = self._clients()
+        clients[client_info.client_id] = record
+
+        self._evict_clients(clients)
         self._store.flush()
         logger.info(
             "registered OAuth client %s (redirect_uris=%s)",
@@ -323,32 +383,39 @@ class PassphraseOAuthProvider(OAuthProvider):
                         "Start the connection again from your client.",
                     ),
                     status_code=400,
+                    headers=_PAGE_HEADERS,
                 )
-            return HTMLResponse(self._page(rid=rid))
+            return HTMLResponse(self._page(rid=rid), headers=_PAGE_HEADERS)
 
         form = await request.form()
         rid = str(form.get("rid", ""))
         supplied = str(form.get("passphrase", ""))
-
-        wait = self._lockout_remaining()
-        if wait > 0:
-            return HTMLResponse(
-                self._page(rid=rid, error=f"Too many attempts. Try again in {int(wait)}s."),
-                status_code=429,
-            )
 
         pending = self._pending.get(rid)
         if pending is None:
             return HTMLResponse(
                 self._page(rid=None, error="This request has expired or is unknown."),
                 status_code=400,
+                headers=_PAGE_HEADERS,
             )
 
+        # Verify first, then throttle. Rejecting up front would let anyone lock
+        # the owner out simply by failing repeatedly; here a correct passphrase
+        # always succeeds and only wrong guesses pay the delay.
         if not hmac.compare_digest(supplied.encode(), self._passphrase):
-            self._register_failure()
-            logger.warning("failed passphrase attempt for authorization request %s", rid)
+            delay = self._register_failure()
+            logger.warning(
+                "failed passphrase attempt for authorization request %s "
+                "(delaying response %.0fs)",
+                rid,
+                delay,
+            )
+            if delay:
+                await asyncio.sleep(delay)
             return HTMLResponse(
-                self._page(rid=rid, error="Incorrect passphrase."), status_code=401
+                self._page(rid=rid, error="Incorrect passphrase."),
+                status_code=401,
+                headers=_PAGE_HEADERS,
             )
 
         self._failures = 0
@@ -371,13 +438,11 @@ class PassphraseOAuthProvider(OAuthProvider):
         )
         return RedirectResponse(target, status_code=302)
 
-    def _lockout_remaining(self) -> float:
-        return max(0.0, self._locked_until - time.time())
-
-    def _register_failure(self) -> None:
+    def _register_failure(self) -> float:
+        """Count a failed attempt and return how long to delay the response."""
         self._failures += 1
-        index = min(self._failures, len(_LOCKOUT_STEPS) - 1)
-        self._locked_until = time.time() + _LOCKOUT_STEPS[index]
+        index = min(self._failures, len(_BACKOFF_STEPS) - 1)
+        return _BACKOFF_STEPS[index]
 
     def _page(self, *, rid: str | None, error: str | None = None) -> str:
         error_block = f'<p class="err">{html.escape(error)}</p>' if error else ""
