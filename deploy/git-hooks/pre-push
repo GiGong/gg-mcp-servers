@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+# Refuse to push commits authored with a blocked email address.
+#
+# GitHub can block this server-side, but only for addresses registered to your
+# account. An address already claimed by a *different* GitHub account cannot be
+# registered, so it cannot be protected that way. This hook covers that gap
+# locally.
+#
+# Configure the list (comma-separated, matched case-insensitively as substrings):
+#
+#   git config --global hooks.blockedEmails "old@example.com,work@corp.com"
+#
+# Install for one repository:
+#   git config core.hooksPath deploy/git-hooks
+#
+# Install for every repository (note: this overrides each repo's .git/hooks,
+# so check that nothing else installs hooks there first):
+#   mkdir -p ~/.config/git/hooks
+#   cp deploy/git-hooks/pre-push ~/.config/git/hooks/
+#   chmod +x ~/.config/git/hooks/pre-push
+#   git config --global core.hooksPath ~/.config/git/hooks
+#
+# Bypass once, deliberately:  git push --no-verify
+set -uo pipefail
+
+BLOCKED_RAW="$(git config --get hooks.blockedEmails || true)"
+[[ -z "$BLOCKED_RAW" ]] && exit 0
+
+IFS=',' read -r -a BLOCKED <<< "$BLOCKED_RAW"
+ZERO="0000000000000000000000000000000000000000"
+status=0
+
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+  [[ "$local_sha" == "$ZERO" ]] && continue   # branch deletion
+
+  if [[ "$remote_sha" == "$ZERO" ]]; then
+    # New branch: inspect every commit not already reachable from another ref.
+    range="$local_sha --not --remotes"
+  else
+    range="$remote_sha..$local_sha"
+  fi
+
+  # shellcheck disable=SC2086
+  while IFS='|' read -r sha author committer subject; do
+    [[ -z "$sha" ]] && continue
+    for pattern in "${BLOCKED[@]}"; do
+      pattern="$(echo "$pattern" | tr -d '[:space:]')"
+      [[ -z "$pattern" ]] && continue
+      if grep -qi -- "$pattern" <<< "$author $committer"; then
+        echo "pre-push: blocked email in ${sha:0:8} — $subject" >&2
+        echo "          author=$author committer=$committer" >&2
+        echo "          matched: $pattern" >&2
+        status=1
+      fi
+    done
+  done < <(git log --format='%H|%ae|%ce|%s' $range 2>/dev/null)
+done
+
+if [[ $status -ne 0 ]]; then
+  cat >&2 <<'EOF'
+
+Push aborted: one or more commits carry a blocked email address.
+
+Fix the identity, then rewrite the offending commits:
+
+  git config user.email "your-public@example.com"
+  git rebase -i --root --exec 'git commit --amend --no-edit --reset-author'
+
+Blocked list:  git config --get hooks.blockedEmails
+Bypass once:   git push --no-verify
+EOF
+fi
+
+exit $status
