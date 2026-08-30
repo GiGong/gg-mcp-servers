@@ -35,6 +35,7 @@ import secrets
 import time
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 from mcp.server.auth.provider import (
     AccessToken,
@@ -69,15 +70,36 @@ MAX_CLIENTS = 50
 
 # Response headers for the login page. It carries a passphrase form, so it must
 # not be framable and should not leak its URL to third parties.
-_PAGE_HEADERS = {
-    "Content-Security-Policy": (
-        "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; "
-        "frame-ancestors 'none'; base-uri 'none'"
-    ),
+#
+# `form-action` needs care: it governs the whole navigation started by the form
+# submission, redirects included. Submitting the passphrase makes the server
+# answer 302 to the client's redirect_uri (e.g. claude.ai), so a bare
+# `form-action 'self'` makes the browser block that redirect and the page hangs
+# on a spinner forever. The allowed origin is therefore computed per request
+# from the pending authorization, rather than hardcoded or dropped entirely.
+_BASE_PAGE_HEADERS = {
     "X-Frame-Options": "DENY",
     "Referrer-Policy": "no-referrer",
     "Cache-Control": "no-store",
 }
+
+_CSP_TEMPLATE = (
+    "default-src 'none'; style-src 'unsafe-inline'; form-action {form_action}; "
+    "frame-ancestors 'none'; base-uri 'none'"
+)
+
+
+def _page_headers(redirect_uri: str | None = None) -> dict[str, str]:
+    """Headers for the login page, allowing a redirect back to this client only."""
+    allowed = "'self'"
+    if redirect_uri:
+        parsed = urlparse(redirect_uri)
+        if parsed.scheme in {"http", "https"} and parsed.netloc:
+            allowed = f"'self' {parsed.scheme}://{parsed.netloc}"
+    return {
+        "Content-Security-Policy": _CSP_TEMPLATE.format(form_action=allowed),
+        **_BASE_PAGE_HEADERS,
+    }
 
 # Brute-force defence: a wrong guess costs the caller this many seconds.
 # Applied to the failing response only, never to a correct passphrase.
@@ -337,6 +359,7 @@ class PassphraseOAuthProvider(OAuthProvider):
         self._refresh().pop(self._digest(refresh_token.token), None)
         if client.client_id is None:
             raise TokenError("invalid_client", "Client ID is required")
+        logger.info("refreshed access token for client %s", client.client_id)
         return self._issue_pair(client.client_id, scopes or list(granted))
 
     async def load_access_token(self, token: str) -> AccessToken | None:
@@ -383,9 +406,13 @@ class PassphraseOAuthProvider(OAuthProvider):
                         "Start the connection again from your client.",
                     ),
                     status_code=400,
-                    headers=_PAGE_HEADERS,
+                    headers=_page_headers(),
                 )
-            return HTMLResponse(self._page(rid=rid), headers=_PAGE_HEADERS)
+            pending = self._pending[rid]
+            return HTMLResponse(
+                self._page(rid=rid),
+                headers=_page_headers(pending["redirect_uri"]),
+            )
 
         form = await request.form()
         rid = str(form.get("rid", ""))
@@ -396,7 +423,7 @@ class PassphraseOAuthProvider(OAuthProvider):
             return HTMLResponse(
                 self._page(rid=None, error="This request has expired or is unknown."),
                 status_code=400,
-                headers=_PAGE_HEADERS,
+                headers=_page_headers(),
             )
 
         # Verify first, then throttle. Rejecting up front would let anyone lock
@@ -415,7 +442,7 @@ class PassphraseOAuthProvider(OAuthProvider):
             return HTMLResponse(
                 self._page(rid=rid, error="Incorrect passphrase."),
                 status_code=401,
-                headers=_PAGE_HEADERS,
+                headers=_page_headers(pending["redirect_uri"]),
             )
 
         self._failures = 0

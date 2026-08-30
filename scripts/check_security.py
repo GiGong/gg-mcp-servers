@@ -103,6 +103,20 @@ async def probe():
         else:
             rep(OK, "Login page sets framing protections")
 
+        # form-action governs the redirect that follows the form POST. If it does
+        # not allow the client's redirect_uri origin, the browser silently blocks
+        # the hand-back and the login page hangs on a spinner forever.
+        csp = pg.headers.get("content-security-policy", "")
+        origin = "https://claude.ai"
+        if "form-action" in csp and origin not in csp:
+            rep(BAD, "CSP form-action blocks the redirect back to the client",
+                f"login would hang; csp={csp}")
+        elif "frame-ancestors 'none'" not in csp:
+            rep(BAD, "CSP does not forbid framing", csp)
+        else:
+            rep(OK, "CSP allows the client redirect while forbidding framing",
+                csp.split("form-action ")[1].split(";")[0] if "form-action " in csp else "")
+
         # 5. cross-client code use: code issued to client A redeemed by client B
         b = await register(h, [legit]); cid_b = b.json()["client_id"]
         good = await h.post(f"{BASE}/auth/login", data={"rid": rid, "passphrase": PASS})
