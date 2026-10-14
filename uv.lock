@@ -12,6 +12,7 @@ resolution-markers = [
 members = [
     "kis-mcp",
     "localauth",
+    "lostark-mcp",
     "mcp-servers",
 ]
 
@@ -671,6 +672,25 @@ dependencies = [
 requires-dist = [{ name = "fastmcp", specifier = ">=3.4" }]
 
 [[package]]
+name = "lostark-mcp"
+version = "0.1.0"
+source = { editable = "servers/lostark" }
+dependencies = [
+    { name = "fastmcp" },
+    { name = "httpx" },
+    { name = "localauth" },
+    { name = "python-dotenv" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "fastmcp", specifier = ">=3.4" },
+    { name = "httpx", specifier = ">=0.28" },
+    { name = "localauth", editable = "packages/localauth" },
+    { name = "python-dotenv", specifier = ">=1.0" },
+]
+
+[[package]]
 name = "markdown-it-py"
 version = "4.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -714,12 +734,14 @@ source = { editable = "." }
 dependencies = [
     { name = "kis-mcp" },
     { name = "localauth" },
+    { name = "lostark-mcp" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "kis-mcp", editable = "servers/kis" },
     { name = "localauth", editable = "packages/localauth" },
+    { name = "lostark-mcp", editable = "servers/lostark" },
 ]
 
 [[package]]

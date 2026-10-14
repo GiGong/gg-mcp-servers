@@ -1,0 +1,7 @@
+# Market (거래소) sale fee, as a fraction of the sale price.
+#
+# Not provided by the API. 5% is the commonly cited figure, but it was not
+# checked against an official source when this file was written. Confirm it
+# in-game (sell something and compare) and record the date in `verified`.
+sell_fee_rate = 0.05
+verified = ""

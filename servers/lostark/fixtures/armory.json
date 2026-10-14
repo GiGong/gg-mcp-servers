@@ -1,0 +1,1133 @@
+{
+ "ArmoryProfile": {
+  "CharacterImage": "",
+  "ExpeditionLevel": 200,
+  "TownLevel": 60,
+  "TownName": "테스트영지",
+  "Title": "테스트 칭호",
+  "GuildMemberGrade": "길드원",
+  "GuildName": "테스트길드",
+  "UsingSkillPoint": 400,
+  "TotalSkillPoint": 400,
+  "Stats": [
+   {
+    "Type": "치명",
+    "Value": "600",
+    "Tooltip": [
+     "<font color='#99ff99'>테스트</font> 치명 효과 설명"
+    ]
+   },
+   {
+    "Type": "특화",
+    "Value": "1500",
+    "Tooltip": [
+     "<font color='#99ff99'>테스트</font> 특화 효과 설명"
+    ]
+   },
+   {
+    "Type": "제압",
+    "Value": "70",
+    "Tooltip": [
+     "<font color='#99ff99'>테스트</font> 제압 효과 설명"
+    ]
+   },
+   {
+    "Type": "신속",
+    "Value": "400",
+    "Tooltip": [
+     "<font color='#99ff99'>테스트</font> 신속 효과 설명"
+    ]
+   },
+   {
+    "Type": "인내",
+    "Value": "70",
+    "Tooltip": [
+     "<font color='#99ff99'>테스트</font> 인내 효과 설명"
+    ]
+   },
+   {
+    "Type": "숙련",
+    "Value": "70",
+    "Tooltip": [
+     "<font color='#99ff99'>테스트</font> 숙련 효과 설명"
+    ]
+   },
+   {
+    "Type": "최대 생명력",
+    "Value": "300000",
+    "Tooltip": [
+     "<font color='#99ff99'>테스트</font> 최대 생명력 효과 설명"
+    ]
+   },
+   {
+    "Type": "공격력",
+    "Value": "140000",
+    "Tooltip": [
+     "<font color='#99ff99'>테스트</font> 공격력 효과 설명"
+    ]
+   }
+  ],
+  "Tendencies": [
+   {
+    "Type": "지성",
+    "Point": 500,
+    "MaxPoint": 1000
+   },
+   {
+    "Type": "담력",
+    "Point": 500,
+    "MaxPoint": 1000
+   },
+   {
+    "Type": "매력",
+    "Point": 500,
+    "MaxPoint": 1000
+   },
+   {
+    "Type": "친절",
+    "Point": 500,
+    "MaxPoint": 1000
+   }
+  ],
+  "CombatPower": "1,800.00",
+  "Decorations": {
+   "Symbol": null,
+   "Emblems": null
+  },
+  "HonorPoint": 0,
+  "ServerName": "테스트서버",
+  "CharacterName": "테스트캐릭터",
+  "CharacterLevel": 70,
+  "CharacterClassName": "블레이드",
+  "ItemAvgLevel": "1,700.00"
+ },
+ "ArmoryEquipment": [
+  {
+   "Type": "무기",
+   "Name": "+19 운명의 업화 검",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_189.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>+19 운명의 업화 검</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 검</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 레벨 1725 (티어 4)</FONT>\", \"qualityValue\": 100, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_189.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'>캐릭터 귀속됨</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='14'><FONT COLOR='#A8EA6C'>[상급 재련]</FONT> <FONT COLOR='#FFD200'>40</FONT>단계</FONT>\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>30</font>단계 - 기본 효과 +2%\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>40</font>단계 - 기본 효과 +3%\"}, \"Element_005\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"무기 공격력 +148420\"}}, \"Element_006\": null, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>추가 효과</FONT>\", \"Element_001\": \"추가 피해 +30.00%\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": {\"forceValue\": \" \", \"maximum\": 106000, \"minimum\": 0, \"title\": \"<FONT SIZE='12'><FONT COLOR='#A9D0F5'>현재 단계 재련 경험치</FONT></FONT>\", \"value\": 0, \"valueType\": 1}}, \"Element_009\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT>, <FONT COLOR='#C24B46'>품질 업그레이드 불가</FONT></FONT>\"}, \"Element_010\": {\"type\": \"Progress\", \"value\": null}, \"Element_011\": {\"type\": \"Progress\", \"value\": null}, \"Element_012\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[제작] 대도시</font>\"}, \"Element_013\": {\"type\": \"ShowMeTheMoney\", \"value\": \"내구도 100 / 100|\"}}"
+  },
+  {
+   "Type": "투구",
+   "Name": "+19 운명의 업화 머리장식",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_188.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>+19 운명의 업화 머리장식</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 머리 방어구</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 레벨 1725 (티어 4)</FONT>\", \"qualityValue\": 88, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_188.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'>캐릭터 귀속됨</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='14'><FONT COLOR='#A8EA6C'>[상급 재련]</FONT> <FONT COLOR='#FFD200'>40</FONT>단계</FONT>\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>30</font>단계 - 기본 효과 +2%\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>40</font>단계 - 기본 효과 +3%\"}, \"Element_005\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"물리 방어력 +7730<BR>마법 방어력 +8589<BR>민첩 +85667<BR>체력 +9068\"}}, \"Element_006\": null, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>추가 효과</FONT>\", \"Element_001\": \"생명 활성력 +1185\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": {\"forceValue\": \" \", \"maximum\": 63000, \"minimum\": 0, \"title\": \"<FONT SIZE='12'><FONT COLOR='#A9D0F5'>현재 단계 재련 경험치</FONT></FONT>\", \"value\": 0, \"valueType\": 1}}, \"Element_009\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"진화 +24\"}}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT></FONT>\"}, \"Element_011\": {\"type\": \"Progress\", \"value\": null}, \"Element_012\": {\"type\": \"Progress\", \"value\": null}, \"Element_013\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[제작] 대도시</font>\"}, \"Element_014\": {\"type\": \"ShowMeTheMoney\", \"value\": \"내구도 100 / 100|\"}}"
+  },
+  {
+   "Type": "상의",
+   "Name": "+19 운명의 업화 상의",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_184.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>+19 운명의 업화 상의</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 상의</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 레벨 1725 (티어 4)</FONT>\", \"qualityValue\": 91, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_184.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'>캐릭터 귀속됨</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='14'><FONT COLOR='#A8EA6C'>[상급 재련]</FONT> <FONT COLOR='#FFD200'>40</FONT>단계</FONT>\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>30</font>단계 - 기본 효과 +2%\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>40</font>단계 - 기본 효과 +3%\"}, \"Element_005\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"물리 방어력 +10307<BR>마법 방어력 +9448<BR>민첩 +68535<BR>체력 +12091\"}}, \"Element_006\": null, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>추가 효과</FONT>\", \"Element_001\": \"생명 활성력 +1264\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": {\"forceValue\": \" \", \"maximum\": 63000, \"minimum\": 0, \"title\": \"<FONT SIZE='12'><FONT COLOR='#A9D0F5'>현재 단계 재련 경험치</FONT></FONT>\", \"value\": 0, \"valueType\": 1}}, \"Element_009\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"진화 +24\"}}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT></FONT>\"}, \"Element_011\": {\"type\": \"Progress\", \"value\": null}, \"Element_012\": {\"type\": \"Progress\", \"value\": null}, \"Element_013\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[제작] 대도시</font>\"}, \"Element_014\": {\"type\": \"ShowMeTheMoney\", \"value\": \"내구도 100 / 100|\"}}"
+  },
+  {
+   "Type": "하의",
+   "Name": "+19 운명의 업화 하의",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_185.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>+19 운명의 업화 하의</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 하의</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 레벨 1725 (티어 4)</FONT>\", \"qualityValue\": 93, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_185.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'>캐릭터 귀속됨</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='14'><FONT COLOR='#A8EA6C'>[상급 재련]</FONT> <FONT COLOR='#FFD200'>40</FONT>단계</FONT>\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>30</font>단계 - 기본 효과 +2%\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>40</font>단계 - 기본 효과 +3%\"}, \"Element_005\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"물리 방어력 +9448<BR>마법 방어력 +10307<BR>민첩 +74041<BR>체력 +10278\"}}, \"Element_006\": null, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>추가 효과</FONT>\", \"Element_001\": \"생명 활성력 +1134\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": {\"forceValue\": \" \", \"maximum\": 63000, \"minimum\": 0, \"title\": \"<FONT SIZE='12'><FONT COLOR='#A9D0F5'>현재 단계 재련 경험치</FONT></FONT>\", \"value\": 0, \"valueType\": 1}}, \"Element_009\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"진화 +24\"}}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT></FONT>\"}, \"Element_011\": {\"type\": \"Progress\", \"value\": null}, \"Element_012\": {\"type\": \"Progress\", \"value\": null}, \"Element_013\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[제작] 대도시</font>\"}, \"Element_014\": {\"type\": \"ShowMeTheMoney\", \"value\": \"내구도 100 / 100|\"}}"
+  },
+  {
+   "Type": "장갑",
+   "Name": "+18 운명의 업화 장갑",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_187.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>+18 운명의 업화 장갑</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 장갑</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 레벨 1720 (티어 4)</FONT>\", \"qualityValue\": 85, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_187.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'>캐릭터 귀속됨</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='14'><FONT COLOR='#A8EA6C'>[상급 재련]</FONT> <FONT COLOR='#FFD200'>40</FONT>단계</FONT>\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>30</font>단계 - 기본 효과 +2%\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>40</font>단계 - 기본 효과 +3%\"}, \"Element_005\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"물리 방어력 +6985<BR>마법 방어력 +6985<BR>민첩 +105707<BR>체력 +6142\"}}, \"Element_006\": null, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>추가 효과</FONT>\", \"Element_001\": \"생명 활성력 +1291\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": {\"forceValue\": \" \", \"maximum\": 72000, \"minimum\": 0, \"title\": \"<FONT SIZE='12'><FONT COLOR='#A9D0F5'>현재 단계 재련 경험치</FONT></FONT>\", \"value\": 0, \"valueType\": 1}}, \"Element_009\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"진화 +24\"}}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT></FONT>\"}, \"Element_011\": {\"type\": \"Progress\", \"value\": null}, \"Element_012\": {\"type\": \"Progress\", \"value\": null}, \"Element_013\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[제작] 대도시</font>\"}, \"Element_014\": {\"type\": \"ShowMeTheMoney\", \"value\": \"내구도 100 / 100|\"}}"
+  },
+  {
+   "Type": "어깨",
+   "Name": "+18 운명의 업화 견갑",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_186.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>+18 운명의 업화 견갑</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 어깨 방어구</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 레벨 1720 (티어 4)</FONT>\", \"qualityValue\": 97, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_item/bl_item_186.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'>캐릭터 귀속됨</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='14'><FONT COLOR='#A8EA6C'>[상급 재련]</FONT> <FONT COLOR='#FFD200'>40</FONT>단계</FONT>\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>30</font>단계 - 기본 효과 +2%\\n<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img><font color='#ffd200'>40</font>단계 - 기본 효과 +3%\"}, \"Element_005\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"물리 방어력 +8731<BR>마법 방어력 +7859<BR>민첩 +93751<BR>체력 +7985\"}}, \"Element_006\": null, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>추가 효과</FONT>\", \"Element_001\": \"생명 활성력 +1291\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": {\"forceValue\": \" \", \"maximum\": 72000, \"minimum\": 0, \"title\": \"<FONT SIZE='12'><FONT COLOR='#A9D0F5'>현재 단계 재련 경험치</FONT></FONT>\", \"value\": 0, \"valueType\": 1}}, \"Element_009\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"진화 +24\"}}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT></FONT>\"}, \"Element_011\": {\"type\": \"Progress\", \"value\": null}, \"Element_012\": {\"type\": \"Progress\", \"value\": null}, \"Element_013\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[제작] 대도시</font>\"}, \"Element_014\": {\"type\": \"ShowMeTheMoney\", \"value\": \"내구도 100 / 100|\"}}"
+  },
+  {
+   "Type": "목걸이",
+   "Name": "도래한 결전의 목걸이",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_215.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>도래한 결전의 목걸이</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 목걸이</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 티어 4</FONT>\", \"qualityValue\": 80, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_215.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>거래 제한 아이템 레벨</FONT> 1680<BR>캐릭터 귀속됨<BR>거래 <FONT COLOR='#FFD200'>2</FONT>회 가능</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|거래가능\"}, \"Element_004\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"<FONT COLOR='#624861'>힘 +15081</FONT><BR>민첩 +15081<BR><FONT COLOR='#624861'>지능 +15081</FONT><BR>체력 +3575\"}}, \"Element_005\": null, \"Element_006\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>연마 효과</FONT>\", \"Element_001\": \"<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>적에게 주는 피해 <FONT color='CE43FC'>+1.20%</FONT><BR><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>추가 피해 <FONT COLOR='CE43FC'>+1.60%</FONT><BR>최대 생명력 +3250\"}}, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"깨달음 +13\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": null}, \"Element_009\": {\"type\": \"Progress\", \"value\": null}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[카제로스 레이드] 1막 : 대지를 부수는 업화의 궤적 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 2막 : 부유하는 악몽의 진혼곡 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 3막 : 칠흑, 폭풍의 밤</font><BR><Font color='#5FD3F1'>그 외에 획득처가 더 존재합니다.</FONT>\"}}"
+  },
+  {
+   "Type": "귀걸이",
+   "Name": "도래한 결전의 귀걸이",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_115.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>도래한 결전의 귀걸이</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 귀걸이</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 티어 4</FONT>\", \"qualityValue\": 88, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_115.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>거래 제한 아이템 레벨</FONT> 1680<BR>캐릭터 귀속됨<BR>거래 <FONT COLOR='#FFD200'>2</FONT>회 가능</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|거래가능\"}, \"Element_004\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"<FONT COLOR='#624861'>힘 +11464</FONT><BR>민첩 +11464<BR><FONT COLOR='#624861'>지능 +11464</FONT><BR>체력 +2609\"}}, \"Element_005\": null, \"Element_006\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>연마 효과</FONT>\", \"Element_001\": \"<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>무기 공격력 <FONT COLOR='CE43FC'>+1.80%</FONT><BR><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>공격력 <FONT COLOR='CE43FC'>+0.95%</FONT><BR>최대 마나 +6\"}}, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"깨달음 +12\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": null}, \"Element_009\": {\"type\": \"Progress\", \"value\": null}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[카제로스 레이드] 1막 : 대지를 부수는 업화의 궤적 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 2막 : 부유하는 악몽의 진혼곡 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 3막 : 칠흑, 폭풍의 밤</font><BR><Font color='#5FD3F1'>그 외에 획득처가 더 존재합니다.</FONT>\"}}"
+  },
+  {
+   "Type": "귀걸이",
+   "Name": "도래한 결전의 귀걸이",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_115.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>도래한 결전의 귀걸이</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 귀걸이</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 티어 4</FONT>\", \"qualityValue\": 82, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_115.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>거래 제한 아이템 레벨</FONT> 1680<BR>캐릭터 귀속됨<BR>거래 <FONT COLOR='#FFD200'>2</FONT>회 가능</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|거래가능\"}, \"Element_004\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"<FONT COLOR='#624861'>힘 +11237</FONT><BR>민첩 +11237<BR><FONT COLOR='#624861'>지능 +11237</FONT><BR>체력 +2623\"}}, \"Element_005\": null, \"Element_006\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>연마 효과</FONT>\", \"Element_001\": \"<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>공격력 <FONT COLOR='CE43FC'>+0.95%</FONT><BR><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>무기 공격력 <FONT COLOR='00B5FF'>+195</FONT><BR>최대 마나 +6\"}}, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"깨달음 +12\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": null}, \"Element_009\": {\"type\": \"Progress\", \"value\": null}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[카제로스 레이드] 1막 : 대지를 부수는 업화의 궤적 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 2막 : 부유하는 악몽의 진혼곡 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 3막 : 칠흑, 폭풍의 밤</font><BR><Font color='#5FD3F1'>그 외에 획득처가 더 존재합니다.</FONT>\"}}"
+  },
+  {
+   "Type": "반지",
+   "Name": "도래한 결전의 반지",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_22.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>도래한 결전의 반지</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 반지</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 티어 4</FONT>\", \"qualityValue\": 90, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_22.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>거래 제한 아이템 레벨</FONT> 1680<BR>캐릭터 귀속됨<BR>거래 <FONT COLOR='#FFD200'>2</FONT>회 가능</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|거래가능\"}, \"Element_004\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"<FONT COLOR='#624861'>힘 +11578</FONT><BR>민첩 +11578<BR><FONT COLOR='#624861'>지능 +11578</FONT><BR>체력 +2095\"}}, \"Element_005\": null, \"Element_006\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>연마 효과</FONT>\", \"Element_001\": \"<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>치명타 피해 <FONT COLOR='CE43FC'>+2.40%</FONT><BR><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>치명타 적중률 <FONT COLOR='CE43FC'>+0.95%</FONT><BR>공격력 +80\"}}, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"깨달음 +12\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": null}, \"Element_009\": {\"type\": \"Progress\", \"value\": null}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[카제로스 레이드] 1막 : 대지를 부수는 업화의 궤적 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 2막 : 부유하는 악몽의 진혼곡 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 3막 : 칠흑, 폭풍의 밤</font><BR><Font color='#5FD3F1'>그 외에 획득처가 더 존재합니다.</FONT>\"}}"
+  },
+  {
+   "Type": "반지",
+   "Name": "도래한 결전의 반지",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_22.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>도래한 결전의 반지</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 반지</FONT></FONT>\", \"leftStr1\": \"<FONT SIZE='14'>품질</FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 티어 4</FONT>\", \"qualityValue\": 86, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_22.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>거래 제한 아이템 레벨</FONT> 1680<BR>캐릭터 귀속됨<BR>거래 <FONT COLOR='#FFD200'>2</FONT>회 가능</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|거래가능\"}, \"Element_004\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"<FONT COLOR='#624861'>힘 +10258</FONT><BR>민첩 +10258<BR><FONT COLOR='#624861'>지능 +10258</FONT><BR>체력 +2117\"}}, \"Element_005\": null, \"Element_006\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>연마 효과</FONT>\", \"Element_001\": \"<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>치명타 적중률 <FONT COLOR='CE43FC'>+0.95%</FONT><BR><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>치명타 피해 <FONT COLOR='CE43FC'>+2.40%</FONT><BR>공격력 +80\"}}, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"깨달음 +12\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": null}, \"Element_009\": {\"type\": \"Progress\", \"value\": null}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[카제로스 레이드] 1막 : 대지를 부수는 업화의 궤적 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 2막 : 부유하는 악몽의 진혼곡 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 3막 : 칠흑, 폭풍의 밤</font><BR><Font color='#5FD3F1'>그 외에 획득처가 더 존재합니다.</FONT>\"}}"
+  },
+  {
+   "Type": "어빌리티 스톤",
+   "Name": "위대한 비상의 돌",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ability/ability_246.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>위대한 비상의 돌</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 어빌리티 스톤</FONT></FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 티어 4</FONT>\", \"qualityValue\": -1, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/ability/ability_246.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>거래 제한 아이템 레벨</FONT> 1640<BR>캐릭터 귀속됨</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>기본 효과</FONT>\", \"Element_001\": \"체력 +21368\"}}, \"Element_005\": null, \"Element_006\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>세공 단계 보너스</FONT>\", \"Element_001\": \"체력 +2138\"}}, \"Element_007\": {\"type\": \"IndentStringGroup\", \"value\": {\"Element_000\": {\"contentStr\": {\"Element_000\": {\"bPoint\": 0, \"contentStr\": \"<FONT COLOR='#FFFFFF'>[<FONT COLOR='#FFFFAC'>원한</FONT>] <img src='emoticon_tooltip_ability_stone_symbol' width='11' height='14' vspace ='-2'></img>Lv.2</FONT><BR>\", \"pointType\": 2}, \"Element_001\": {\"bPoint\": 0, \"contentStr\": \"<FONT COLOR='#FFFFFF'>[<FONT COLOR='#FFFFAC'>기습의 대가</FONT>] <img src='emoticon_tooltip_ability_stone_symbol' width='11' height='14' vspace ='-2'></img>Lv.2</FONT><BR>\", \"pointType\": 2}, \"Element_002\": {\"bPoint\": 0, \"contentStr\": \"<FONT COLOR='#FFFFFF'>[<FONT COLOR='#FE2E2E'>방어력 감소</FONT>] <img src='emoticon_tooltip_ability_stone_symbol' width='11' height='14' vspace ='-2'></img>Lv.0</FONT><BR>\", \"pointType\": 2}}, \"topStr\": \"<FONT SIZE='12' COLOR='#A9D0F5'>무작위 각인 효과</FONT>\"}}}, \"Element_008\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT COLOR='#E2C87A'><FONT SIZE='12'>푸른 기운과 붉은 기운이 희미하게 뒤섞여 신묘한 느낌이 난다. 자세히 보고 싶지만 더 만졌다가는 부서져 버릴 것 같다.<br><br><FONT COLOR='#FFFFAC'>어빌리티 스톤 세공사에게 세공 완료 후 장착 가능합니다.</FONT></FONT></FONT>\"}, \"Element_009\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>판매불가</FONT></FONT>\"}, \"Element_010\": {\"type\": \"Progress\", \"value\": null}, \"Element_011\": {\"type\": \"Progress\", \"value\": null}}"
+  },
+  {
+   "Type": "팔찌",
+   "Name": "찬란한 구원자의 팔찌",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_327.png",
+   "Grade": "고대",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#E3C7A1'>찬란한 구원자의 팔찌</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#E3C7A1'>고대 팔찌</FONT></FONT>\", \"leftStr2\": \"<FONT SIZE='14'>아이템 티어 4</FONT>\", \"qualityValue\": -1, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 6, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_327.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>거래 제한 아이템 레벨</FONT> 1680<BR>캐릭터 귀속됨</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": null, \"Element_005\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>팔찌 효과</FONT>\", \"Element_001\": \"<img src='emoticon_tooltip_bracelet_locked' vspace='-5'></img> 민첩 <FONT COLOR='#1B5FF'>+11881</FONT><BR><img src='emoticon_tooltip_bracelet_locked' vspace='-5'></img> 특화 <FONT COLOR='#83FE2'>+70</FONT><BR><img src='emoticon_tooltip_bracelet_changeable' width='18' height='18' vspace='-5'></img>무기 공격력 <FONT COLOR='#FE8736'>+8190</FONT><BR><img src='emoticon_tooltip_bracelet_changeable' width='18' height='18' vspace='-5'></img>치명타 적중률 <FONT COLOR='#1B5FF'>+3.09%</FONT><BR><img src='emoticon_tooltip_bracelet_changeable' width='18' height='18' vspace='-5'></img>신속 <FONT COLOR='#83FE2'>+69</FONT>\"}}, \"Element_006\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT COLOR='#C24B46'>효과 부여 불가</FONT>\"}, \"Element_007\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>아크 패시브 포인트 효과</FONT>\", \"Element_001\": \"도약 +18\"}}, \"Element_008\": {\"type\": \"Progress\", \"value\": null}, \"Element_009\": {\"type\": \"Progress\", \"value\": null}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[가디언 토벌] 스콜라키아</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 1막 : 대지를 부수는 업화의 궤적 - 하드</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 2막 : 부유하는 악몽의 진혼곡 - 하드</font><BR><Font color='#5FD3F1'>그 외에 획득처가 더 존재합니다.</FONT>\"}}"
+  },
+  {
+   "Type": "나침반",
+   "Name": "특제 순은 나침반",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_310.png",
+   "Grade": "영웅",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#ce43fc'>특제 순은 나침반</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#ce43fc'>영웅 나침반</FONT></FONT>\", \"leftStr2\": \"\", \"qualityValue\": -1, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 3, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_310.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'>원정대 귀속됨 </FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": null, \"Element_005\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>추가 효과</FONT>\", \"Element_001\": \"모든 선박의 최종 내구도 수리 비용 +10.00% 감소<BR>섬에서 이동 속도 +6.00%<BR>선박 통상 운항 속도(노트) +2.0\"}}, \"Element_006\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT COLOR='#E2C87A'><FONT SIZE='12'>순도 높은 은으로 만들어진 나침반.<br>고급스러운 재료를 사용해 쉽게 망가지지 않는다.</FONT></FONT>\"}, \"Element_007\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>판매불가</FONT>, <FONT COLOR='#C24B46'>파괴불가</FONT>, <FONT COLOR='#C24B46'>분해불가</FONT>, <FONT COLOR='#C24B46'>품질 업그레이드 불가</FONT></FONT>\"}, \"Element_008\": {\"type\": \"Progress\", \"value\": null}, \"Element_009\": {\"type\": \"Progress\", \"value\": null}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[제작] 외로운 섬 오페르 - 바욤</font>\"}}"
+  },
+  {
+   "Type": "부적",
+   "Name": "광휘의 별무리 부적",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_308.png",
+   "Grade": "유물",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#FA5D00'>광휘의 별무리 부적</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#FA5D00'>유물 부적</FONT></FONT>\", \"leftStr2\": \"\", \"qualityValue\": -1, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 5, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_308.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'>원정대 귀속됨 </FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": null, \"Element_005\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>추가 효과</FONT>\", \"Element_001\": \"채집 속도 +4.00%<BR>내구도 미차감 확률 +6.40%<BR>모든 생활 전체 등급 재료 획득률 +30.00%\"}}, \"Element_006\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT COLOR='#E2C87A'><FONT SIZE='12'>별의 조각을 이어 만들었다는 부적.<br>별의 축복을 받아 강력한 힘을 얻게 된다.</FONT></FONT>\"}, \"Element_007\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>판매불가</FONT>, <FONT COLOR='#C24B46'>파괴불가</FONT>, <FONT COLOR='#C24B46'>분해불가</FONT>, <FONT COLOR='#C24B46'>품질 업그레이드 불가</FONT></FONT>\"}, \"Element_008\": {\"type\": \"Progress\", \"value\": null}, \"Element_009\": {\"type\": \"Progress\", \"value\": null}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[제작] 대도시 - 연금술사</font>\"}}"
+  },
+  {
+   "Type": "보주",
+   "Name": "확산하는 안개의 보주",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_337.png",
+   "Grade": "유물",
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#FA5D00'>확산하는 안개의 보주</FONT></P>\"}, \"Element_001\": {\"type\": \"ItemTitle\", \"value\": {\"bEquip\": 0, \"itemIrochiCount\": 0, \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#FA5D00'>유물 보주</FONT></FONT>\", \"leftStr2\": \"\", \"qualityValue\": -1, \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\", \"slotData\": {\"advBookIcon\": 0, \"battleItemTypeIcon\": 0, \"blackListIcon\": 0, \"cardIcon\": false, \"friendship\": 0, \"iconGrade\": 5, \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/acc/acc_337.png\", \"imagePath\": \"\", \"islandIcon\": 0, \"petBorder\": 0, \"rtString\": \"\", \"temporary\": 0, \"town\": 0, \"trash\": 0}}}, \"Element_002\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'>캐릭터 귀속됨</FONT>\"}, \"Element_003\": {\"type\": \"MultiTextBox\", \"value\": \"|<font color='#C24B46'>거래 불가</font>\"}, \"Element_004\": {\"type\": \"ItemPartBox\", \"value\": {\"Element_000\": \"<FONT COLOR='#A9D0F5'>특수 효과</font>\", \"Element_001\": \"<FONT SIZE='14' COLOR='#CE43FC'>[천둥채움]</FONT><BR> 공격 적중 시, 대상에게 천둥의 힘을 담은 구체를 불러냅니다. 잠시 후 3회 폭발하며, 각각 <FONT COLOR='#FF7F00'>16,307,720</FONT>의 고정 피해를 줍니다. (재사용 대기시간 25초)<BR><br><font color='#c24b46'>시즌4에 달성한 최대 낙원력에 따라 특수 효과 수치가 변동됩니다.</font><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>시즌4 달성 최대 낙원력 : 1274935\"}}, \"Element_005\": null, \"Element_006\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT COLOR='#E2C87A'><FONT SIZE='12'>안개의 권능이 깃들어있는 보주.<BR>장착 시 사방으로 안개의 힘을 확산시키는 능력을 사용할 수 있다.</FONT></FONT>\"}, \"Element_007\": {\"type\": \"SingleTextBox\", \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>판매불가</FONT>, <FONT COLOR='#C24B46'>파괴불가</FONT>, <FONT COLOR='#C24B46'>분해불가</FONT></FONT>\"}, \"Element_008\": {\"type\": \"Progress\", \"value\": null}, \"Element_009\": {\"type\": \"Progress\", \"value\": null}, \"Element_010\": {\"type\": \"SingleTextBox\", \"value\": \"<Font color='#5FD3F1'>[낙원] 증명</font>\"}}"
+  }
+ ],
+ "ArmoryAvatars": [
+  {
+   "Type": "무기 아바타",
+   "Name": "테스트 아바타 1",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/shop_icon/shop_icon_7496.png",
+   "Grade": "전설",
+   "IsSet": false,
+   "IsInner": true,
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"테스트 아바타 1\"}}"
+  },
+  {
+   "Type": "머리 아바타",
+   "Name": "테스트 아바타 2",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/shop_icon/shop_icon_7492.png",
+   "Grade": "전설",
+   "IsSet": false,
+   "IsInner": true,
+   "Tooltip": "{\"Element_000\": {\"type\": \"NameTagBox\", \"value\": \"테스트 아바타 2\"}}"
+  }
+ ],
+ "ArmorySkills": [
+  {
+   "Name": "페이탈 웨이브",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_15.png",
+   "Level": 14,
+   "Type": "일반",
+   "SkillType": 0,
+   "Tripods": [
+    {
+     "Tier": 0,
+     "Slot": 1,
+     "Name": "오브 조절",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_37.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>블레이드 오브 게이지 획득량이 <FONT COLOR='#99ff99'>75.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 0,
+     "Slot": 2,
+     "Name": "재빠른 손놀림",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_41.png",
+     "IsSelected": true,
+     "Tooltip": "<font color='#FFFDE7'>공격 속도가 <FONT COLOR='#99ff99'>27.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 0,
+     "Slot": 3,
+     "Name": "약육강식",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_61.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>시드 이하의 적에게 주는 피해가 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 1,
+     "Name": "넓은 공격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_7.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>공격 범위가 <FONT COLOR='#99ff99'>15.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 2,
+     "Name": "급소 타격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_4.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>치명타 적중률이 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 3,
+     "Name": "약점 포착",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_33.png",
+     "IsSelected": true,
+     "Tooltip": "<font color='#FFFDE7'>피격이상 면역인 적에게 공격 적중 시 주는 피해가 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 2,
+     "Slot": 1,
+     "Name": "더블 웨이브",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_88.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>검풍을 <FONT COLOR='#99ff99'>2</FONT>개씩 발사해 적에게 주는 피해가 <FONT COLOR='#99ff99'>95.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 2,
+     "Slot": 2,
+     "Name": "데스 웨이브",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_87.png",
+     "IsSelected": true,
+     "Tooltip": "<font color='#FFFDE7'>빠르고 강력한 <FONT COLOR='#ffff99'>1</FONT>개의 검기를 발사해 적들에게 피해를 주며 날아가, 적에게 주는 피해가 최대 <FONT COLOR='#99ff99'>145.0%</FONT> 증가한다.</font>"
+    }
+   ],
+   "Rune": {
+    "Name": "질풍",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_7_194.png",
+    "Grade": "전설",
+    "Tooltip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"<P ALIGN='CENTER'><FONT COLOR='#F99200'>질풍</FONT></P>\"},\"Element_001\":{\"type\":\"ItemTitle\",\"value\":{\"bEquip\":0,\"itemIrochiCount\":0,\"leftStr0\":\"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 스킬 룬</FONT></FONT>\",\"leftStr1\":\"\",\"leftStr2\":\"\",\"qualityValue\":-1,\"rightStr0\":\"\",\"slotData\":{\"advBookIcon\":0,\"battleItemTypeIcon\":0,\"blackListIcon\":0,\"cardIcon\":false,\"friendship\":0,\"iconGrade\":4,\"iconPath\":\"efui_iconatlas/use/use_7_194.png\",\"imagePath\":\"\",\"islandIcon\":0,\"petBorder\":0,\"rtString\":\"\",\"temporary\":0,\"town\":0,\"trash\":0}}},\"Element_002\":null,\"Element_003\":{\"type\":\"ItemPartBox\",\"value\":{\"Element_000\":\"<FONT COLOR='#A9D0F5'>스킬 룬 효과</FONT>\",\"Element_001\":\"스킬 시전 속도가 14% 증가\"}},\"Element_004\":{\"type\":\"SingleTextBox\",\"value\":\"<FONT COLOR='#E2C87A'><FONT SIZE='12'>스킬에 강력한 힘을 부여할 수 있는 특별한 룬이다.</FONT></FONT>\"},\"Element_005\":{\"type\":\"Progress\",\"value\":null},\"Element_006\":{\"type\":\"Progress\",\"value\":null},\"Element_007\":{\"type\":\"SingleTextBox\",\"value\":\"<Font color='#5FD3F1'>[가디언 토벌] 시험 7단계</font><BR><Font color='#5FD3F1'>[가디언 토벌] 시험 8단계</font>\"}}"
+   },
+   "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"페이탈 웨이브\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"CommonSkillTitle\",\r\n        \"value\": {\r\n          \"leftText\": \"<FONT SIZE='12'>재사용 대기시간 18초</FONT>\",\r\n          \"level\": \"<FONT SIZE='12'><FONT COLOR='#B7DEE8'><FONT COLOR='#F6F6F6'>[일반 스킬]</FONT></FONT></FONT>\",\r\n          \"middleText\": \"\",\r\n          \"name\": \"<FONT SIZE='12'><FONT SIZE='14' COLOR='#FFFFAC'>일반</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"iconGrade\": 0,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_15.png\",\r\n            \"imagePath\": \"\"\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#3C78FF'>PvE</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"스킬 레벨 14\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"마나 441 소모|\"\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 하</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT>\"\r\n      },\r\n      \"Element_006\": {\r\n        \"type\": \"TripodSkillCustom\",\r\n        \"value\": {\r\n          \"Element_000\": {\r\n            \"desc\": \"<font color='#FFFDE7'>공격 속도가 <FONT COLOR='#99ff99'>27.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>재빠른 손놀림</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_41.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          },\r\n          \"Element_001\": {\r\n            \"desc\": \"<font color='#FFFDE7'>피격이상 면역인 적에게 공격 적중 시 주는 피해가 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>약점 포착</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_33.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          },\r\n          \"Element_002\": {\r\n            \"desc\": \"<font color='#FFFDE7'>빠르고 강력한 <FONT COLOR='#ffff99'>1</FONT>개의 검기를 발사해 적들에게 피해를 주며 날아가, 적에게 주는 피해가 최대 <FONT COLOR='#99ff99'>145.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>데스 웨이브</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_87.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>스킬 룬 효과</FONT>\",\r\n          \"Element_001\": \"[<FONT COLOR='#F99200'>질풍</FONT>] 스킬 시전 속도가 14% 증가\"\r\n        }\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>보석 효과</FONT>\",\r\n          \"Element_001\": \"[블레이드] <FONT COLOR='#FFD200'>페이탈 웨이브</FONT> 피해 32.00% 증가 <BR>[블레이드] <FONT COLOR='#FFD200'>페이탈 웨이브</FONT> 재사용 대기시간 18.00% 감소 \"\r\n        }\r\n      }\r\n    }"
+  },
+  {
+   "Name": "보이드 스트라이크",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_14.png",
+   "Level": 13,
+   "Type": "일반",
+   "SkillType": 0,
+   "Tripods": [
+    {
+     "Tier": 0,
+     "Slot": 1,
+     "Name": "재빠른 손놀림",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_41.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>공격 속도가 <FONT COLOR='#99ff99'>27.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 0,
+     "Slot": 2,
+     "Name": "넓은 공격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_7.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>공격 범위가 <FONT COLOR='#99ff99'>20.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 0,
+     "Slot": 3,
+     "Name": "오브 조절",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_37.png",
+     "IsSelected": true,
+     "Tooltip": "<font color='#FFFDE7'>블레이드 오브 게이지 획득량이 <FONT COLOR='#99ff99'>75.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 1,
+     "Name": "암흑 공격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_19.png",
+     "IsSelected": true,
+     "Tooltip": "<font color='#FFFDE7'>[암] 속성으로 변경되고, 적에게 주는 피해가 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 2,
+     "Name": "공허 지대",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_85.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>올려베기 공격 시 바닥에 <FONT COLOR='#ffff99'>5.0</FONT>초간 공허 지대가 생성된다. 지대에 닿은 적의 이동 속도를 <FONT COLOR='#99ff99'>50.0%</FONT> 감소시키며, 암흑 상태를 건다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 3,
+     "Name": "뇌진탕",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_69.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>스킬의 무력화 단계가 [상] 으로 증가한다.</font>"
+    },
+    {
+     "Tier": 2,
+     "Slot": 1,
+     "Name": "오버 슬래쉬",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_42.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>차지 조작으로 변경되며, 오버 차지 시 적에게 주는 피해가 <FONT COLOR='#99ff99'>80.0%</FONT> 증가한다. 대상이 무력화 상태일 경우, 주는 피해가 <FONT COLOR='#99ff99'>50.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 2,
+     "Slot": 2,
+     "Name": "라이징 슬래쉬",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_39.png",
+     "IsSelected": true,
+     "Tooltip": "<font color='#FFFDE7'>올려베기 공격 이후 추가로 올려베기를 펼치며 적에게 주는 피해가 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>"
+    }
+   ],
+   "Rune": {
+    "Name": "풍요",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_7_204.png",
+    "Grade": "전설",
+    "Tooltip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"<P ALIGN='CENTER'><FONT COLOR='#F99200'>풍요</FONT></P>\"},\"Element_001\":{\"type\":\"ItemTitle\",\"value\":{\"bEquip\":0,\"itemIrochiCount\":0,\"leftStr0\":\"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 스킬 룬</FONT></FONT>\",\"leftStr1\":\"\",\"leftStr2\":\"\",\"qualityValue\":-1,\"rightStr0\":\"\",\"slotData\":{\"advBookIcon\":0,\"battleItemTypeIcon\":0,\"blackListIcon\":0,\"cardIcon\":false,\"friendship\":0,\"iconGrade\":4,\"iconPath\":\"efui_iconatlas/use/use_7_204.png\",\"imagePath\":\"\",\"islandIcon\":0,\"petBorder\":0,\"rtString\":\"\",\"temporary\":0,\"town\":0,\"trash\":0}}},\"Element_002\":null,\"Element_003\":{\"type\":\"ItemPartBox\",\"value\":{\"Element_000\":\"<FONT COLOR='#A9D0F5'>스킬 룬 효과</FONT>\",\"Element_001\":\"스킬 적중 시 아이덴티티 게이지 획득량 40% 증가\"}},\"Element_004\":{\"type\":\"SingleTextBox\",\"value\":\"<FONT COLOR='#E2C87A'><FONT SIZE='12'>스킬에 강력한 힘을 부여할 수 있는 특별한 룬이다.</FONT></FONT>\"},\"Element_005\":{\"type\":\"Progress\",\"value\":null},\"Element_006\":{\"type\":\"Progress\",\"value\":null},\"Element_007\":{\"type\":\"SingleTextBox\",\"value\":\"<Font color='#5FD3F1'>[수집품] 오르페우스의 별</font>\"}}"
+   },
+   "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"보이드 스트라이크\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"CommonSkillTitle\",\r\n        \"value\": {\r\n          \"leftText\": \"<FONT SIZE='12'>재사용 대기시간 27초</FONT>\",\r\n          \"level\": \"<FONT SIZE='12'><FONT COLOR='#B7DEE8'><FONT COLOR='#F6F6F6'>[일반 스킬]</FONT></FONT></FONT>\",\r\n          \"middleText\": \"\",\r\n          \"name\": \"<FONT SIZE='12'><FONT SIZE='14' COLOR='#FFFFAC'>일반</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"iconGrade\": 0,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_14.png\",\r\n            \"imagePath\": \"\"\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#3C78FF'>PvE</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"스킬 레벨 13\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"마나 557 소모|\"\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 중</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>슈퍼아머 : 경직 면역</FONT></FONT>\"\r\n      },\r\n      \"Element_006\": {\r\n        \"type\": \"TripodSkillCustom\",\r\n        \"value\": {\r\n          \"Element_000\": {\r\n            \"desc\": \"<font color='#FFFDE7'>블레이드 오브 게이지 획득량이 <FONT COLOR='#99ff99'>75.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>오브 조절</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_37.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          },\r\n          \"Element_001\": {\r\n            \"desc\": \"<font color='#FFFDE7'>[암] 속성으로 변경되고, 적에게 주는 피해가 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>암흑 공격</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_19.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          },\r\n          \"Element_002\": {\r\n            \"desc\": \"<font color='#FFFDE7'>올려베기 공격 이후 추가로 올려베기를 펼치며 적에게 주는 피해가 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>라이징 슬래쉬</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_39.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>스킬 룬 효과</FONT>\",\r\n          \"Element_001\": \"[<FONT COLOR='#F99200'>풍요</FONT>] 스킬 적중 시 아이덴티티 게이지 획득량 40% 증가\"\r\n        }\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>보석 효과</FONT>\",\r\n          \"Element_001\": \"[블레이드] <FONT COLOR='#FFD200'>보이드 스트라이크</FONT> 피해 32.00% 증가 \"\r\n        }\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"BlinkLineStart\",\r\n        \"value\": true\r\n      },\r\n      \"Element_010\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"다음 스킬 레벨 14\"\r\n      },\r\n      \"Element_011\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#808080'>필요 레벨</FONT> 70\"\r\n      },\r\n      \"Element_012\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#808080'>필요 스킬 포인트 </FONT>6\"\r\n      },\r\n      \"Element_013\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"마나 557 소모\"\r\n      },\r\n      \"Element_014\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 중</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>슈퍼아머 : 경직 면역</FONT></FONT>\"\r\n      },\r\n      \"Element_015\": {\r\n        \"type\": \"BlinkLineEnd\",\r\n        \"value\": true\r\n      }\r\n    }"
+  },
+  {
+   "Name": "서프라이즈 어택",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_0.png",
+   "Level": 1,
+   "Type": "일반",
+   "SkillType": 0,
+   "Tripods": [
+    {
+     "Tier": 0,
+     "Slot": 1,
+     "Name": "약점 노출",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_100.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>공격 적중 시 <FONT COLOR='#ffff99'>6.0</FONT>초간 약점 노출 디버프를 부여하여 대상이 자신 및 파티원에게 받는 피해가 <FONT COLOR='#99ff99'>4.0%</FONT> 증가한다. 대상이 헤드 어택 및 백 어택으로 피해를 받을 경우, 받는 피해 효과가 추가로 <FONT COLOR='#99ff99'>5.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 0,
+     "Slot": 2,
+     "Name": "급소 타격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_4.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>치명타 적중률이 <FONT COLOR='#99ff99'>40.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 0,
+     "Slot": 3,
+     "Name": "넓은 공격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_7.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>공격 범위가 <FONT COLOR='#99ff99'>20.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 1,
+     "Name": "탁월한 기동성",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_10.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>이동 거리가 <FONT COLOR='#99ff99'>3.0m</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 2,
+     "Name": "기동성 약화",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_47.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>공격 적중 시 적의 이동 속도가 <FONT COLOR='#ffff99'>5.0</FONT>초간 <FONT COLOR='#99ff99'>57.6%</FONT> 감소한다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 3,
+     "Name": "예리한 일격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_5.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>치명타 피해가 <FONT COLOR='#99ff99'>100.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 2,
+     "Slot": 1,
+     "Name": "검풍 잔영",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_88.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>돌진 전 <FONT COLOR='#ffff99'>1.0</FONT>초간 유지되는 검풍을 생성해 최대 <FONT COLOR='#99ff99'>145.0%</FONT>의 마법 피해를 입히고 적을 튕겨낸다.</font>"
+    },
+    {
+     "Tier": 2,
+     "Slot": 2,
+     "Name": "잔인한 공격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_40.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>콤보 조작으로 변경되며, 더 빠르게 돌격하여 쌍검으로 찌른 뒤 좌우로 갈라, 적에게 <FONT COLOR='#99ff99'>96.0%</FONT>의 추가 피해를 주고 밀어낸다.</font>"
+    }
+   ],
+   "Rune": null,
+   "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"서프라이즈 어택\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"CommonSkillTitle\",\r\n        \"value\": {\r\n          \"leftText\": \"<FONT SIZE='12'>재사용 대기시간 5초</FONT>\",\r\n          \"level\": \"<FONT SIZE='12'><FONT COLOR='#B7DEE8'><FONT COLOR='#F6F6F6'>[일반 스킬]</FONT></FONT></FONT>\",\r\n          \"middleText\": \"\",\r\n          \"name\": \"<FONT SIZE='12'><FONT SIZE='14' COLOR='#FFFFAC'>일반</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"iconGrade\": 0,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_0.png\",\r\n            \"imagePath\": \"\"\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#3C78FF'>PvE</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"스킬 레벨 1\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"마나 41 소모|\"\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>부위 파괴 : 레벨 1</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 하</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>슈퍼아머 : 경직 면역</FONT></FONT>\"\r\n      },\r\n      \"Element_006\": {\r\n        \"type\": \"TripodSkillCustom\",\r\n        \"value\": {\r\n          \"Element_000\": {\r\n            \"desc\": \"<FONT COLOR='#AAAAAA'>티어 1 트라이포드 스킬 레벨 4에 개방</FONT>\",\r\n            \"lock\": true,\r\n            \"name\": \"\"\r\n          },\r\n          \"Element_001\": {\r\n            \"desc\": \"<FONT COLOR='#AAAAAA'>티어 2 트라이포드 스킬 레벨 7에 개방</FONT>\",\r\n            \"lock\": true,\r\n            \"name\": \"\"\r\n          },\r\n          \"Element_002\": {\r\n            \"desc\": \"<FONT COLOR='#AAAAAA'>티어 3 트라이포드 스킬 레벨 10에 개방</FONT>\",\r\n            \"lock\": true,\r\n            \"name\": \"\"\r\n          }\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"BlinkLineStart\",\r\n        \"value\": true\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"다음 스킬 레벨 2\"\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#808080'>필요 레벨</FONT> 10\"\r\n      },\r\n      \"Element_010\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#808080'>필요 스킬 포인트 </FONT>1\"\r\n      },\r\n      \"Element_011\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"마나 55 소모\"\r\n      },\r\n      \"Element_012\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>부위 파괴 : 레벨 1</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 하</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>슈퍼아머 : 경직 면역</FONT></FONT>\"\r\n      },\r\n      \"Element_013\": {\r\n        \"type\": \"BlinkLineEnd\",\r\n        \"value\": true\r\n      }\r\n    }"
+  },
+  {
+   "Name": "어퍼 슬래쉬",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_1.png",
+   "Level": 1,
+   "Type": "일반",
+   "SkillType": 0,
+   "Tripods": [
+    {
+     "Tier": 0,
+     "Slot": 1,
+     "Name": "단단한 갑옷",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_25.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>스킬 사용 중 받는 피해가 <FONT COLOR='#99ff99'>51.6%</FONT> 감소한다.</font>"
+    },
+    {
+     "Tier": 0,
+     "Slot": 2,
+     "Name": "재빠른 손놀림",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_41.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>공격 속도가 <FONT COLOR='#99ff99'>27.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 0,
+     "Slot": 3,
+     "Name": "급소 타격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_4.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>치명타 적중률이 <FONT COLOR='#99ff99'>40.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 1,
+     "Name": "당기는 타격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_71.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>첫 번째 공격의 범위가 <FONT COLOR='#99ff99'>20.0%</FONT> 증가하고, 적들을 끌어모은다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 2,
+     "Name": "강력한 회오리",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_39.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>두 번째 공격의 회오리가 더욱 강력해져, 적을 띄우는 높이와 체공 시간이 증가하며, 회오리의 치명타 적중률이 <FONT COLOR='#99ff99'>100.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 1,
+     "Slot": 3,
+     "Name": "대형 회오리",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_85.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>세 번째 공격이 추가된다. 장검으로 상승 베기를 하며, 더 큰 회오리가 생성되어 적을 공중에 띄우고 적에게 주는 피해가 <FONT COLOR='#99ff99'>80.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 2,
+     "Slot": 1,
+     "Name": "날카로운 공격",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_69.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>스킬의 무력화 단계가 [중상] 으로 증가하고, 적에게 주는 치명타 피해가 <FONT COLOR='#99ff99'>100.0%</FONT> 증가한다.</font>"
+    },
+    {
+     "Tier": 2,
+     "Slot": 2,
+     "Name": "강인함",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_23.png",
+     "IsSelected": false,
+     "Tooltip": "<font color='#FFFDE7'>스킬 시전 중 피격이상에 면역이 되고, 재사용 대기 시간이 <FONT COLOR='#ff9999'>6.0</FONT>초 증가한다.</font>"
+    }
+   ],
+   "Rune": null,
+   "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"어퍼 슬래쉬\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"CommonSkillTitle\",\r\n        \"value\": {\r\n          \"leftText\": \"<FONT SIZE='12'>재사용 대기시간 8초</FONT>\",\r\n          \"level\": \"<FONT SIZE='12'><FONT COLOR='#B7DEE8'><FONT COLOR='#F6F6F6'>[일반 스킬]</FONT></FONT></FONT>\",\r\n          \"middleText\": \"\",\r\n          \"name\": \"<FONT SIZE='12'><FONT SIZE='14' COLOR='#FFFFAC'>일반</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"iconGrade\": 0,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_1.png\",\r\n            \"imagePath\": \"\"\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#3C78FF'>PvE</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"스킬 레벨 1\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"마나 53 소모|\"\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 하</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT>\"\r\n      },\r\n      \"Element_006\": {\r\n        \"type\": \"TripodSkillCustom\",\r\n        \"value\": {\r\n          \"Element_000\": {\r\n            \"desc\": \"<FONT COLOR='#AAAAAA'>티어 1 트라이포드 스킬 레벨 4에 개방</FONT>\",\r\n            \"lock\": true,\r\n            \"name\": \"\"\r\n          },\r\n          \"Element_001\": {\r\n            \"desc\": \"<FONT COLOR='#AAAAAA'>티어 2 트라이포드 스킬 레벨 7에 개방</FONT>\",\r\n            \"lock\": true,\r\n            \"name\": \"\"\r\n          },\r\n          \"Element_002\": {\r\n            \"desc\": \"<FONT COLOR='#AAAAAA'>티어 3 트라이포드 스킬 레벨 10에 개방</FONT>\",\r\n            \"lock\": true,\r\n            \"name\": \"\"\r\n          }\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"BlinkLineStart\",\r\n        \"value\": true\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"다음 스킬 레벨 2\"\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#808080'>필요 레벨</FONT> 10\"\r\n      },\r\n      \"Element_010\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#808080'>필요 스킬 포인트 </FONT>1\"\r\n      },\r\n      \"Element_011\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"마나 73 소모\"\r\n      },\r\n      \"Element_012\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 하</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT>\"\r\n      },\r\n      \"Element_013\": {\r\n        \"type\": \"BlinkLineEnd\",\r\n        \"value\": true\r\n      }\r\n    }"
+  }
+ ],
+ "ArmoryEngraving": {
+  "Engravings": null,
+  "Effects": null,
+  "ArkPassiveEffects": [
+   {
+    "AbilityStoneLevel": null,
+    "Grade": "유물",
+    "Level": 0,
+    "Name": "정기 흡수",
+    "Description": "공격 및 이동속도가 <FONT COLOR='#99ff99'>13.00%</FONT> 증가한다."
+   },
+   {
+    "AbilityStoneLevel": null,
+    "Grade": "유물",
+    "Level": 0,
+    "Name": "예리한 둔기",
+    "Description": "치명타 피해량이 <FONT COLOR='#99ff99'>44.00%</FONT> 증가하지만, 공격 시 일정 확률로 <FONT COLOR='#ff9999'>20.00%</FONT> 감소된 피해를 준다."
+   },
+   {
+    "AbilityStoneLevel": 2,
+    "Grade": "유물",
+    "Level": 0,
+    "Name": "기습의 대가",
+    "Description": "적에게 주는 피해가 <FONT COLOR='#99ff99'>8.20%</FONT> 증가하며, 백어택 성공 시 피해량이 추가로 <FONT COLOR='#99ff99'>15.00%</FONT> 증가한다."
+   },
+   {
+    "AbilityStoneLevel": null,
+    "Grade": "유물",
+    "Level": 0,
+    "Name": "돌격대장",
+    "Description": "이동속도 증가량의 <FONT COLOR='#99ff99'>40.00%</FONT> 만큼 적에게 주는 피해량이 증가한다."
+   },
+   {
+    "AbilityStoneLevel": null,
+    "Grade": "유물",
+    "Level": 0,
+    "Name": "아드레날린",
+    "Description": "이동기 및 기본공격을 제외한 스킬 사용 후 <FONT COLOR='#ffff99'>6</FONT>초 동안 공격력이 <FONT COLOR='#99ff99'>0.90%</FONT> 증가하며 (최대 <FONT COLOR='#ffff99'>6</FONT>중첩) 해당 효과가 최대 중첩 도달 시 치명타 적중률이 추가로 <FONT COLOR='#99ff99'>14.00%</FONT> 증가한다. 해당 효과는 스킬 취소에 따른 재사용 대기시간 감소가 적용되는 경우, 스킬 종료 후 적용된다."
+   }
+  ]
+ },
+ "ArmoryCard": {
+  "Cards": [
+   {
+    "Slot": 0,
+    "Name": "케이사르",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/card_epic/card_epic_03_6.png",
+    "AwakeCount": 5,
+    "AwakeTotal": 5,
+    "Grade": "영웅",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<FONT COLOR='#CE43FC'>케이사르</FONT>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"Card\",\r\n        \"value\": {\r\n          \"awakeCount\": 5,\r\n          \"awakeTotal\": 5,\r\n          \"cardStack\": \"\",\r\n          \"iconData\": {\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/card_epic/card_epic_03_6.png\"\r\n          },\r\n          \"isBookMark\": false,\r\n          \"notRegistered\": false,\r\n          \"tierGrade\": 4\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#E2C87A'><FONT SIZE='12'>욘을 다스리는 국왕. 침착하고 카리스마가 넘친다.</FONT></FONT>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[물물교환] 욘 - 떠돌이 상인</font><BR><Font color='#5FD3F1'>[호감도] 위대한 성 - 케이사르</font><BR><Font color='#5FD3F1'>[카오스 던전] 3티어</font><BR><font color='#97fffd'>[카드팩] 단단한 용기의 카드 팩</font><BR><Font color='#5FD3F1'>그 외에 획득처가 더 존재합니다.</FONT>\"\r\n      }\r\n    }"
+   },
+   {
+    "Slot": 1,
+    "Name": "프랭크",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/card_uncommon/card_uncommon_04_1.png",
+    "AwakeCount": 5,
+    "AwakeTotal": 5,
+    "Grade": "고급",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<FONT COLOR='#8DF901'>프랭크</FONT>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"Card\",\r\n        \"value\": {\r\n          \"awakeCount\": 5,\r\n          \"awakeTotal\": 5,\r\n          \"cardStack\": \"\",\r\n          \"iconData\": {\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/card_uncommon/card_uncommon_04_1.png\"\r\n          },\r\n          \"isBookMark\": false,\r\n          \"notRegistered\": false,\r\n          \"tierGrade\": 2\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#E2C87A'><FONT SIZE='12'>별빛 등대의 섬에 있는 등대지기. 세상에 떠도는 영혼들을 하늘로 올려 보내기 위해 피아노를 연주한다.</FONT></FONT>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[카오스 던전] 3티어</font><BR><Font color='#5FD3F1'>[쿠르잔 전선]</font><BR><Font color='#5FD3F1'>[혼돈의 균열]</font><BR><font color='#97fffd'>[카드팩] 조화로운 바다 카드 팩</font><BR>\"\r\n      }\r\n    }"
+   },
+   {
+    "Slot": 2,
+    "Name": "원포",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/card_rare/card_rare_04_4.png",
+    "AwakeCount": 5,
+    "AwakeTotal": 5,
+    "Grade": "희귀",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<FONT COLOR='#00B0FA'>원포</FONT>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"Card\",\r\n        \"value\": {\r\n          \"awakeCount\": 5,\r\n          \"awakeTotal\": 5,\r\n          \"cardStack\": \"\",\r\n          \"iconData\": {\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/card_rare/card_rare_04_4.png\"\r\n          },\r\n          \"isBookMark\": false,\r\n          \"notRegistered\": false,\r\n          \"tierGrade\": 3\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#E2C87A'><FONT SIZE='12'>창천비무제의 창천사검. 연가문 소속이었지만, 아내의 병을 고치기 위해 어두운 길로 발을 들였다.</FONT></FONT>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[카오스 던전] 3티어</font><BR><Font color='#5FD3F1'>[쿠르잔 전선]</font><BR><Font color='#5FD3F1'>[혼돈의 균열]</font><BR><font color='#97fffd'>[카드팩] 노래하는 혹한 카드 팩</font><BR><font color='#97fffd'>[카드팩] 신비한 풍류의 카드 팩</font><BR>\"\r\n      }\r\n    }"
+   },
+   {
+    "Slot": 3,
+    "Name": "헨리",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/card_uncommon/card_uncommon_04_2.png",
+    "AwakeCount": 5,
+    "AwakeTotal": 5,
+    "Grade": "고급",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<FONT COLOR='#8DF901'>헨리</FONT>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"Card\",\r\n        \"value\": {\r\n          \"awakeCount\": 5,\r\n          \"awakeTotal\": 5,\r\n          \"cardStack\": \"\",\r\n          \"iconData\": {\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/card_uncommon/card_uncommon_04_2.png\"\r\n          },\r\n          \"isBookMark\": false,\r\n          \"notRegistered\": false,\r\n          \"tierGrade\": 2\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#E2C87A'><FONT SIZE='12'>금방 사랑에 빠져버리는 남자. 사랑과 관련된 일이라면 각종 착각과 환상에 빠져 있다.</FONT></FONT>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[호감도] 리베하임 - 연애 고수 헨리</font><BR><Font color='#5FD3F1'>[카오스 던전] 3티어</font><BR><Font color='#5FD3F1'>[쿠르잔 전선]</font><BR><font color='#97fffd'>[카드팩] 조화로운 바다 카드 팩</font><BR><Font color='#5FD3F1'>그 외에 획득처가 더 존재합니다.</FONT>\"\r\n      }\r\n    }"
+   },
+   {
+    "Slot": 4,
+    "Name": "빛을 맞이하는 아제나",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/card_epic/card_epic_12_4.png",
+    "AwakeCount": 0,
+    "AwakeTotal": 0,
+    "Grade": "영웅",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<FONT COLOR='#CE43FC'>빛을 맞이하는 아제나</FONT>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"Card\",\r\n        \"value\": {\r\n          \"awakeCount\": 0,\r\n          \"awakeTotal\": 0,\r\n          \"cardStack\": \"\",\r\n          \"iconData\": {\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/card_epic/card_epic_12_4.png\"\r\n          },\r\n          \"isBookMark\": false,\r\n          \"notRegistered\": false,\r\n          \"tierGrade\": 4\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#E2C87A'><FONT SIZE='12'>오백 년 만에 떠오른 운명의 별을 지켜보는 아제나.</FONT></FONT>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[업적] 모험 - 여왕의 탑</font><BR>\"\r\n      }\r\n    }"
+   },
+   {
+    "Slot": 5,
+    "Name": "빛을 맞이하는 실리안",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/card_epic/card_epic_12_6.png",
+    "AwakeCount": 0,
+    "AwakeTotal": 0,
+    "Grade": "영웅",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<FONT COLOR='#CE43FC'>빛을 맞이하는 실리안</FONT>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"Card\",\r\n        \"value\": {\r\n          \"awakeCount\": 0,\r\n          \"awakeTotal\": 0,\r\n          \"cardStack\": \"\",\r\n          \"iconData\": {\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/card_epic/card_epic_12_6.png\"\r\n          },\r\n          \"isBookMark\": false,\r\n          \"notRegistered\": false,\r\n          \"tierGrade\": 4\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#E2C87A'><FONT SIZE='12'>오백 년 만에 떠오른 운명의 별을 지켜보는 실리안.</FONT></FONT>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[업적] 모험 - 값진 승리, 그리고...</font><BR>\"\r\n      }\r\n    }"
+   }
+  ],
+  "Effects": [
+   {
+    "Index": 0,
+    "CardSlots": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "Items": [
+     {
+      "Name": "사랑꾼 2세트",
+      "Description": "이동기 재사용 대기시간이 10% 감소한다."
+     },
+     {
+      "Name": "사랑꾼 4세트",
+      "Description": "이동기 사용 시 10%의 확률로 재사용 대기시간이 초기화된다."
+     },
+     {
+      "Name": "사랑꾼 4세트 (8각성합계)",
+      "Description": "이동 속도 +2.00%"
+     },
+     {
+      "Name": "사랑꾼 4세트 (12각성합계)",
+      "Description": "이동 속도 +3.00%"
+     },
+     {
+      "Name": "사랑꾼 4세트 (20각성합계)",
+      "Description": "이동 속도 +8.00%"
+     }
+    ]
+   },
+   {
+    "Index": 1,
+    "CardSlots": [
+     4,
+     5
+    ],
+    "Items": [
+     {
+      "Name": "운명의 별 2세트",
+      "Description": "최대 생명력 +4.00%"
+     }
+    ]
+   }
+  ]
+ },
+ "ArmoryGem": {
+  "Gems": [
+   {
+    "Slot": 5,
+    "Name": "<P ALIGN='CENTER'><FONT COLOR='#FA5D00'>9레벨 광휘의 보석</FONT></P>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_54.png",
+    "Level": 9,
+    "Grade": "유물",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#FA5D00'>9레벨 광휘의 보석</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#FA5D00'>유물 보석</FONT></FONT>\",\r\n          \"leftStr2\": \"<FONT SIZE='14'>아이템 레벨 1640 (티어 4)</FONT>\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 5,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_54.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"Lv.9\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#C24B46'>장착, 합성, 조율 가능 아이템 레벨 <FONT COLOR='#FFFFFF'>1640</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#C24B46'>거래 제한 아이템 레벨</FONT> 1640<BR>캐릭터 귀속됨</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"보석 레벨 9\"\r\n      },\r\n      \"Element_005\": null,\r\n      \"Element_006\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>효과</FONT>\",\r\n          \"Element_001\": \"[블레이드] <FONT COLOR='#FFD200'>블레이드 버스트</FONT> 피해 40.00% 증가<BR><BR><FONT COLOR='#A9D0F5'>추가 효과</FONT><BR>기본 공격력 1.00% 증가\"\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"조율된 보석은 보석 프리셋마다 <BR>원하는 스킬 효과로 변환하여 사용할 수 있습니다.<BR><BR>보석 전문가에게 복원할 수 있으며<BR>복원 시, 조율 이전의 상태로 되돌립니다.\"\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT></FONT>\"\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_010\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      }\r\n    }"
+   },
+   {
+    "Slot": 0,
+    "Name": "<P ALIGN='CENTER'><FONT COLOR='#F99200'>7레벨 광휘의 보석 (귀속)</FONT></P>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_52.png",
+    "Level": 7,
+    "Grade": "전설",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>7레벨 광휘의 보석 (귀속)</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 보석</FONT></FONT>\",\r\n          \"leftStr2\": \"<FONT SIZE='14'>아이템 레벨 1640 (티어 4)</FONT>\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_52.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"Lv.7\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#C24B46'>장착, 합성, 조율 가능 아이템 레벨 <FONT COLOR='#FFFFFF'>1640</FONT></FONT><BR><FONT SIZE='12'>캐릭터 귀속됨</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"보석 레벨 7\"\r\n      },\r\n      \"Element_005\": null,\r\n      \"Element_006\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>효과</FONT>\",\r\n          \"Element_001\": \"[블레이드] <FONT COLOR='#FFD200'>보이드 스트라이크</FONT> 피해 32.00% 증가<BR><BR><FONT COLOR='#A9D0F5'>추가 효과</FONT><BR>기본 공격력 0.60% 증가\"\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"조율된 보석은 보석 프리셋마다 <BR>원하는 스킬 효과로 변환하여 사용할 수 있습니다.<BR><BR><font color='#ffd200'>해당 보석은 복원이 불가능 합니다.</font><BR><FONT COLOR='#E2C87A'><FONT SIZE='12'><FONT COLOR='#FFD200'>해당 보석은 효과 변환 시 비용을 청구하지 않습니다.<br>해당 보석은 합성이 불가능합니다.</FONT></FONT></FONT>\"\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT>, <font color='#c24b46'>보석 합성 불가</font>, <font color='#c24b46'>보석 복원 불가</font></FONT>\"\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_010\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      }\r\n    }"
+   },
+   {
+    "Slot": 1,
+    "Name": "<P ALIGN='CENTER'><FONT COLOR='#F99200'>7레벨 광휘의 보석 (귀속)</FONT></P>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_52.png",
+    "Level": 7,
+    "Grade": "전설",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>7레벨 광휘의 보석 (귀속)</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 보석</FONT></FONT>\",\r\n          \"leftStr2\": \"<FONT SIZE='14'>아이템 레벨 1640 (티어 4)</FONT>\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_52.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"Lv.7\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#C24B46'>장착, 합성, 조율 가능 아이템 레벨 <FONT COLOR='#FFFFFF'>1640</FONT></FONT><BR><FONT SIZE='12'>캐릭터 귀속됨</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"보석 레벨 7\"\r\n      },\r\n      \"Element_005\": null,\r\n      \"Element_006\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>효과</FONT>\",\r\n          \"Element_001\": \"[블레이드] <FONT COLOR='#FFD200'>트윈 쉐도우</FONT> 피해 32.00% 증가<BR><BR><FONT COLOR='#A9D0F5'>추가 효과</FONT><BR>기본 공격력 0.60% 증가\"\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"조율된 보석은 보석 프리셋마다 <BR>원하는 스킬 효과로 변환하여 사용할 수 있습니다.<BR><BR><font color='#ffd200'>해당 보석은 복원이 불가능 합니다.</font><BR><FONT COLOR='#E2C87A'><FONT SIZE='12'><FONT COLOR='#FFD200'>해당 보석은 효과 변환 시 비용을 청구하지 않습니다.<br>해당 보석은 합성이 불가능합니다.</FONT></FONT></FONT>\"\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT>, <font color='#c24b46'>보석 합성 불가</font>, <font color='#c24b46'>보석 복원 불가</font></FONT>\"\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_010\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      }\r\n    }"
+   },
+   {
+    "Slot": 2,
+    "Name": "<P ALIGN='CENTER'><FONT COLOR='#F99200'>7레벨 광휘의 보석 (귀속)</FONT></P>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_52.png",
+    "Level": 7,
+    "Grade": "전설",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>7레벨 광휘의 보석 (귀속)</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 보석</FONT></FONT>\",\r\n          \"leftStr2\": \"<FONT SIZE='14'>아이템 레벨 1640 (티어 4)</FONT>\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"<FONT SIZE='12'><FONT COLOR='#FFD200'>장착중</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_52.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"Lv.7\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#C24B46'>장착, 합성, 조율 가능 아이템 레벨 <FONT COLOR='#FFFFFF'>1640</FONT></FONT><BR><FONT SIZE='12'>캐릭터 귀속됨</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"보석 레벨 7\"\r\n      },\r\n      \"Element_005\": null,\r\n      \"Element_006\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>효과</FONT>\",\r\n          \"Element_001\": \"[블레이드] <FONT COLOR='#FFD200'>터닝 슬래쉬</FONT> 피해 32.00% 증가<BR><BR><FONT COLOR='#A9D0F5'>추가 효과</FONT><BR>기본 공격력 0.60% 증가\"\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"조율된 보석은 보석 프리셋마다 <BR>원하는 스킬 효과로 변환하여 사용할 수 있습니다.<BR><BR><font color='#ffd200'>해당 보석은 복원이 불가능 합니다.</font><BR><FONT COLOR='#E2C87A'><FONT SIZE='12'><FONT COLOR='#FFD200'>해당 보석은 효과 변환 시 비용을 청구하지 않습니다.<br>해당 보석은 합성이 불가능합니다.</FONT></FONT></FONT>\"\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT>, <font color='#c24b46'>보석 합성 불가</font>, <font color='#c24b46'>보석 복원 불가</font></FONT>\"\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_010\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      }\r\n    }"
+   }
+  ],
+  "Effects": {
+   "Description": "<FONT COLOR='#B7FB00'>기본 공격력 총합 : 7.00%</FONT>",
+   "Skills": [
+    {
+     "GemSlot": 1,
+     "Name": "트윈 쉐도우",
+     "Description": [
+      "피해 32.00% 증가"
+     ],
+     "Option": "기본 공격력 0.60% 증가",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_5.png",
+     "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"트윈 쉐도우\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"CommonSkillTitle\",\r\n        \"value\": {\r\n          \"leftText\": \"<FONT SIZE='12'>재사용 대기시간 15초</FONT>\",\r\n          \"level\": \"<FONT SIZE='12'><FONT COLOR='#B7DEE8'><FONT COLOR='#F6F6F6'>[일반 스킬]</FONT></FONT></FONT>\",\r\n          \"middleText\": \"\",\r\n          \"name\": \"<FONT SIZE='12'><FONT SIZE='14' COLOR='#FFFFAC'>일반</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"iconGrade\": 0,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_5.png\",\r\n            \"imagePath\": \"\"\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#3C78FF'>PvE</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"스킬 레벨 14\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"마나 397 소모|\"\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 중</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT>\"\r\n      },\r\n      \"Element_006\": {\r\n        \"type\": \"TripodSkillCustom\",\r\n        \"value\": {\r\n          \"Element_000\": {\r\n            \"desc\": \"<font color='#FFFDE7'>블레이드 오브 게이지 획득량이 <FONT COLOR='#99ff99'>75.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>오브 조절</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_37.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          },\r\n          \"Element_001\": {\r\n            \"desc\": \"<font color='#FFFDE7'>피격이상 면역인 적에게 주는 피해가 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>약점 포착</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_33.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          },\r\n          \"Element_002\": {\r\n            \"desc\": \"<font color='#FFFDE7'>전방으로 <FONT COLOR='#ffff99'>5.0m</FONT> 가량 전진하며 베기를 펼치고 경직 면역 상태가 된다. 스택이 가능하게 변경되고 <FONT COLOR='#ffff99'>15.0</FONT>초 마다 <FONT COLOR='#ffff99'>1</FONT>회 충전되며 최대 <FONT COLOR='#ffff99'>2</FONT>회 까지 충전되며, 적에게 주는 피해가 <FONT COLOR='#99ff99'>120.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>전진 베기</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_83.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>스킬 룬 효과</FONT>\",\r\n          \"Element_001\": \"[<FONT COLOR='#ce43fc'>풍요</FONT>] 스킬 적중 시 아이덴티티 게이지 획득량 30% 증가\"\r\n        }\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>보석 효과</FONT>\",\r\n          \"Element_001\": \"[블레이드] <FONT COLOR='#FFD200'>트윈 쉐도우</FONT> 피해 32.00% 증가 \"\r\n        }\r\n      }\r\n    }"
+    },
+    {
+     "GemSlot": 2,
+     "Name": "터닝 슬래쉬",
+     "Description": [
+      "피해 32.00% 증가"
+     ],
+     "Option": "기본 공격력 0.60% 증가",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_9.png",
+     "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"터닝 슬래쉬\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"CommonSkillTitle\",\r\n        \"value\": {\r\n          \"leftText\": \"<FONT SIZE='12'>재사용 대기시간 15초</FONT>\",\r\n          \"level\": \"<FONT SIZE='12'><FONT COLOR='#B7DEE8'><FONT COLOR='#F6F6F6'>[일반 스킬]</FONT></FONT></FONT>\",\r\n          \"middleText\": \"\",\r\n          \"name\": \"<FONT SIZE='12'><FONT SIZE='14' COLOR='#20EDFE'>콤보</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"iconGrade\": 0,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_9.png\",\r\n            \"imagePath\": \"\"\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#3C78FF'>PvE</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"스킬 레벨 14\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"마나 397 소모|\"\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 중</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT>\"\r\n      },\r\n      \"Element_006\": {\r\n        \"type\": \"TripodSkillCustom\",\r\n        \"value\": {\r\n          \"Element_000\": {\r\n            \"desc\": \"<font color='#FFFDE7'>공격 적중 시 <FONT COLOR='#ffff99'>12.0</FONT>초간 약점 노출 디버프를 부여하여 대상이 자신 및 파티원에게 받는 피해가 <FONT COLOR='#99ff99'>4.0%</FONT> 증가한다. 대상이 헤드 어택 및 백 어택으로 피해를 받을 경우, 받는 피해 효과가 추가로 <FONT COLOR='#99ff99'>5.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>약점 노출</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_100.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          },\r\n          \"Element_001\": {\r\n            \"desc\": \"<font color='#FFFDE7'>피격 이상에 면역이 된다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>강인함</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_23.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          },\r\n          \"Element_002\": {\r\n            \"desc\": \"<font color='#FFFDE7'>제자리에서 장검으로 주위를 크게 베어버리고 마법 피해를 입히는 검풍을 발생시킨다. 주위의 적을 <FONT COLOR='#ffff99'>4</FONT>회 끌어모으며 적에게 주는 피해가 <FONT COLOR='#99ff99'>130.0%</FONT> 증가한다. 부위파괴 강화를 적용할 경우 검풍 공격에는 부위파괴 효과가 발생하지 않는다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>집중 공격</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_40.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>스킬 룬 효과</FONT>\",\r\n          \"Element_001\": \"[<FONT COLOR='#00B0FA'>풍요</FONT>] 스킬 적중 시 아이덴티티 게이지 획득량 20% 증가\"\r\n        }\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>보석 효과</FONT>\",\r\n          \"Element_001\": \"[블레이드] <FONT COLOR='#FFD200'>터닝 슬래쉬</FONT> 피해 32.00% 증가 <BR>[블레이드] <FONT COLOR='#FFD200'>터닝 슬래쉬</FONT> 재사용 대기시간 18.00% 감소 \"\r\n        }\r\n      }\r\n    }"
+    },
+    {
+     "GemSlot": 0,
+     "Name": "보이드 스트라이크",
+     "Description": [
+      "피해 32.00% 증가"
+     ],
+     "Option": "기본 공격력 0.60% 증가",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_14.png",
+     "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"보이드 스트라이크\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"CommonSkillTitle\",\r\n        \"value\": {\r\n          \"leftText\": \"<FONT SIZE='12'>재사용 대기시간 27초</FONT>\",\r\n          \"level\": \"<FONT SIZE='12'><FONT COLOR='#B7DEE8'><FONT COLOR='#F6F6F6'>[일반 스킬]</FONT></FONT></FONT>\",\r\n          \"middleText\": \"\",\r\n          \"name\": \"<FONT SIZE='12'><FONT SIZE='14' COLOR='#FFFFAC'>일반</FONT></FONT>\",\r\n          \"slotData\": {\r\n            \"iconGrade\": 0,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_14.png\",\r\n            \"imagePath\": \"\"\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#3C78FF'>PvE</FONT>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"스킬 레벨 13\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"마나 557 소모|\"\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 중</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>슈퍼아머 : 경직 면역</FONT></FONT>\"\r\n      },\r\n      \"Element_006\": {\r\n        \"type\": \"TripodSkillCustom\",\r\n        \"value\": {\r\n          \"Element_000\": {\r\n            \"desc\": \"<font color='#FFFDE7'>블레이드 오브 게이지 획득량이 <FONT COLOR='#99ff99'>75.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>오브 조절</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_1_37.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          },\r\n          \"Element_001\": {\r\n            \"desc\": \"<font color='#FFFDE7'>[암] 속성으로 변경되고, 적에게 주는 피해가 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>암흑 공격</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_2_19.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          },\r\n          \"Element_002\": {\r\n            \"desc\": \"<font color='#FFFDE7'>올려베기 공격 이후 추가로 올려베기를 펼치며 적에게 주는 피해가 <FONT COLOR='#99ff99'>60.0%</FONT> 증가한다.</font>\",\r\n            \"lock\": false,\r\n            \"name\": \"<font color='#FFBB63'>라이징 슬래쉬</font>\",\r\n            \"slotData\": {\r\n              \"iconGrade\": 10,\r\n              \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/tripod_tier/tripod_tier_3_39.png\",\r\n              \"imagePath\": \"\"\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"Element_007\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>스킬 룬 효과</FONT>\",\r\n          \"Element_001\": \"[<FONT COLOR='#F99200'>풍요</FONT>] 스킬 적중 시 아이덴티티 게이지 획득량 40% 증가\"\r\n        }\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>보석 효과</FONT>\",\r\n          \"Element_001\": \"[블레이드] <FONT COLOR='#FFD200'>보이드 스트라이크</FONT> 피해 32.00% 증가 \"\r\n        }\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"BlinkLineStart\",\r\n        \"value\": true\r\n      },\r\n      \"Element_010\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"다음 스킬 레벨 14\"\r\n      },\r\n      \"Element_011\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#808080'>필요 레벨</FONT> 70\"\r\n      },\r\n      \"Element_012\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<FONT COLOR='#808080'>필요 스킬 포인트 </FONT>6\"\r\n      },\r\n      \"Element_013\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"마나 557 소모\"\r\n      },\r\n      \"Element_014\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT COLOR='#efefdf'><FONT SIZE='11'></FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>무력화 : 중</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>공격 타입 : 백 어택</FONT></FONT><BR><FONT SIZE='12'><FONT COLOR='#EEA839'>슈퍼아머 : 경직 면역</FONT></FONT>\"\r\n      },\r\n      \"Element_015\": {\r\n        \"type\": \"BlinkLineEnd\",\r\n        \"value\": true\r\n      }\r\n    }"
+    },
+    {
+     "GemSlot": 5,
+     "Name": "블레이드 버스트",
+     "Description": [
+      "피해 40.00% 증가"
+     ],
+     "Option": "기본 공격력 1.00% 증가",
+     "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_21.png",
+     "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"블레이드 버스트\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"CommonSkillTitle\",\r\n        \"value\": {\r\n          \"slotData\": {\r\n            \"iconGrade\": 0,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/bl_skill/bl_skill_01_21.png\",\r\n            \"imagePath\": \"\"\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"IndentStringGroup\",\r\n        \"value\": {\r\n          \"Element_000\": {\r\n            \"contentStr\": {\r\n              \"Element_000\": {\r\n                \"bPoint\": true,\r\n                \"contentStr\": \"<FONT COLOR='#FE9A2E'>[버스트]</FONT> 블레이드 버스트\",\r\n                \"pointType\": 0\r\n              }\r\n            },\r\n            \"topStr\": \"<FONT COLOR='#A9D0F5'>대상 스킬</FONT>\"\r\n          }\r\n        }\r\n      }\r\n    }"
+    }
+   ]
+  }
+ },
+ "ArkPassive": {
+  "Title": "잔재된 기운",
+  "IsArkPassive": true,
+  "Points": [
+   {
+    "Name": "진화",
+    "Value": 120,
+    "Tooltip": "진화 아크 패시브 포인트",
+    "Description": "5랭크 20레벨"
+   },
+   {
+    "Name": "깨달음",
+    "Value": 96,
+    "Tooltip": "깨달음 아크 패시브 포인트",
+    "Description": "5랭크 20레벨"
+   },
+   {
+    "Name": "도약",
+    "Value": 66,
+    "Tooltip": "도약 아크 패시브 포인트",
+    "Description": "5랭크 20레벨"
+   }
+  ],
+  "Effects": [
+   {
+    "Name": "깨달음",
+    "Description": "<FONT color='#83E9FF'>깨달음</FONT> 1티어 <FONT color='#83E9FF'>신속한 일격 Lv.1</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_bl/ark_passive_bl_4.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"신속한 일격\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>1</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>깨달음</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_bl/ark_passive_bl_4.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"블레이드 버스트 스킬의 피해량이 <FONT COLOR='#ff9999'>30.0%</FONT> 감소하지만, 아츠 발동 시 즉시 블레이드 오브를 소모하여 블레이드 버스트를 사용할 수 있게 된다. 블레이드 오브 소모 개수에 따라  강화된 버스트가 발동한다.||<BR>\"}}"
+   },
+   {
+    "Name": "깨달음",
+    "Description": "<FONT color='#83E9FF'>깨달음</FONT> 2티어 <FONT color='#83E9FF'>잔재된 기운 Lv.3</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_bl/ark_passive_bl_5.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"잔재된 기운\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>3</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>깨달음</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_bl/ark_passive_bl_5.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"블레이드 버스트 사용 시 <FONT COLOR='#ffff99'>30</FONT>초 동안 공격속도와 이동속도가 <FONT COLOR='#99ff99'>12.0%</FONT> 증가한다.||<BR>\"}}"
+   },
+   {
+    "Name": "깨달음",
+    "Description": "<FONT color='#83E9FF'>깨달음</FONT> 3티어 <FONT color='#83E9FF'>확고한 의지 Lv.3</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_01/ark_passive_01_18.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"확고한 의지\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>3</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>깨달음</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_01/ark_passive_01_18.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"블레이드 버스트 사용 시 소모한 오브의 개수에 따라 <FONT COLOR='#ffff99'>30</FONT>초 동안 공격력이 <FONT COLOR='#99ff99'>14.0%</FONT>, <FONT COLOR='#99ff99'>28.0%</FONT>, <FONT COLOR='#99ff99'>42.0%</FONT> 증가한다.||<BR>\"}}"
+   },
+   {
+    "Name": "깨달음",
+    "Description": "<FONT color='#83E9FF'>깨달음</FONT> 4티어 <FONT color='#83E9FF'>극한의 몸놀림 Lv.3</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_bl/ark_passive_bl_8.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"극한의 몸놀림\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>3</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>깨달음</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_bl/ark_passive_bl_8.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"적에게 주는 모든 피해가 <FONT COLOR='#99ff99'>21.0%</FONT> 증가한다. 블레이드 버스트가 입력한 지점으로 이동하며 베어버리는 공격으로 변경되며, 어떤 곳에서 적중해도 백어택으로 적중된다. 이동 중 모험가 및 가디언 몬스터까지 충돌이 무시된다.||<BR>\"}}"
+   },
+   {
+    "Name": "깨달음",
+    "Description": "<FONT color='#83E9FF'>깨달음</FONT> 4티어 <FONT color='#83E9FF'>오브 순환 Lv.2</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_01/ark_passive_01_15.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"오브 순환\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>2</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>깨달음</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_01/ark_passive_01_15.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"적에게 주는 모든 피해가 <FONT COLOR='#99ff99'>1.0%</FONT> 증가한다. 블레이드 버스트 사용 후 아이덴티티 게이지가 <FONT COLOR='#ffff99'>12.0</FONT>초간 <FONT COLOR='#ffff99'>1</FONT>초마다 <FONT COLOR='#99ff99'>0.6%</FONT> 차오르게 된다. ||<BR>\"}}"
+   },
+   {
+    "Name": "진화",
+    "Description": "<FONT color='#F1D594'>진화</FONT> 1티어 <FONT color='#F1D594'>치명 Lv.10</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_1.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"치명\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>10</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>진화</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_1.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"치명이 <FONT COLOR='#99ff99'>500 </FONT>증가합니다.||<BR>\"}}"
+   },
+   {
+    "Name": "진화",
+    "Description": "<FONT color='#F1D594'>진화</FONT> 1티어 <FONT color='#F1D594'>특화 Lv.30</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_2.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"특화\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>30</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>진화</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_2.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"특화가 <FONT COLOR='#99ff99'>1500 </FONT>증가합니다.||<BR>\"}}"
+   },
+   {
+    "Name": "진화",
+    "Description": "<FONT color='#F1D594'>진화</FONT> 2티어 <FONT color='#F1D594'>한계 돌파 Lv.3</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_34.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"한계 돌파\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>3</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>진화</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_34.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"진화형 피해가 <FONT COLOR='#99ff99'>30.0% </font>증가합니다.||<BR>\"}}"
+   },
+   {
+    "Name": "진화",
+    "Description": "<FONT color='#F1D594'>진화</FONT> 3티어 <FONT color='#F1D594'>일격 Lv.2</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_32.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"일격\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>2</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>진화</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_32.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"치명타 적중률이 <FONT COLOR='#99ff99'>20.0% </font>증가하고, 방향성 공격 스킬의 치명타 피해가 <FONT COLOR='#99ff99'>32.0% </font>증가합니다.||<BR>\"}}"
+   },
+   {
+    "Name": "진화",
+    "Description": "<FONT color='#F1D594'>진화</FONT> 4티어 <FONT color='#F1D594'>달인 Lv.1</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_41.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"달인\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>1</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>진화</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_41.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"받는 피해가 <FONT COLOR='#99ff99'>4.0%</font> 감소하며, 이동기 및 기상기를 제외한 스킬 사용시 10초간 '달인' 효과를 얻습니다.<BR> 달인 : 치명타 적중률 <FONT COLOR='#99ff99'>+1.4%</font> / 추가 피해 <FONT COLOR='#99ff99'>+1.7%</font>, 최대 5중첩||<BR>\"}}"
+   },
+   {
+    "Name": "진화",
+    "Description": "<FONT color='#F1D594'>진화</FONT> 4티어 <FONT color='#F1D594'>분쇄 Lv.1</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_44.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"분쇄\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>1</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>진화</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_44.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"진화형 피해가 <FONT COLOR='#99ff99'>20.0%</font> 증가하며, 받는 피해가 <FONT COLOR='#99ff99'>4.0%</font> 감소합니다.||<BR>\"}}"
+   },
+   {
+    "Name": "진화",
+    "Description": "<FONT color='#F1D594'>진화</FONT> 5티어 <FONT color='#F1D594'>입식 타격가 Lv.2</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_18.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"입식 타격가\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>2</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>진화</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_evolution/ark_passive_evolution_18.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"진화형 피해가 <FONT COLOR='#99ff99'>12.0%</font>, 낙인력이 <FONT COLOR='#99ff99'>8.0%</font> 증가합니다. <BR>전투 시작 후, '입식 타격 II' 효과를 최대로 얻습니다. 피격 이상 시 중첩을 3회 잃습니다. 이후 2초가 지날 때마다 효과를 1중첩 회복합니다.<BR> 입식 타격 II :  진화형 피해 <FONT COLOR='#99ff99'>+1.5% </font> / 낙인력 <FONT COLOR='#99ff99'>+2.0% </font>, 최대 6중첩||<BR>\"}}"
+   },
+   {
+    "Name": "도약",
+    "Description": "<FONT color='#C2EA55'>도약</FONT> 1티어 <FONT color='#C2EA55'>풀려난 힘 Lv.5</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_02/ark_passive_02_2.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"풀려난 힘\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>5</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>도약</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_02/ark_passive_02_2.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"초각성 스킬이 적에게 주는 피해가 <FONT COLOR='#99ff99'>15.0%</FONT> 증가한다.||<BR>\"}}"
+   },
+   {
+    "Name": "도약",
+    "Description": "<FONT color='#C2EA55'>도약</FONT> 1티어 <FONT color='#C2EA55'>잠재력 해방 Lv.4</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_01/ark_passive_01_10.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"잠재력 해방\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>4</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>도약</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_01/ark_passive_01_10.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"초각성 스킬의 재사용 대기 시간이 <FONT COLOR='#99ff99'>8.0%</FONT> 감소한다.||<BR>\"}}"
+   },
+   {
+    "Name": "도약",
+    "Description": "<FONT color='#C2EA55'>도약</FONT> 1티어 <FONT color='#C2EA55'>즉각적인 주문 Lv.2</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_02/ark_passive_02_5.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"즉각적인 주문\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>2</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>도약</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_02/ark_passive_02_5.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"초각성 스킬의 시전 속도가 <FONT COLOR='#99ff99'>8.0%</FONT> 증가하고, 마나 소모량이 <FONT COLOR='#99ff99'>60.0%</FONT> 감소한다.||<BR>\"}}"
+   },
+   {
+    "Name": "도약",
+    "Description": "<FONT color='#C2EA55'>도약</FONT> 2티어 <FONT color='#C2EA55'>악몽의 춤사위 Lv.3</FONT>",
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_bl/ark_passive_bl_11.png",
+    "ToolTip": "{\"Element_000\":{\"type\":\"NameTagBox\",\"value\":\"악몽의 춤사위\"},\"Element_001\":{\"type\":\"CommonSkillTitle\",\"value\":{\"leftText\":\"아크 패시브 레벨 <FONT COLOR='#FFD200'>3</FONT>\",\"level\":\"\",\"name\":\"<FONT SIZE='13' COLOR='#FFFFAC'>도약</FONT>\",\"slotData\":{\"iconGrade\":0,\"iconPath\":\"https://cdn-lostark.game.onstove.com/efui_iconatlas/ark_passive_bl/ark_passive_bl_11.png\",\"imagePath\":\"\"}}},\"Element_002\":{\"type\":\"MultiTextBox\",\"value\":\"데스 슬래쉬의 적에게 주는 피해가 <FONT COLOR='#99ff99'>75.0%</FONT> 증가하고, 스킬을 사용하면 전방으로 돌진 후 즉시 마무리 공격을 펼치며 총 <FONT COLOR='#99ff99'>8</FONT>회의 난무 공격이 발생한다.||<BR>\"}}"
+   }
+  ]
+ },
+ "ArkGrid": {
+  "Slots": [
+   {
+    "Index": 0,
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_96.png",
+    "Name": "질서의 해 코어 : 일섬",
+    "Point": 17,
+    "Grade": "유물",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#FA5D00'>질서의 해 코어 : 일섬</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#FA5D00'>유물 아크 그리드 코어</FONT></FONT>\",\r\n          \"leftStr1\": \"\",\r\n          \"leftStr2\": \"\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 5,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_96.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>코어 타입</FONT>\",\r\n          \"Element_001\": \"질서 - 해\"\r\n        }\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>코어 공급 의지력</FONT>\",\r\n          \"Element_001\": \"<FONT COLOR = '#B7FB00'>15</FONT> 포인트\"\r\n        }\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>코어 옵션</FONT>\",\r\n          \"Element_001\": \"<FONT color='#FFD200'>[10P]</FONT> 일반 스킬의 피해량이 <FONT COLOR='#99ff99'>2.0%</FONT> 증가한다.<br><FONT color='#FFD200'>[14P]</FONT> <FONT COLOR='#bf9ef6'>'운명'</FONT> 발동 시 다음 사용하는 페이탈 웨이브의 피해량이 <FONT COLOR='#ffff99'>1</FONT>회 동안 <FONT COLOR='#99ff99'>40.0%</FONT> 증가한다.<br><FONT color='#FFD200'>[17P]</FONT> <FONT COLOR='#bf9ef6'>'운명'</FONT> 발동 시 페이탈 웨이브의 재사용 대기시간이 초기화된다.<br><FONT color='#FFD200'>[18P]</FONT> 일반 스킬의 피해량이 <FONT COLOR='#99ff99'>0.2%</FONT> 증가한다.<br><FONT color='#FFD200'>[19P]</FONT> 일반 스킬의 피해량이 <FONT COLOR='#99ff99'>0.2%</FONT> 증가한다.<br><FONT color='#FFD200'>[20P]</FONT> 일반 스킬의 피해량이 <FONT COLOR='#99ff99'>0.2%</FONT> 증가한다.\"\r\n        }\r\n      },\r\n      \"Element_006\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>코어 옵션 발동 조건</FONT>\",\r\n          \"Element_001\": \"<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>잔재된 기운 전용<br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>아크 패시브 4티어 극한의 몸놀림 활성화 필요\"\r\n        }\r\n      },\r\n      \"Element_007\": null,\r\n      \"Element_008\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT></FONT>\"\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_010\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_011\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[카제로스 레이드] 4막 : 파멸의 성채</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 종막 : 최후의 날</font><BR><Font color='#5FD3F1'>[그림자 레이드] 고통의 마녀, 세르카</font><BR><Font color='#5FD3F1'>그 외에 획득처가 더 존재합니다.</FONT>\"\r\n      }\r\n    }",
+    "Gems": [
+     {
+      "Index": 0,
+      "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png",
+      "IsActive": true,
+      "Grade": "전설",
+      "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>질서의 젬 : 안정</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 아크 그리드 젬</FONT></FONT>\",\r\n          \"leftStr2\": \"\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"가공 완료\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 기본 정보</FONT>\",\r\n          \"Element_001\": \"젬 타입 : 질서<br>젬 포인트 : <FONT COLOR = '#B7FB00'>15</FONT>\"\r\n        }\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 효과</FONT>\",\r\n          \"Element_001\": \"<img src='emoticon_arkgrid_willpower' width='20' height='20' vspace='-7'></img>필요 의지력 : <FONT color='#FFD200'>3</FONT> (기본 값 8 – 의지력 효율 <FONT COLOR = '#FBB29C'>5</FONT>)<br><img src='emoticon_arkgrid_corepoint' width='20' height='20' vspace='-7'></img>질서 포인트 : <FONT COLOR = '#B7FB00'>5</FONT><br>[공격력] <FONT color='#FFD200'>Lv.1</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>공격력 +0.03%<br>[아군 피해 강화] <FONT color='#FFD200'>Lv.4</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>아군 피해량 강화 효과 +0.21%\"\r\n        }\r\n      },\r\n      \"Element_006\": null,\r\n      \"Element_007\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[젬 가공] 아크 그리드 젬</font><BR><Font color='#5FD3F1'>[젬 융합] 가공 완료 젬</font>\"\r\n      }\r\n    }"
+     },
+     {
+      "Index": 1,
+      "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png",
+      "IsActive": true,
+      "Grade": "전설",
+      "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>질서의 젬 : 안정</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 아크 그리드 젬</FONT></FONT>\",\r\n          \"leftStr2\": \"\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"가공 완료\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 기본 정보</FONT>\",\r\n          \"Element_001\": \"젬 타입 : 질서<br>젬 포인트 : <FONT COLOR = '#B7FB00'>11</FONT>\"\r\n        }\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 효과</FONT>\",\r\n          \"Element_001\": \"<img src='emoticon_arkgrid_willpower' width='20' height='20' vspace='-7'></img>필요 의지력 : <FONT color='#FFD200'>3</FONT> (기본 값 8 – 의지력 효율 <FONT COLOR = '#FBB29C'>5</FONT>)<br><img src='emoticon_arkgrid_corepoint' width='20' height='20' vspace='-7'></img>질서 포인트 : <FONT COLOR = '#B7FB00'>4</FONT><br>[공격력] <FONT color='#FFD200'>Lv.1</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>공격력 +0.03%<br>[아군 피해 강화] <FONT color='#FFD200'>Lv.1</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>아군 피해량 강화 효과 +0.05%\"\r\n        }\r\n      },\r\n      \"Element_006\": null,\r\n      \"Element_007\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      }\r\n    }"
+     },
+     {
+      "Index": 2,
+      "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png",
+      "IsActive": true,
+      "Grade": "전설",
+      "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>질서의 젬 : 안정</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 아크 그리드 젬</FONT></FONT>\",\r\n          \"leftStr2\": \"\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"가공 완료\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 기본 정보</FONT>\",\r\n          \"Element_001\": \"젬 타입 : 질서<br>젬 포인트 : <FONT COLOR = '#B7FB00'>14</FONT>\"\r\n        }\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 효과</FONT>\",\r\n          \"Element_001\": \"<img src='emoticon_arkgrid_willpower' width='20' height='20' vspace='-7'></img>필요 의지력 : <FONT color='#FFD200'>5</FONT> (기본 값 8 – 의지력 효율 <FONT COLOR = '#FBB29C'>3</FONT>)<br><img src='emoticon_arkgrid_corepoint' width='20' height='20' vspace='-7'></img>질서 포인트 : <FONT COLOR = '#B7FB00'>5</FONT><br>[아군 피해 강화] <FONT color='#FFD200'>Lv.4</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>아군 피해량 강화 효과 +0.21%<br>[추가 피해] <FONT color='#FFD200'>Lv.2</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>추가 피해 +0.16%\"\r\n        }\r\n      },\r\n      \"Element_006\": null,\r\n      \"Element_007\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[젬 가공] 아크 그리드 젬</font><BR><Font color='#5FD3F1'>[젬 융합] 가공 완료 젬</font>\"\r\n      }\r\n    }"
+     },
+     {
+      "Index": 3,
+      "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png",
+      "IsActive": true,
+      "Grade": "전설",
+      "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>질서의 젬 : 안정</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 아크 그리드 젬</FONT></FONT>\",\r\n          \"leftStr2\": \"\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"가공 완료\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 기본 정보</FONT>\",\r\n          \"Element_001\": \"젬 타입 : 질서<br>젬 포인트 : <FONT COLOR = '#B7FB00'>14</FONT>\"\r\n        }\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 효과</FONT>\",\r\n          \"Element_001\": \"<img src='emoticon_arkgrid_willpower' width='20' height='20' vspace='-7'></img>필요 의지력 : <FONT color='#FFD200'>4</FONT> (기본 값 8 – 의지력 효율 <FONT COLOR = '#FBB29C'>4</FONT>)<br><img src='emoticon_arkgrid_corepoint' width='20' height='20' vspace='-7'></img>질서 포인트 : <FONT COLOR = '#B7FB00'>3</FONT><br>[공격력] <FONT color='#FFD200'>Lv.2</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>공격력 +0.07%<br>[추가 피해] <FONT color='#FFD200'>Lv.5</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>추가 피해 +0.40%\"\r\n        }\r\n      },\r\n      \"Element_006\": null,\r\n      \"Element_007\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[젬 가공] 아크 그리드 젬</font><BR><Font color='#5FD3F1'>[젬 융합] 가공 완료 젬</font>\"\r\n      }\r\n    }"
+     }
+    ]
+   },
+   {
+    "Index": 1,
+    "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_97.png",
+    "Name": "질서의 달 코어 : 블레이드 웨이브",
+    "Point": 15,
+    "Grade": "전설",
+    "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>질서의 달 코어 : 블레이드 웨이브</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 아크 그리드 코어</FONT></FONT>\",\r\n          \"leftStr1\": \"\",\r\n          \"leftStr2\": \"\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_97.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>코어 타입</FONT>\",\r\n          \"Element_001\": \"질서 - 달\"\r\n        }\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>코어 공급 의지력</FONT>\",\r\n          \"Element_001\": \"<FONT COLOR = '#B7FB00'>12</FONT> 포인트\"\r\n        }\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>코어 옵션</FONT>\",\r\n          \"Element_001\": \"<FONT color='#FFD200'>[10P]</FONT> 일반 스킬의 피해량이 <FONT COLOR='#99ff99'>2.0%</FONT> 증가한다.<br><FONT color='#FFD200'>[14P]</FONT> 터닝 슬래쉬 사용 시 <FONT COLOR='#bf9ef6'>'운명'</FONT>이 발동한다.\"\r\n        }\r\n      },\r\n      \"Element_006\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>코어 옵션 발동 조건</FONT>\",\r\n          \"Element_001\": \"<img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>잔재된 기운 전용<br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>아크 패시브 4티어 극한의 몸놀림 활성화 필요\"\r\n        }\r\n      },\r\n      \"Element_007\": null,\r\n      \"Element_008\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<FONT SIZE='12'><FONT COLOR='#C24B46'>분해불가</FONT></FONT>\"\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_010\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_011\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[카제로스 레이드] 4막 : 파멸의 성채</font><BR><Font color='#5FD3F1'>[카제로스 레이드] 종막 : 최후의 날</font><BR><Font color='#5FD3F1'>[그림자 레이드] 고통의 마녀, 세르카</font><BR><Font color='#5FD3F1'>그 외에 획득처가 더 존재합니다.</FONT>\"\r\n      }\r\n    }",
+    "Gems": [
+     {
+      "Index": 0,
+      "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png",
+      "IsActive": true,
+      "Grade": "전설",
+      "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>질서의 젬 : 안정</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 아크 그리드 젬</FONT></FONT>\",\r\n          \"leftStr2\": \"\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"가공 완료\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 기본 정보</FONT>\",\r\n          \"Element_001\": \"젬 타입 : 질서<br>젬 포인트 : <FONT COLOR = '#B7FB00'>11</FONT>\"\r\n        }\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 효과</FONT>\",\r\n          \"Element_001\": \"<img src='emoticon_arkgrid_willpower' width='20' height='20' vspace='-7'></img>필요 의지력 : <FONT color='#FFD200'>3</FONT> (기본 값 8 – 의지력 효율 <FONT COLOR = '#FBB29C'>5</FONT>)<br><img src='emoticon_arkgrid_corepoint' width='20' height='20' vspace='-7'></img>질서 포인트 : <FONT COLOR = '#B7FB00'>4</FONT><br>[추가 피해] <FONT color='#FFD200'>Lv.1</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>추가 피해 +0.08%<br>[공격력] <FONT color='#FFD200'>Lv.1</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>공격력 +0.03%\"\r\n        }\r\n      },\r\n      \"Element_006\": null,\r\n      \"Element_007\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[젬 가공] 아크 그리드 젬</font><BR><Font color='#5FD3F1'>[젬 융합] 가공 완료 젬</font>\"\r\n      }\r\n    }"
+     },
+     {
+      "Index": 1,
+      "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png",
+      "IsActive": true,
+      "Grade": "전설",
+      "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>질서의 젬 : 안정</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 아크 그리드 젬</FONT></FONT>\",\r\n          \"leftStr2\": \"\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"가공 완료\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 기본 정보</FONT>\",\r\n          \"Element_001\": \"젬 타입 : 질서<br>젬 포인트 : <FONT COLOR = '#B7FB00'>11</FONT>\"\r\n        }\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 효과</FONT>\",\r\n          \"Element_001\": \"<img src='emoticon_arkgrid_willpower' width='20' height='20' vspace='-7'></img>필요 의지력 : <FONT color='#FFD200'>3</FONT> (기본 값 8 – 의지력 효율 <FONT COLOR = '#FBB29C'>5</FONT>)<br><img src='emoticon_arkgrid_corepoint' width='20' height='20' vspace='-7'></img>질서 포인트 : <FONT COLOR = '#B7FB00'>4</FONT><br>[공격력] <FONT color='#FFD200'>Lv.1</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>공격력 +0.03%<br>[아군 피해 강화] <FONT color='#FFD200'>Lv.1</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>아군 피해량 강화 효과 +0.05%\"\r\n        }\r\n      },\r\n      \"Element_006\": null,\r\n      \"Element_007\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      }\r\n    }"
+     },
+     {
+      "Index": 2,
+      "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png",
+      "IsActive": true,
+      "Grade": "유물",
+      "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#FA5D00'>질서의 젬 : 안정</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#FA5D00'>유물 아크 그리드 젬</FONT></FONT>\",\r\n          \"leftStr2\": \"\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 5,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"가공 완료\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 기본 정보</FONT>\",\r\n          \"Element_001\": \"젬 타입 : 질서<br>젬 포인트 : <FONT COLOR = '#B7FB00'>16</FONT>\"\r\n        }\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 효과</FONT>\",\r\n          \"Element_001\": \"<img src='emoticon_arkgrid_willpower' width='20' height='20' vspace='-7'></img>필요 의지력 : <FONT color='#FFD200'>3</FONT> (기본 값 8 – 의지력 효율 <FONT COLOR = '#FBB29C'>5</FONT>)<br><img src='emoticon_arkgrid_corepoint' width='20' height='20' vspace='-7'></img>질서 포인트 : <FONT COLOR = '#B7FB00'>3</FONT><br>[추가 피해] <FONT color='#FFD200'>Lv.3</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>추가 피해 +0.24%<br>[공격력] <FONT color='#FFD200'>Lv.5</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>공격력 +0.18%\"\r\n        }\r\n      },\r\n      \"Element_006\": null,\r\n      \"Element_007\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_009\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"<Font color='#5FD3F1'>[젬 가공] 아크 그리드 젬</font><BR><Font color='#5FD3F1'>[젬 융합] 가공 완료 젬</font>\"\r\n      }\r\n    }"
+     },
+     {
+      "Index": 3,
+      "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png",
+      "IsActive": true,
+      "Grade": "전설",
+      "Tooltip": "{\r\n      \"Element_000\": {\r\n        \"type\": \"NameTagBox\",\r\n        \"value\": \"<P ALIGN='CENTER'><FONT COLOR='#F99200'>질서의 젬 : 안정</FONT></P>\"\r\n      },\r\n      \"Element_001\": {\r\n        \"type\": \"ItemTitle\",\r\n        \"value\": {\r\n          \"bEquip\": 0,\r\n          \"itemIrochiCount\": 0,\r\n          \"leftStr0\": \"<FONT SIZE='12'><FONT COLOR='#F99200'>전설 아크 그리드 젬</FONT></FONT>\",\r\n          \"leftStr2\": \"\",\r\n          \"qualityValue\": -1,\r\n          \"rightStr0\": \"\",\r\n          \"slotData\": {\r\n            \"advBookIcon\": 0,\r\n            \"battleItemTypeIcon\": 0,\r\n            \"blackListIcon\": 0,\r\n            \"cardIcon\": false,\r\n            \"friendship\": 0,\r\n            \"iconGrade\": 4,\r\n            \"iconPath\": \"https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_13_202.png\",\r\n            \"imagePath\": \"\",\r\n            \"islandIcon\": 0,\r\n            \"petBorder\": 0,\r\n            \"rtString\": \"\",\r\n            \"temporary\": 0,\r\n            \"town\": 0,\r\n            \"trash\": 0\r\n          }\r\n        }\r\n      },\r\n      \"Element_002\": {\r\n        \"type\": \"SingleTextBox\",\r\n        \"value\": \"가공 완료\"\r\n      },\r\n      \"Element_003\": {\r\n        \"type\": \"MultiTextBox\",\r\n        \"value\": \"|<font color='#C24B46'>거래 불가</font>\"\r\n      },\r\n      \"Element_004\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 기본 정보</FONT>\",\r\n          \"Element_001\": \"젬 타입 : 질서<br>젬 포인트 : <FONT COLOR = '#B7FB00'>11</FONT>\"\r\n        }\r\n      },\r\n      \"Element_005\": {\r\n        \"type\": \"ItemPartBox\",\r\n        \"value\": {\r\n          \"Element_000\": \"<FONT COLOR='#A9D0F5'>젬 효과</FONT>\",\r\n          \"Element_001\": \"<img src='emoticon_arkgrid_willpower' width='20' height='20' vspace='-7'></img>필요 의지력 : <FONT color='#FFD200'>3</FONT> (기본 값 8 – 의지력 효율 <FONT COLOR = '#FBB29C'>5</FONT>)<br><img src='emoticon_arkgrid_corepoint' width='20' height='20' vspace='-7'></img>질서 포인트 : <FONT COLOR = '#B7FB00'>4</FONT><br>[공격력] <FONT color='#FFD200'>Lv.1</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>공격력 +0.03%<br>[아군 피해 강화] <FONT color='#FFD200'>Lv.1</FONT><br><img src='emoticon_sign_greenDot' width='0' height='0' vspace='-3'></img>아군 피해량 강화 효과 +0.05%\"\r\n        }\r\n      },\r\n      \"Element_006\": null,\r\n      \"Element_007\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      },\r\n      \"Element_008\": {\r\n        \"type\": \"Progress\",\r\n        \"value\": null\r\n      }\r\n    }"
+     }
+    ]
+   }
+  ],
+  "Effects": [
+   {
+    "Name": "공격력",
+    "Level": 30,
+    "Tooltip": "공격력 <font color='#ffd200'>+1.10%</font>"
+   },
+   {
+    "Name": "아군 피해 강화",
+    "Level": 28,
+    "Tooltip": "아군 피해량 강화 효과 <font color='#ffd200'>+1.47%</font>"
+   },
+   {
+    "Name": "추가 피해",
+    "Level": 25,
+    "Tooltip": "추가 피해 <font color='#ffd200'>+2.02%</font>"
+   },
+   {
+    "Name": "낙인력",
+    "Level": 6,
+    "Tooltip": "낙인력 <font color='#ffd200'>+1.00%</font>"
+   }
+  ]
+ },
+ "ColosseumInfo": {
+  "Colosseums": [
+   {
+    "SeasonName": "프리 시즌",
+    "Competitive": null,
+    "TeamDeathmatch": null,
+    "TeamElimination": null,
+    "CoOpBattle": null,
+    "OneDeathmatch": null,
+    "OneDeathmatchRank": null
+   },
+   {
+    "SeasonName": "시즌 1",
+    "Competitive": null,
+    "TeamDeathmatch": null,
+    "TeamElimination": null,
+    "CoOpBattle": null,
+    "OneDeathmatch": null,
+    "OneDeathmatchRank": null
+   },
+   {
+    "SeasonName": "시즌 2",
+    "Competitive": null,
+    "TeamDeathmatch": null,
+    "TeamElimination": null,
+    "CoOpBattle": null,
+    "OneDeathmatch": null,
+    "OneDeathmatchRank": null
+   },
+   {
+    "SeasonName": "시즌 3",
+    "Competitive": null,
+    "TeamDeathmatch": null,
+    "TeamElimination": null,
+    "CoOpBattle": null,
+    "OneDeathmatch": null,
+    "OneDeathmatchRank": null
+   },
+   {
+    "SeasonName": "시즌 4",
+    "Competitive": null,
+    "TeamDeathmatch": null,
+    "TeamElimination": null,
+    "CoOpBattle": null,
+    "OneDeathmatch": null,
+    "OneDeathmatchRank": null
+   },
+   {
+    "SeasonName": "시즌 5",
+    "Competitive": null,
+    "TeamDeathmatch": null,
+    "TeamElimination": null,
+    "CoOpBattle": null,
+    "OneDeathmatch": null,
+    "OneDeathmatchRank": null
+   },
+   {
+    "SeasonName": "시즌 6",
+    "Competitive": null,
+    "TeamDeathmatch": null,
+    "TeamElimination": null,
+    "CoOpBattle": null,
+    "OneDeathmatch": null,
+    "OneDeathmatchRank": null
+   },
+   {
+    "SeasonName": "시즌 7",
+    "Competitive": null,
+    "TeamDeathmatch": null,
+    "TeamElimination": null,
+    "CoOpBattle": null,
+    "OneDeathmatch": null,
+    "OneDeathmatchRank": null
+   },
+   {
+    "SeasonName": "시즌 8",
+    "Competitive": null,
+    "TeamDeathmatch": null,
+    "TeamElimination": null,
+    "CoOpBattle": null,
+    "OneDeathmatch": null,
+    "OneDeathmatchRank": null
+   }
+  ]
+ },
+ "Collectibles": [
+  {
+   "Type": "모코코 씨앗",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/cumulativepoint/cumulativepoint_mococo_5.png",
+   "Point": 50,
+   "MaxPoint": 1480,
+   "CollectiblePoints": [
+    {
+     "PointName": "아르테미스",
+     "Point": 1,
+     "MaxPoint": 51
+    },
+    {
+     "PointName": "유디아",
+     "Point": 1,
+     "MaxPoint": 37
+    },
+    {
+     "PointName": "루테란 서부",
+     "Point": 1,
+     "MaxPoint": 71
+    }
+   ]
+  },
+  {
+   "Type": "섬의 마음",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/cumulativepoint/cumulativepoint_island_5.png",
+   "Point": 50,
+   "MaxPoint": 104,
+   "CollectiblePoints": [
+    {
+     "PointName": "고블린 섬의 마음",
+     "Point": 1,
+     "MaxPoint": 1
+    },
+    {
+     "PointName": "거대버섯 섬의 마음",
+     "Point": 1,
+     "MaxPoint": 1
+    },
+    {
+     "PointName": "토토실버 섬의 마음",
+     "Point": 1,
+     "MaxPoint": 1
+    }
+   ]
+  }
+ ]
+}

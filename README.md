@@ -12,6 +12,7 @@ launchd installer, and one set of checks.
 |---|---|
 | [`packages/localauth/`](packages/localauth/) | **Passphrase-gated OAuth 2.1 authorization server for FastMCP.** No external identity provider. Usable in any MCP server, not just the ones here. |
 | [`servers/kis/`](servers/kis/) | Read-only market data over the Korea Investment & Securities (KIS) Open API — quotes, daily bars, order book, investor flow, indices, FX. |
+| [`servers/lostark/`](servers/lostark/) | Read-only Lost Ark Open API — character gear and builds sized for a model's context, market and auction prices, crafting profit, build statistics over your own ranker list. |
 | [`scripts/`](scripts/) | Server-agnostic checks: the OAuth flow, and a full round trip against a live public URL. |
 | [`deploy/`](deploy/) | launchd template and installer. |
 
@@ -104,6 +105,7 @@ same port.
 | Server | Port | Public hostname |
 |---|---|---|
 | `kis` | 8765 | *(set `MCP_PUBLIC_URL` in `servers/kis/.env`)* |
+| `lostark` | 8766 | *(set `MCP_PUBLIC_URL` in `servers/lostark/.env`)* |
 
 ### Checks
 

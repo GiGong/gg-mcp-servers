@@ -3,7 +3,7 @@ name = "mcp-servers"
 version = "0.1.0"
 description = "A collection of self-hosted remote MCP servers"
 requires-python = ">=3.11"
-dependencies = ["localauth", "kis-mcp"]
+dependencies = ["localauth", "kis-mcp", "lostark-mcp"]
 
 [tool.uv.workspace]
 members = ["packages/*", "servers/*"]
@@ -11,6 +11,7 @@ members = ["packages/*", "servers/*"]
 [tool.uv.sources]
 localauth = { workspace = true }
 kis-mcp = { workspace = true }
+lostark-mcp = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

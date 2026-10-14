@@ -1,0 +1,37 @@
+[
+ {
+  "ServerName": "테스트서버",
+  "CharacterName": "테스트캐릭터",
+  "CharacterLevel": 70,
+  "CharacterClassName": "블레이드",
+  "ItemAvgLevel": "1,700.00"
+ },
+ {
+  "ServerName": "테스트서버",
+  "CharacterName": "부캐1",
+  "CharacterLevel": 70,
+  "CharacterClassName": "바드",
+  "ItemAvgLevel": "1,660.00"
+ },
+ {
+  "ServerName": "테스트서버",
+  "CharacterName": "부캐2",
+  "CharacterLevel": 70,
+  "CharacterClassName": "건슬링어",
+  "ItemAvgLevel": "1,640.00"
+ },
+ {
+  "ServerName": "테스트서버",
+  "CharacterName": "부캐3",
+  "CharacterLevel": 70,
+  "CharacterClassName": "워로드",
+  "ItemAvgLevel": "1,620.00"
+ },
+ {
+  "ServerName": "테스트서버",
+  "CharacterName": "부캐4",
+  "CharacterLevel": 60,
+  "CharacterClassName": "아르카나",
+  "ItemAvgLevel": "1,600.00"
+ }
+]

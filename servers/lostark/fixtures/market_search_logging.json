@@ -1,0 +1,51 @@
+{
+ "PageNo": 1,
+ "PageSize": 10,
+ "TotalCount": 4,
+ "Items": [
+  {
+   "CurrentMinPrice": 276,
+   "Id": 6882301,
+   "Name": "목재",
+   "Grade": "일반",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_3_252.png",
+   "BundleCount": 100,
+   "TradeRemainCount": null,
+   "YDayAvgPrice": 274.9,
+   "RecentPrice": 279
+  },
+  {
+   "CurrentMinPrice": 556,
+   "Id": 6882304,
+   "Name": "부드러운 목재",
+   "Grade": "고급",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_3_253.png",
+   "BundleCount": 100,
+   "TradeRemainCount": null,
+   "YDayAvgPrice": 550.8,
+   "RecentPrice": 557
+  },
+  {
+   "CurrentMinPrice": 2810,
+   "Id": 6884307,
+   "Name": "튼튼한 목재",
+   "Grade": "희귀",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_4_4.png",
+   "BundleCount": 100,
+   "TradeRemainCount": null,
+   "YDayAvgPrice": 2758.2,
+   "RecentPrice": 2813
+  },
+  {
+   "CurrentMinPrice": 3600,
+   "Id": 6884308,
+   "Name": "아비도스 목재",
+   "Grade": "희귀",
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/lifelevel/lifelevel_02_48.png",
+   "BundleCount": 100,
+   "TradeRemainCount": null,
+   "YDayAvgPrice": 3532.5,
+   "RecentPrice": 3605
+  }
+ ]
+}

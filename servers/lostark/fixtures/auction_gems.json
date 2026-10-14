@@ -1,0 +1,307 @@
+{
+ "PageNo": 1,
+ "PageSize": 10,
+ "TotalCount": 2768,
+ "Items": [
+  {
+   "Name": "1레벨 겁화의 보석",
+   "Grade": "희귀",
+   "Tier": 4,
+   "Level": 1640,
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_96.png",
+   "GradeQuality": null,
+   "AuctionInfo": {
+    "StartPrice": 160,
+    "BuyPrice": null,
+    "BidPrice": 0,
+    "EndDate": "2026-10-13T20:52:35.497",
+    "BidCount": 0,
+    "BidStartPrice": 160,
+    "IsCompetitive": false,
+    "TradeAllowCount": 0,
+    "UpgradeLevel": null
+   },
+   "Options": [
+    {
+     "Type": "GEM_SKILL_DAMAGE",
+     "OptionName": "선풍용류각",
+     "OptionNameTripod": "",
+     "Value": 8.0,
+     "IsPenalty": false,
+     "ClassName": "배틀마스터",
+     "IsValuePercentage": true
+    }
+   ]
+  },
+  {
+   "Name": "1레벨 겁화의 보석",
+   "Grade": "희귀",
+   "Tier": 4,
+   "Level": 1640,
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_96.png",
+   "GradeQuality": null,
+   "AuctionInfo": {
+    "StartPrice": 160,
+    "BuyPrice": null,
+    "BidPrice": 0,
+    "EndDate": "2026-10-13T20:52:39.147",
+    "BidCount": 0,
+    "BidStartPrice": 160,
+    "IsCompetitive": false,
+    "TradeAllowCount": 0,
+    "UpgradeLevel": null
+   },
+   "Options": [
+    {
+     "Type": "GEM_SKILL_DAMAGE",
+     "OptionName": "뇌명각",
+     "OptionNameTripod": "",
+     "Value": 8.0,
+     "IsPenalty": false,
+     "ClassName": "배틀마스터",
+     "IsValuePercentage": true
+    }
+   ]
+  },
+  {
+   "Name": "5레벨 겁화의 보석",
+   "Grade": "전설",
+   "Tier": 4,
+   "Level": 1640,
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_100.png",
+   "GradeQuality": null,
+   "AuctionInfo": {
+    "StartPrice": 11443,
+    "BuyPrice": null,
+    "BidPrice": 0,
+    "EndDate": "2026-10-13T21:47:52.617",
+    "BidCount": 0,
+    "BidStartPrice": 11443,
+    "IsCompetitive": false,
+    "TradeAllowCount": 0,
+    "UpgradeLevel": null
+   },
+   "Options": [
+    {
+     "Type": "GEM_SKILL_DAMAGE",
+     "OptionName": "뙤약볕",
+     "OptionNameTripod": "",
+     "Value": 24.0,
+     "IsPenalty": false,
+     "ClassName": "기상술사",
+     "IsValuePercentage": true
+    }
+   ]
+  },
+  {
+   "Name": "7레벨 작열의 보석",
+   "Grade": "전설",
+   "Tier": 4,
+   "Level": 1640,
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_112.png",
+   "GradeQuality": null,
+   "AuctionInfo": {
+    "StartPrice": 108000,
+    "BuyPrice": null,
+    "BidPrice": 0,
+    "EndDate": "2026-10-13T22:43:35.35",
+    "BidCount": 0,
+    "BidStartPrice": 108000,
+    "IsCompetitive": false,
+    "TradeAllowCount": 0,
+    "UpgradeLevel": null
+   },
+   "Options": [
+    {
+     "Type": "GEM_SKILL_COOLDOWN_REDUCTION",
+     "OptionName": "퀘이크 스매시",
+     "OptionNameTripod": "",
+     "Value": 18.0,
+     "IsPenalty": false,
+     "ClassName": "가디언나이트",
+     "IsValuePercentage": true
+    }
+   ]
+  },
+  {
+   "Name": "5레벨 겁화의 보석",
+   "Grade": "전설",
+   "Tier": 4,
+   "Level": 1640,
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_100.png",
+   "GradeQuality": null,
+   "AuctionInfo": {
+    "StartPrice": 12000,
+    "BuyPrice": null,
+    "BidPrice": 0,
+    "EndDate": "2026-10-13T22:46:12.807",
+    "BidCount": 0,
+    "BidStartPrice": 12000,
+    "IsCompetitive": false,
+    "TradeAllowCount": 0,
+    "UpgradeLevel": null
+   },
+   "Options": [
+    {
+     "Type": "GEM_SKILL_SUPPORT",
+     "OptionName": "세레나데 스킬",
+     "OptionNameTripod": "",
+     "Value": 5.0,
+     "IsPenalty": false,
+     "ClassName": "바드",
+     "IsValuePercentage": true
+    }
+   ]
+  },
+  {
+   "Name": "7레벨 작열의 보석",
+   "Grade": "전설",
+   "Tier": 4,
+   "Level": 1640,
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_112.png",
+   "GradeQuality": null,
+   "AuctionInfo": {
+    "StartPrice": 100000,
+    "BuyPrice": null,
+    "BidPrice": 100000,
+    "EndDate": "2026-10-13T22:46:57.817",
+    "BidCount": 1,
+    "BidStartPrice": 105000,
+    "IsCompetitive": false,
+    "TradeAllowCount": 0,
+    "UpgradeLevel": null
+   },
+   "Options": [
+    {
+     "Type": "GEM_SKILL_COOLDOWN_REDUCTION",
+     "OptionName": "수호의 연주",
+     "OptionNameTripod": "",
+     "Value": 18.0,
+     "IsPenalty": false,
+     "ClassName": "바드",
+     "IsValuePercentage": true
+    }
+   ]
+  },
+  {
+   "Name": "9레벨 작열의 보석",
+   "Grade": "유물",
+   "Tier": 4,
+   "Level": 1640,
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_114.png",
+   "GradeQuality": null,
+   "AuctionInfo": {
+    "StartPrice": 900000,
+    "BuyPrice": null,
+    "BidPrice": 0,
+    "EndDate": "2026-10-13T23:14:10.95",
+    "BidCount": 0,
+    "BidStartPrice": 900000,
+    "IsCompetitive": false,
+    "TradeAllowCount": 0,
+    "UpgradeLevel": null
+   },
+   "Options": [
+    {
+     "Type": "GEM_SKILL_COOLDOWN_REDUCTION",
+     "OptionName": "슈웅 곰",
+     "OptionNameTripod": "",
+     "Value": 22.0,
+     "IsPenalty": false,
+     "ClassName": "환수사",
+     "IsValuePercentage": true
+    }
+   ]
+  },
+  {
+   "Name": "5레벨 겁화의 보석",
+   "Grade": "전설",
+   "Tier": 4,
+   "Level": 1640,
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_100.png",
+   "GradeQuality": null,
+   "AuctionInfo": {
+    "StartPrice": 12075,
+    "BuyPrice": null,
+    "BidPrice": 0,
+    "EndDate": "2026-10-14T00:13:01.433",
+    "BidCount": 0,
+    "BidStartPrice": 12075,
+    "IsCompetitive": false,
+    "TradeAllowCount": 0,
+    "UpgradeLevel": null
+   },
+   "Options": [
+    {
+     "Type": "GEM_SKILL_DAMAGE",
+     "OptionName": "사운드 홀릭",
+     "OptionNameTripod": "",
+     "Value": 24.0,
+     "IsPenalty": false,
+     "ClassName": "바드",
+     "IsValuePercentage": true
+    }
+   ]
+  },
+  {
+   "Name": "5레벨 겁화의 보석",
+   "Grade": "전설",
+   "Tier": 4,
+   "Level": 1640,
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_100.png",
+   "GradeQuality": null,
+   "AuctionInfo": {
+    "StartPrice": 10000,
+    "BuyPrice": null,
+    "BidPrice": 11000,
+    "EndDate": "2026-10-14T00:17:35.227",
+    "BidCount": 1,
+    "BidStartPrice": 11550,
+    "IsCompetitive": false,
+    "TradeAllowCount": 0,
+    "UpgradeLevel": null
+   },
+   "Options": [
+    {
+     "Type": "GEM_SKILL_DAMAGE",
+     "OptionName": "체인 소드",
+     "OptionNameTripod": "",
+     "Value": 24.0,
+     "IsPenalty": false,
+     "ClassName": "버서커",
+     "IsValuePercentage": true
+    }
+   ]
+  },
+  {
+   "Name": "5레벨 작열의 보석",
+   "Grade": "전설",
+   "Tier": 4,
+   "Level": 1640,
+   "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_110.png",
+   "GradeQuality": null,
+   "AuctionInfo": {
+    "StartPrice": 11000,
+    "BuyPrice": null,
+    "BidPrice": 0,
+    "EndDate": "2026-10-14T02:39:55.903",
+    "BidCount": 0,
+    "BidStartPrice": 11000,
+    "IsCompetitive": false,
+    "TradeAllowCount": 0,
+    "UpgradeLevel": null
+   },
+   "Options": [
+    {
+     "Type": "GEM_SKILL_COOLDOWN_REDUCTION",
+     "OptionName": "프렌지 스윕",
+     "OptionNameTripod": "",
+     "Value": 14.0,
+     "IsPenalty": false,
+     "ClassName": "가디언나이트",
+     "IsValuePercentage": true
+    }
+   ]
+  }
+ ]
+}

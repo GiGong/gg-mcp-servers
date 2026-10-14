@@ -1,0 +1,26 @@
+# Crafting recipes for calc_craft_profit(recipe="...").
+#
+# The Open API does not expose recipes, so every number here is game data you
+# copy from the in-game crafting window. Nothing is pre-filled on purpose: a
+# wrong quantity silently produces a wrong profit. Record the date you checked
+# in `verified`; responses report it, or "unverified" when it is empty.
+#
+# craft_gold is the gold fee per craft as shown in-game (estate research can
+# lower it), craft_seconds the time per craft (optional, enables per-hour).
+# Input and output names must match the market exactly.
+#
+# Example shape (fill in real values and uncomment):
+#
+# [recipes."아비도스 융화 재료 (벌목)"]
+# output = "아비도스 융화 재료"
+# output_qty = 0
+# craft_gold = 0
+# craft_seconds = 0
+# verified = ""        # e.g. "2026-10-13, in-game"
+# inputs = [
+#   { name = "아비도스 목재", qty = 0 },
+#   { name = "부드러운 목재", qty = 0 },
+#   { name = "목재", qty = 0 },
+# ]
+
+[recipes]
