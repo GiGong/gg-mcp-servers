@@ -59,6 +59,12 @@ sed -e "s|__BIN__|$BIN|g" \
     "$TEMPLATE" > "$TARGET"
 
 launchctl bootout "$DOMAIN/$LABEL" 2>/dev/null || true
+# bootout returns before the old instance is gone. Bootstrapping too early
+# fails with "Bootstrap failed: 5: Input/output error", so wait it out.
+for _ in $(seq 1 20); do
+  launchctl print "$DOMAIN/$LABEL" >/dev/null 2>&1 || break
+  sleep 0.5
+done
 launchctl bootstrap "$DOMAIN" "$TARGET"
 launchctl enable "$DOMAIN/$LABEL"
 launchctl kickstart -k "$DOMAIN/$LABEL"
