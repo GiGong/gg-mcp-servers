@@ -1,14 +1,27 @@
 #!/usr/bin/env bash
-# Refuse to push commits authored with a blocked email address.
+# Refuse to push commits that would publish private details.
 #
-# GitHub can block this server-side, but only for addresses registered to your
-# account. An address already claimed by a *different* GitHub account cannot be
-# registered, so it cannot be protected that way. This hook covers that gap
-# locally.
+# Every commit about to be pushed is checked twice:
 #
-# Configure the list (comma-separated, matched case-insensitively as substrings):
+#   1. Author and committer email against hooks.blockedEmails.
+#      GitHub can block this server-side, but only for addresses registered to
+#      your account. An address already claimed by a *different* GitHub account
+#      cannot be registered, so it cannot be protected that way.
+#
+#   2. The commit message, the changed paths and the added lines against
+#      hooks.blockedEmails, hooks.blockedPatterns and a few built-in secret
+#      shapes (JWTs, private key blocks). Use blockedPatterns for things that
+#      must never be published but are not secrets in the usual sense: real
+#      hostnames, deployment labels, home directory paths, account names.
+#
+# Configure. The values live in your git config, never in a repository:
 #
 #   git config --global hooks.blockedEmails "old@example.com,work@corp.com"
+#   git config --global --add hooks.blockedPatterns "internal.example.com"
+#   git config --global --add hooks.blockedPatterns "/Users/yourname"
+#
+# Emails are comma-separated; patterns are one per --add. Both are fixed strings
+# matched case-insensitively.
 #
 # Install for one repository:
 #   git config core.hooksPath deploy/git-hooks
@@ -21,14 +34,34 @@
 #   git config --global core.hooksPath ~/.config/git/hooks
 #
 # Bypass once, deliberately:  git push --no-verify
+#
+# Written for the bash 3.2 that ships with macOS: no mapfile, and empty arrays
+# are expanded with ${a[@]+"${a[@]}"} so that `set -u` does not trip.
 set -uo pipefail
 
-BLOCKED_RAW="$(git config --get hooks.blockedEmails || true)"
-[[ -z "$BLOCKED_RAW" ]] && exit 0
+EMAILS=()
+if raw="$(git config --get hooks.blockedEmails)"; then
+  IFS=',' read -r -a parts <<< "$raw"
+  for part in ${parts[@]+"${parts[@]}"}; do
+    part="$(echo "$part" | tr -d '[:space:]')"
+    [[ -n "$part" ]] && EMAILS+=("$part")
+  done
+fi
 
-IFS=',' read -r -a BLOCKED <<< "$BLOCKED_RAW"
+PATTERNS=(${EMAILS[@]+"${EMAILS[@]}"})
+while IFS= read -r line; do
+  [[ -n "$line" ]] && PATTERNS+=("$line")
+done < <(git config --get-all hooks.blockedPatterns 2>/dev/null || true)
+
+# Secret shapes that never belong in a commit, whatever the repository.
+SECRET_SHAPES=(
+  'eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}'
+  '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+)
+
 ZERO="0000000000000000000000000000000000000000"
-status=0
+email_hit=0
+content_hit=0
 
 while read -r _local_ref local_sha _remote_ref remote_sha; do
   [[ "$local_sha" == "$ZERO" ]] && continue   # branch deletion
@@ -41,22 +74,48 @@ while read -r _local_ref local_sha _remote_ref remote_sha; do
   fi
 
   # shellcheck disable=SC2086
-  while IFS='|' read -r sha author committer subject; do
-    [[ -z "$sha" ]] && continue
-    for pattern in "${BLOCKED[@]}"; do
-      pattern="$(echo "$pattern" | tr -d '[:space:]')"
-      [[ -z "$pattern" ]] && continue
-      if grep -qi -- "$pattern" <<< "$author $committer"; then
-        echo "pre-push: blocked email in ${sha:0:8} — $subject" >&2
-        echo "          author=$author committer=$committer" >&2
-        echo "          matched: $pattern" >&2
-        status=1
+  for sha in $(git rev-list $range 2>/dev/null); do
+    short="${sha:0:8}"
+    subject="$(git log -1 --format=%s "$sha")"
+
+    identity="$(git log -1 --format='%ae %ce' "$sha")"
+    for email in ${EMAILS[@]+"${EMAILS[@]}"}; do
+      if grep -qiF -- "$email" <<< "$identity"; then
+        echo "pre-push: blocked email in $short ($subject)" >&2
+        echo "          matched: $email" >&2
+        email_hit=1
       fi
     done
-  done < <(git log --format='%H|%ae|%ce|%s' $range 2>/dev/null)
+
+    # What this commit would publish: its message, the paths it touches and
+    # the lines it adds. Removed lines are not new exposure.
+    # core.quotePath=false: otherwise non-ASCII paths print as octal escapes
+    # and a name like 홍길동.json would never match.
+    content="$(
+      git log -1 --format=%B "$sha"
+      git -c core.quotePath=false diff-tree --root -r -m --no-commit-id --name-only "$sha"
+      git -c core.quotePath=false diff-tree --root -m -p -U0 --no-color --no-commit-id "$sha" \
+        | grep '^+' | grep -v '^+++'
+    )"
+
+    for pattern in ${PATTERNS[@]+"${PATTERNS[@]}"}; do
+      if grep -qiF -- "$pattern" <<< "$content"; then
+        echo "pre-push: blocked text in $short ($subject)" >&2
+        echo "          matched: $pattern" >&2
+        content_hit=1
+      fi
+    done
+    for shape in "${SECRET_SHAPES[@]}"; do
+      if grep -qE -- "$shape" <<< "$content"; then
+        echo "pre-push: secret-looking text in $short ($subject)" >&2
+        echo "          matched shape: $shape" >&2
+        content_hit=1
+      fi
+    done
+  done
 done
 
-if [[ $status -ne 0 ]]; then
+if [[ $email_hit -ne 0 ]]; then
   cat >&2 <<'EOF'
 
 Push aborted: one or more commits carry a blocked email address.
@@ -65,10 +124,27 @@ Fix the identity, then rewrite the offending commits:
 
   git config user.email "your-public@example.com"
   git rebase -i --root --exec 'git commit --amend --no-edit --reset-author'
-
-Blocked list:  git config --get hooks.blockedEmails
-Bypass once:   git push --no-verify
 EOF
 fi
 
-exit $status
+if [[ $content_hit -ne 0 ]]; then
+  cat >&2 <<'EOF'
+
+Push aborted: one or more commits would publish blocked text.
+
+Remove it from the files or the message and rewrite those commits
+(git commit --amend for the last one, git rebase -i for older ones).
+A match in a commit that is later reverted is still published by the push.
+EOF
+fi
+
+if [[ $((email_hit + content_hit)) -ne 0 ]]; then
+  cat >&2 <<'EOF'
+
+Blocked lists:  git config --get hooks.blockedEmails
+                git config --get-all hooks.blockedPatterns
+Bypass once:    git push --no-verify
+EOF
+  exit 1
+fi
+exit 0
