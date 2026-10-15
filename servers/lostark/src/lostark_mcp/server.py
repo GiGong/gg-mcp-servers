@@ -13,7 +13,7 @@ from typing import Annotated, Any, Literal
 from fastmcp import FastMCP
 from pydantic import BaseModel, Field
 
-from localauth import PassphraseOAuthProvider
+from localauth import PassphraseOAuthProvider, StaticBearerVerifier
 
 from .armory import ArmoryService
 from .auction import AuctionService
@@ -152,6 +152,9 @@ def build_server(settings: Settings) -> tuple[FastMCP, LostarkClient]:
             page_subtitle=settings.auth_page_subtitle,
         )
         logger.info("auth: built-in OAuth 2.1 (passphrase-gated) at %s", settings.public_url)
+    elif settings.auth_mode == "bearer":
+        auth = StaticBearerVerifier(settings.bearer_token)
+        logger.info("auth: static bearer token (%d chars); no OAuth routes", len(settings.bearer_token))
     else:
         logger.warning("auth: DISABLED (AUTH_MODE=none). Do not expose this server publicly.")
 

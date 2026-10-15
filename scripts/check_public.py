@@ -1,8 +1,11 @@
 #!/usr/bin/env python
-"""Complete a full OAuth round trip against a server's public URL (via the tunnel).
+"""Complete a full round trip against a server's public URL (via the tunnel).
 
-Reproduces the path Claude.ai takes: DCR -> authorize -> passphrase -> code ->
-token -> MCP initialize.
+Reproduces the path Claude.ai takes, following the server's AUTH_MODE:
+
+  oauth   DCR -> authorize -> passphrase -> code -> token -> MCP initialize
+  bearer  fixed Authorization header -> MCP initialize -> tools/list, and checks
+          that no OAuth route is exposed
 
 If the local macOS resolver cannot resolve the hostname, curl's --resolve can
 bypass DNS; the transport still goes through the real tunnel.
@@ -130,6 +133,11 @@ def main() -> int:
         "-d", '{"jsonrpc":"2.0","id":1,"method":"tools/list"}',
     )
     check("unauthenticated MCP access rejected", status == 401, f"HTTP {status}")
+
+    if env.get("AUTH_MODE", "oauth").strip().lower() == "bearer":
+        bearer_checks(base, mcp_url, env.get("MCP_BEARER_TOKEN", ""))
+        return summary()
+
     check("WWW-Authenticate points at the public URL",
           base in headers.get("www-authenticate", ""),
           headers.get("www-authenticate", "(none)")[:80])
@@ -222,12 +230,68 @@ def main() -> int:
     )
     check("authenticated MCP initialize", status == 200, f"HTTP {status}")
 
+    return summary()
+
+
+def summary() -> int:
     print("-" * 60)
     if _failures:
         print(f"{_failures} failed")
         return 1
     print("all passed - the public URL completes the same path Claude.ai uses.")
     return 0
+
+
+def _rpc_result(body: str) -> dict:
+    """The JSON-RPC message from a JSON or a text/event-stream response."""
+    for line in body.splitlines():
+        if line.startswith("data:"):
+            body = line[len("data:"):].strip()
+            break
+    try:
+        return json.loads(body)
+    except ValueError:
+        return {}
+
+
+def bearer_checks(base: str, mcp_url: str, token: str) -> None:
+    """Static-header mode: what a connector set to "No sign-in" does."""
+    check("MCP_BEARER_TOKEN set (>= 32 chars)", len(token) >= 32)
+
+    rpc = ["-X", "POST", "-H", "content-type: application/json",
+           "-H", "accept: application/json, text/event-stream"]
+    init = json.dumps({
+        "jsonrpc": "2.0", "id": 1, "method": "initialize",
+        "params": {"protocolVersion": "2025-06-18", "capabilities": {},
+                   "clientInfo": {"name": "public-check", "version": "0"}},
+    })
+
+    status, _, _ = curl(mcp_url, *rpc, "-H", "authorization: Bearer wrong-" + "x" * 40, "-d", init)
+    check("wrong token rejected", status == 401, f"HTTP {status}")
+
+    for path in ("/.well-known/oauth-authorization-server", "/register", "/authorize"):
+        status, _, _ = curl(f"{base}{path}")
+        check(f"no OAuth route at {path}", status == 404, f"HTTP {status}")
+
+    # The token goes through a 0600 header file, not the command line, so it
+    # never shows up in the process list.
+    with tempfile.NamedTemporaryFile("w", suffix=".hdr") as auth:
+        auth.write(f"authorization: Bearer {token}\n")
+        auth.flush()
+        with_token = [*rpc, "-H", f"@{auth.name}"]
+
+        status, headers, body = curl(mcp_url, *with_token, "-d", init)
+        session = headers.get("mcp-session-id", "")
+        check("authenticated MCP initialize", status == 200, f"HTTP {status}")
+
+        extra = ["-H", f"mcp-session-id: {session}"] if session else []
+        curl(mcp_url, *with_token, *extra,
+             "-d", '{"jsonrpc":"2.0","method":"notifications/initialized"}')
+        status, _, body = curl(mcp_url, *with_token, *extra,
+                               "-d", '{"jsonrpc":"2.0","id":2,"method":"tools/list"}')
+        tools = (_rpc_result(body).get("result") or {}).get("tools") or []
+        check("tools/list returns tools", status == 200 and bool(tools),
+              f"HTTP {status}, {len(tools)} tools")
 
 
 if __name__ == "__main__":

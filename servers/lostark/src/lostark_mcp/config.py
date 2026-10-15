@@ -51,6 +51,7 @@ class Settings:
 
     # --- auth ---
     auth_mode: str
+    bearer_token: str
     oauth_passphrase: str
     oauth_signing_secret: str
     oauth_access_ttl: int
@@ -92,8 +93,12 @@ def load_settings(env_file: Path | None = None, *, for_server: bool = True) -> S
         )
 
     auth_mode = os.getenv("AUTH_MODE", "oauth").strip().lower()
-    if auth_mode not in {"oauth", "none"}:
-        raise ConfigError(f"AUTH_MODE must be 'oauth' or 'none', got {auth_mode!r}")
+    if auth_mode not in {"oauth", "bearer", "none"}:
+        raise ConfigError(f"AUTH_MODE must be 'oauth', 'bearer' or 'none', got {auth_mode!r}")
+
+    bearer_token = os.getenv("MCP_BEARER_TOKEN", "").strip()
+    if for_server and auth_mode == "bearer" and len(bearer_token) < 32:
+        raise ConfigError("MCP_BEARER_TOKEN must be at least 32 characters when AUTH_MODE=bearer.")
 
     passphrase = os.getenv("OAUTH_PASSPHRASE", "")
     signing_secret = os.getenv("OAUTH_SIGNING_SECRET", "")
@@ -136,6 +141,7 @@ def load_settings(env_file: Path | None = None, *, for_server: bool = True) -> S
         mcp_path=os.getenv("MCP_PATH", "/mcp"),
         public_url=public_url,
         auth_mode=auth_mode,
+        bearer_token=bearer_token,
         oauth_passphrase=passphrase,
         oauth_signing_secret=signing_secret,
         oauth_access_ttl=int(os.getenv("OAUTH_ACCESS_TOKEN_TTL", "28800")),

@@ -1,9 +1,11 @@
 """A self-contained OAuth 2.1 authorization server gated by a passphrase.
 
 Why this exists:
-    Claude.ai custom connectors cannot send a static `Authorization: Bearer`
-    header. The connector settings expose only OAuth Client ID/Secret, so a
-    shared-secret middleware makes the connector fail to connect at all. A
+    Until 2026-08 Claude.ai custom connectors could not send a static
+    `Authorization: Bearer` header; the connector settings exposed only OAuth
+    Client ID/Secret. Clients that can send headers now are better served by
+    StaticBearerVerifier (bearer.py); this provider remains for clients that
+    cannot, and for when short-lived, rotating tokens are wanted. A
     browser-login gateway does not work either, because Claude.ai's MCP client
     is a server-side HTTP client that never completes an interstitial login.
     The supported path is OAuth 2.1 + Dynamic Client Registration, and most

@@ -20,7 +20,7 @@ _REDACTIONS: list[tuple[re.Pattern[str], str]] = [
     # Keys, secrets and tokens in JSON or dict form
     (
         re.compile(
-            r'(["\']?(?:api_key|access_token|refresh_token|authorization|passphrase'
+            r'(["\']?(?:api_key|access_token|refresh_token|bearer_token|authorization|passphrase'
             r'|signing_secret|client_secret)["\']?\s*[:=]\s*["\']?)([^\s,"\'}\]]+)',
             re.I,
         ),

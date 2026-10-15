@@ -20,12 +20,33 @@ launchd installer, and one set of checks.
 
 ## localauth: connecting a private MCP server to Claude.ai
 
-If you want to expose a remote MCP server and protect it, you hit this wall:
+`localauth` offers two ways in, with no third-party identity provider either way:
 
-- Claude.ai's custom connector settings expose **only OAuth Client ID / Client
-  Secret**. There is no field for a static `Authorization: Bearer` header, so a
-  shared-secret middleware makes the connector fail to connect at all
-  ([anthropics/claude-ai-mcp#112](https://github.com/anthropics/claude-ai-mcp/issues/112)).
+| | `StaticBearerVerifier` | `PassphraseOAuthProvider` |
+|---|---|---|
+| Client sends | A fixed `Authorization: Bearer …` header | OAuth 2.1 + DCR; you type a passphrase once |
+| Public routes | None beyond your own (e.g. `/healthz`) | Login page, `/register`, `/authorize`, `/token` |
+| Token lifetime | Until you rotate it | Short access tokens, rotating refresh tokens |
+| Use when | The client can send headers | It cannot, or you want expiring tokens |
+
+Since 2026-08 Claude custom connectors can send fixed request headers (up to
+four, from an allowlist; see
+[anthropics/claude-ai-mcp#112](https://github.com/anthropics/claude-ai-mcp/issues/112)).
+Choose **No sign-in** and add `Authorization` with the value `Bearer <token>`;
+Claude adds no scheme itself.
+
+```python
+from localauth import StaticBearerVerifier
+
+mcp = FastMCP("your-server", auth=StaticBearerVerifier(token=os.environ["MCP_BEARER_TOKEN"]))
+```
+
+### OAuth, for clients without header support
+
+Before headers existed, protecting a remote server for Claude.ai hit this wall:
+
+- The custom connector settings exposed **only OAuth Client ID / Client
+  Secret**, so a shared-secret middleware made the connector fail to connect.
 - A browser-login gateway (e.g. an interactive access policy in front of the
   origin) does not work either — Claude.ai's MCP client is a server-side HTTP
   client and never completes an interstitial login.

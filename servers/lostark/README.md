@@ -157,12 +157,21 @@ chmod 600 servers/lostark/.env
 $EDITOR servers/lostark/.env
 ```
 
-Fill in your JWT and generate the auth secrets:
+Fill in your JWT and generate the connector token (`AUTH_MODE=bearer`, the
+default in the example):
 
 ```bash
-python3 -c "import secrets; print('OAUTH_PASSPHRASE=' + secrets.token_urlsafe(32))"
-python3 -c "import secrets; print('OAUTH_SIGNING_SECRET=' + secrets.token_urlsafe(48))"
+python3 -c "import secrets; print('MCP_BEARER_TOKEN=' + secrets.token_urlsafe(32))"
 ```
+
+In Claude, add a custom connector with the URL `https://<your-host>/mcp`, choose
+**No sign-in**, and add the request header `Authorization` with the value
+`Bearer <MCP_BEARER_TOKEN>`. Register the exact `/mcp` URL: a redirect to another
+host drops the header.
+
+For clients that cannot send headers, set `AUTH_MODE=oauth` and generate
+`OAUTH_PASSPHRASE` (`token_urlsafe(32)`) and `OAUTH_SIGNING_SECRET`
+(`token_urlsafe(48)`) instead; you then type the passphrase in a browser once.
 
 Then, from the repository root:
 
