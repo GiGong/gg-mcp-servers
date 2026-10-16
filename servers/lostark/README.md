@@ -169,9 +169,14 @@ In Claude, add a custom connector with the URL `https://<your-host>/mcp`, choose
 `Bearer <MCP_BEARER_TOKEN>`. Register the exact `/mcp` URL: a redirect to another
 host drops the header.
 
-For clients that cannot send headers, set `AUTH_MODE=oauth` and generate
+ChatGPT and the Gemini app cannot send fixed headers; they connect with OAuth
+only. To serve them as well, set `AUTH_MODE=both` and also generate
 `OAUTH_PASSPHRASE` (`token_urlsafe(32)`) and `OAUTH_SIGNING_SECRET`
-(`token_urlsafe(48)`) instead; you then type the passphrase in a browser once.
+(`token_urlsafe(48)`). Claude keeps using the header; in ChatGPT, turn on
+developer mode, create a connector with the same `/mcp` URL and OAuth
+authentication, and type the passphrase on the login page that opens. The cost
+is that the login page and OAuth routes are public again. `AUTH_MODE=oauth`
+drops the header and keeps only the passphrase flow.
 
 Then, from the repository root:
 

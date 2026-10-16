@@ -56,6 +56,8 @@ from starlette.routing import Route
 
 from fastmcp.server.auth.auth import ClientRegistrationOptions, OAuthProvider
 
+from .bearer import MIN_TOKEN_LENGTH
+
 from .store import JsonStore
 
 logger = logging.getLogger(__name__)
@@ -109,7 +111,12 @@ _BACKOFF_STEPS = [0, 0, 1, 3, 10, 30, 60, 60]
 
 
 class PassphraseOAuthProvider(OAuthProvider):
-    """An authorization server that accepts DCR but requires a human passphrase."""
+    """An authorization server that accepts DCR but requires a human passphrase.
+
+    `static_bearer_token`, when given, is accepted as well, so one server can
+    serve clients that send a fixed header (Claude) and clients that only speak
+    OAuth (ChatGPT, Gemini) at the same time.
+    """
 
     def __init__(
         self,
@@ -123,6 +130,7 @@ class PassphraseOAuthProvider(OAuthProvider):
         server_label: str = "Private connector",
         page_subtitle: str = "Enter the passphrase to connect.",
         required_scopes: list[str] | None = None,
+        static_bearer_token: str | None = None,
     ) -> None:
         super().__init__(
             base_url=base_url,
@@ -134,8 +142,17 @@ class PassphraseOAuthProvider(OAuthProvider):
         if len(signing_secret) < 16:
             raise ValueError("signing_secret must be at least 16 characters")
 
+        if static_bearer_token is not None:
+            if len(static_bearer_token) < MIN_TOKEN_LENGTH:
+                raise ValueError(
+                    f"static_bearer_token must be at least {MIN_TOKEN_LENGTH} characters"
+                )
+            if static_bearer_token in (passphrase, signing_secret):
+                raise ValueError("static_bearer_token must differ from the passphrase and signing secret")
+
         self._passphrase = passphrase.encode()
         self._secret = signing_secret.encode()
+        self._static_bearer = static_bearer_token.encode() if static_bearer_token else None
         self._store = JsonStore(store_path)
         self._access_ttl = access_token_ttl
         self._refresh_ttl = refresh_token_ttl
@@ -365,6 +382,13 @@ class PassphraseOAuthProvider(OAuthProvider):
         return self._issue_pair(client.client_id, scopes or list(granted))
 
     async def load_access_token(self, token: str) -> AccessToken | None:
+        if self._static_bearer is not None and hmac.compare_digest(token.encode(), self._static_bearer):
+            return AccessToken(
+                token=token,
+                client_id="static-bearer",
+                scopes=list(self.required_scopes or []),
+                expires_at=None,
+            )
         record = self._access().get(self._digest(token))
         if record is None:
             return None

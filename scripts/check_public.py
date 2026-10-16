@@ -6,6 +6,7 @@ Reproduces the path Claude.ai takes, following the server's AUTH_MODE:
   oauth   DCR -> authorize -> passphrase -> code -> token -> MCP initialize
   bearer  fixed Authorization header -> MCP initialize -> tools/list, and checks
           that no OAuth route is exposed
+  both    the oauth path, then the fixed header against the same server
 
 If the local macOS resolver cannot resolve the hostname, curl's --resolve can
 bypass DNS; the transport still goes through the real tunnel.
@@ -134,8 +135,9 @@ def main() -> int:
     )
     check("unauthenticated MCP access rejected", status == 401, f"HTTP {status}")
 
-    if env.get("AUTH_MODE", "oauth").strip().lower() == "bearer":
-        bearer_checks(base, mcp_url, env.get("MCP_BEARER_TOKEN", ""))
+    mode = env.get("AUTH_MODE", "oauth").strip().lower()
+    if mode == "bearer":
+        bearer_checks(base, mcp_url, env.get("MCP_BEARER_TOKEN", ""), oauth_expected=False)
         return summary()
 
     check("WWW-Authenticate points at the public URL",
@@ -230,6 +232,8 @@ def main() -> int:
     )
     check("authenticated MCP initialize", status == 200, f"HTTP {status}")
 
+    if mode == "both":
+        bearer_checks(base, mcp_url, env.get("MCP_BEARER_TOKEN", ""), oauth_expected=True)
     return summary()
 
 
@@ -254,7 +258,7 @@ def _rpc_result(body: str) -> dict:
         return {}
 
 
-def bearer_checks(base: str, mcp_url: str, token: str) -> None:
+def bearer_checks(base: str, mcp_url: str, token: str, *, oauth_expected: bool) -> None:
     """Static-header mode: what a connector set to "No sign-in" does."""
     check("MCP_BEARER_TOKEN set (>= 32 chars)", len(token) >= 32)
 
@@ -269,9 +273,10 @@ def bearer_checks(base: str, mcp_url: str, token: str) -> None:
     status, _, _ = curl(mcp_url, *rpc, "-H", "authorization: Bearer wrong-" + "x" * 40, "-d", init)
     check("wrong token rejected", status == 401, f"HTTP {status}")
 
-    for path in ("/.well-known/oauth-authorization-server", "/register", "/authorize"):
-        status, _, _ = curl(f"{base}{path}")
-        check(f"no OAuth route at {path}", status == 404, f"HTTP {status}")
+    if not oauth_expected:
+        for path in ("/.well-known/oauth-authorization-server", "/register", "/authorize"):
+            status, _, _ = curl(f"{base}{path}")
+            check(f"no OAuth route at {path}", status == 404, f"HTTP {status}")
 
     # The token goes through a 0600 header file, not the command line, so it
     # never shows up in the process list.
@@ -282,7 +287,7 @@ def bearer_checks(base: str, mcp_url: str, token: str) -> None:
 
         status, headers, body = curl(mcp_url, *with_token, "-d", init)
         session = headers.get("mcp-session-id", "")
-        check("authenticated MCP initialize", status == 200, f"HTTP {status}")
+        check("fixed-header MCP initialize", status == 200, f"HTTP {status}")
 
         extra = ["-H", f"mcp-session-id: {session}"] if session else []
         curl(mcp_url, *with_token, *extra,

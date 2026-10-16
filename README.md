@@ -41,6 +41,10 @@ from localauth import StaticBearerVerifier
 mcp = FastMCP("your-server", auth=StaticBearerVerifier(token=os.environ["MCP_BEARER_TOKEN"]))
 ```
 
+ChatGPT and the Gemini app still speak OAuth only. To serve them and Claude from
+one server, pass `static_bearer_token=` to `PassphraseOAuthProvider`: it then
+accepts that fixed token as well as the tokens it issues.
+
 ### OAuth, for clients without header support
 
 Before headers existed, protecting a remote server for Claude.ai hit this wall:
