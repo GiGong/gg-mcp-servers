@@ -10,6 +10,7 @@ from __future__ import annotations
 import asyncio
 import datetime as dt
 import logging
+from dataclasses import dataclass
 from typing import Any
 from zoneinfo import ZoneInfo
 
@@ -22,12 +23,44 @@ KST = ZoneInfo("Asia/Seoul")
 HOLIDAY_PATH = "/uapi/domestic-stock/v1/quotations/chk-holiday"
 HOLIDAY_TR_ID = "CTCA0903R"
 
-# KRX regular session 09:00-15:30, pre-open auction 08:30-09:00,
-# after-hours trading until 18:00.
-_PRE_OPEN = dt.time(8, 30)
-_OPEN = dt.time(9, 0)
-_CLOSE = dt.time(15, 30)
-_AFTER_HOURS_END = dt.time(18, 0)
+
+@dataclass(frozen=True)
+class SessionHours:
+    pre_open: dt.time
+    open: dt.time
+    close: dt.time
+    after_hours_end: dt.time
+
+
+# KRX regular session 09:00-15:30, pre-open auction 08:30-09:00. Prices read on
+# the KRX market code (J) keep changing until 20:00 as after-hours trades print
+# (verified against the live API on 2026-11-03).
+NORMAL_HOURS = SessionHours(
+    pre_open=dt.time(8, 30),
+    open=dt.time(9, 0),
+    close=dt.time(15, 30),
+    after_hours_end=dt.time(20, 0),
+)
+
+# Days the exchange runs on shifted hours. The KIS holiday endpoint reports only
+# open or closed, so these are kept by hand, one entry per announcement.
+SPECIAL_HOURS: dict[dt.date, tuple[SessionHours, str]] = {
+    # KRX announcement of 2026-11-05: regular session 10:00-16:30, no
+    # pre-market, after-hours still ends at 20:00.
+    dt.date(2026, 11, 19): (
+        SessionHours(
+            pre_open=dt.time(9, 30),
+            open=dt.time(10, 0),
+            close=dt.time(16, 30),
+            after_hours_end=dt.time(20, 0),
+        ),
+        "College entrance exam day: the session starts and ends one hour late.",
+    ),
+}
+
+
+def hours_for(day: dt.date) -> tuple[SessionHours, str | None]:
+    return SPECIAL_HOURS.get(day, (NORMAL_HOURS, None))
 
 
 def now_kst() -> dt.datetime:
@@ -92,18 +125,23 @@ class MarketCalendar:
             trading_day = open_day
             day_source = "KIS chk-holiday (CTCA0903R)"
 
+        hours, special = hours_for(moment.date())
         if not trading_day:
             phase = "holiday" if weekday < 5 else "weekend"
-        elif clock < _PRE_OPEN:
+        elif clock < hours.pre_open:
             phase = "before_pre_open"
-        elif clock < _OPEN:
+        elif clock < hours.open:
             phase = "pre_open_auction"
-        elif clock <= _CLOSE:
+        elif clock <= hours.close:
             phase = "regular"
-        elif clock <= _AFTER_HOURS_END:
+        elif clock <= hours.after_hours_end:
             phase = "after_hours"
         else:
             phase = "closed"
+
+        note = _phase_note(phase, hours)
+        if special and trading_day:
+            note = f"{special} {note}"
 
         return {
             "kst_time": kst_iso(moment),
@@ -111,22 +149,37 @@ class MarketCalendar:
             "phase": phase,
             "is_live": phase == "regular",
             "trading_day_source": day_source,
-            "note": _PHASE_NOTE[phase],
+            "note": note,
         }
 
 
-_PHASE_NOTE = {
-    "holiday": "Exchange holiday. Values are from the previous trading day.",
-    "weekend": "Weekend. Values are from the previous trading day.",
-    "before_pre_open": (
-        "Before the pre-open auction (earlier than 08:30 KST). "
-        "Values are the previous trading day's close."
-    ),
-    "pre_open_auction": "Pre-open auction (08:30-09:00 KST).",
-    "regular": "Regular session in progress (09:00-15:30 KST).",
-    "after_hours": (
-        "After the regular close (later than 15:30 KST). "
-        "Values are today's closing figures."
-    ),
-    "closed": "Market closed. Values are today's closing figures.",
-}
+_NOT_THE_CLOSE = (
+    "The current price, change, volume and today's daily close include "
+    "after-hours trades, so they are not the regular-session close."
+)
+
+
+def _phase_note(phase: str, hours: SessionHours) -> str:
+    def hhmm(value: dt.time) -> str:
+        return value.strftime("%H:%M")
+
+    stale = (
+        "Prices are from the previous trading day and may include its "
+        f"after-hours trades (until {hhmm(hours.after_hours_end)} KST), so they "
+        "are not necessarily its regular-session close."
+    )
+    notes = {
+        "holiday": f"Exchange holiday. {stale}",
+        "weekend": f"Weekend. {stale}",
+        "before_pre_open": (
+            f"Before the pre-open auction (earlier than {hhmm(hours.pre_open)} KST). {stale}"
+        ),
+        "pre_open_auction": f"Pre-open auction ({hhmm(hours.pre_open)}-{hhmm(hours.open)} KST).",
+        "regular": f"Regular session in progress ({hhmm(hours.open)}-{hhmm(hours.close)} KST).",
+        "after_hours": (
+            f"The regular session closed at {hhmm(hours.close)} KST. After-hours "
+            f"trading continues until {hhmm(hours.after_hours_end)} KST. {_NOT_THE_CLOSE}"
+        ),
+        "closed": f"Trading has ended for the day. {_NOT_THE_CLOSE}",
+    }
+    return notes[phase]

@@ -31,8 +31,12 @@ Coverage
 
 How to read the responses
   - `as_of_kst` on every response is Korea Standard Time.
-  - Use `market_status.phase` to tell a live figure from a stale one. After the
-    close or on a holiday, values are from the previous trading day.
+  - Use `market_status.phase` to tell a live figure from a stale one, and read
+    `market_status.note`. Prices read on the KRX market code (J) keep changing
+    after the regular close until 20:00 KST. In `after_hours` and `closed`, the
+    current price, change, volume and today's daily close include those
+    after-hours trades, so they are not the regular-session close. Session hours shift on some days (e.g. the college
+    entrance exam day); the note says so.
   - `get_investor_flow` returns `provisional` (intraday broker-compiled
     estimate) and `confirmed` (exchange-confirmed) separately. Never mix them.
     The current day's confirmed figures are not published until after the close,
@@ -100,7 +104,8 @@ def build_server(settings: Settings) -> tuple[FastMCP, KisClient]:
 
         Returns price, percent change, open/high/low, previous close, volume,
         market capitalisation and valuation ratios, along with a KST timestamp
-        and the current market session state.
+        and the current market session state. After the regular close the price
+        follows after-hours trades; `market_status` says when that applies.
         """
         return await _wrap(tools.get_quote)(symbol)
 

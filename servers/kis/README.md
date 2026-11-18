@@ -98,6 +98,14 @@ Index aliases: `KOSPI`, `KOSDAQ`, `KOSPI200` (domestic); `SOX`, `NASDAQ`,
 ## Quote latency
 
 - Domestic equities and indices: live.
+- **After the regular close (15:30 KST), the price is not the close.** Prices read
+  on the KRX market code (J) keep changing until 20:00 as after-hours trades
+  print, and KIS folds them into the current price, change, volume and the
+  current day's daily close. Verified against the
+  live API: on 2026-11-03 SK hynix closed the regular session at 1,398,000, yet
+  `stck_prpr` read 1,396,000 at 16:28 and 1,399,000 at 16:45. In the
+  `after_hours` and `closed` phases, `market_status.note` says so. Finished days
+  are not affected: their daily close is the regular-session close.
 - Overseas equities: **delayed** unless your KIS account subscribes to real-time
   overseas data. Set `KIS_OVERSEAS_REALTIME=true` to reflect that; the `delayed`
   field in every response follows this setting.
@@ -124,7 +132,10 @@ rather than an empty value:
 ```
 
 Closed markets and holidays surface through `market_status.phase` and its `note`,
-using the KIS holiday endpoint rather than a hardcoded calendar.
+using the KIS holiday endpoint rather than a hardcoded calendar. That endpoint
+reports only whether a day trades, not its hours, so days with shifted hours
+(such as the college entrance exam day) are listed by hand in `SPECIAL_HOURS` in
+`market.py`.
 
 ---
 

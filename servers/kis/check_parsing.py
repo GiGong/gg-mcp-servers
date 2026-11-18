@@ -35,6 +35,7 @@ os.environ.update(
 from kis_mcp.client import KisClient  # noqa: E402
 from kis_mcp.config import load_settings  # noqa: E402
 from kis_mcp.market import KST, MarketCalendar  # noqa: E402
+from kis_mcp import tools as tools_module  # noqa: E402
 from kis_mcp.tools import KisTools  # noqa: E402
 
 _ASK = {f"askp{i}": str(258000 + i * 500) for i in range(1, 11)}
@@ -71,11 +72,12 @@ FIXTURES: dict[str, dict] = {
     },
     "HHPTJ04160200": {
         "rt_cd": "0",
+        # Newest slot first, as the live API returns it (verified 2026-11-03).
         "output2": [
-            {"bsop_hour_gb": "1", "frgn_fake_ntby_qty": "120000",
-             "orgn_fake_ntby_qty": "-30000", "sum_fake_ntby_qty": "90000"},
             {"bsop_hour_gb": "4", "frgn_fake_ntby_qty": "305000",
              "orgn_fake_ntby_qty": "-52000", "sum_fake_ntby_qty": "253000"},
+            {"bsop_hour_gb": "1", "frgn_fake_ntby_qty": "120000",
+             "orgn_fake_ntby_qty": "-30000", "sum_fake_ntby_qty": "90000"},
         ],
     },
     "FHKST01010900": {
@@ -184,6 +186,10 @@ async def main() -> int:
           and flow["confirmed"]["is_confirmed"] is True)
     check("investor_flow maps provisional snapshot times",
           flow["provisional"]["latest"]["approx_kst_time"] == "13:20")
+    check("investor_flow orders provisional snapshots oldest to newest",
+          [s["slot"] for s in flow["provisional"]["snapshots"]] == ["1", "4"])
+    check("investor_flow confirmed note has no same-day caveat on a past day",
+          "preliminary" not in flow["confirmed"]["note"])
     check("investor_flow confirmed foreign net buying",
           flow["confirmed"]["latest"]["foreign_net_qty"] == 288000)
     check("investor_flow preserves negative institutional flow",
@@ -232,12 +238,34 @@ async def main() -> int:
         ("regular session", dt.datetime(2026, 8, 13, 10, 30, tzinfo=KST), "regular"),
         ("pre-open auction", dt.datetime(2026, 8, 13, 8, 45, tzinfo=KST), "pre_open_auction"),
         ("after hours", dt.datetime(2026, 8, 13, 16, 0, tzinfo=KST), "after_hours"),
-        ("late night", dt.datetime(2026, 8, 13, 23, 30, tzinfo=KST), "closed"),
+        ("after hours runs to 20:00", dt.datetime(2026, 8, 13, 19, 30, tzinfo=KST), "after_hours"),
+        ("late night", dt.datetime(2026, 8, 13, 20, 30, tzinfo=KST), "closed"),
         ("weekend", dt.datetime(2026, 8, 15, 10, 30, tzinfo=KST), "weekend"),
+        ("exam day 09:45 is pre-open", dt.datetime(2026, 11, 19, 9, 45, tzinfo=KST), "pre_open_auction"),
+        ("exam day 16:00 is still regular", dt.datetime(2026, 11, 19, 16, 0, tzinfo=KST), "regular"),
+        ("exam day 16:45 is after hours", dt.datetime(2026, 11, 19, 16, 45, tzinfo=KST), "after_hours"),
     ):
         session = await calendar.session(moment)
         check(f"session phase - {label}", session["phase"] == expected,
               f"{session['phase']} (expected {expected})")
+
+    after = await calendar.session(dt.datetime(2026, 8, 13, 16, 0, tzinfo=KST))
+    check("after-hours note says the price is not the close",
+          "not the regular-session close" in after["note"], after["note"])
+    exam = await calendar.session(dt.datetime(2026, 11, 19, 16, 0, tzinfo=KST))
+    check("exam day note names the shifted hours",
+          "one hour late" in exam["note"] and "10:00-16:30" in exam["note"], exam["note"])
+
+    # The same-day caveat depends on today's date, so pin the clock to the
+    # fixture's newest confirmed day.
+    real_now = tools_module.now_kst
+    tools_module.now_kst = lambda: dt.datetime(2026, 8, 12, 18, 0, tzinfo=KST)
+    try:
+        same_day = await tools.get_investor_flow("000660")
+    finally:
+        tools_module.now_kst = real_now
+    check("investor_flow flags same-day confirmed figures as preliminary",
+          "preliminary" in same_day["confirmed"]["note"])
 
     await client.aclose()
     print("-" * 58)

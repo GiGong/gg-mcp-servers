@@ -97,6 +97,11 @@ _PROVISIONAL_NOTE = (
     "from the confirmed values."
 )
 _CONFIRMED_NOTE = "Exchange-confirmed daily net buying."
+_SAME_DAY_CONFIRMED_NOTE = (
+    "Today's figures appear shortly after the regular close, before after-hours "
+    "trading ends at 20:00 KST, and have been seen to change by the next day. "
+    "Treat them as preliminary until then."
+)
 
 
 def _normalise_symbol(symbol: str) -> str:
@@ -234,8 +239,9 @@ class KisTools:
             "confirmed": confirmed,
             "reading_guide": (
                 "provisional is an intraday broker-compiled estimate; confirmed is "
-                "the exchange-confirmed figure. The two can differ for the same date. "
-                "After the close, trust confirmed."
+                "the exchange-published daily figure. The two can differ for the same "
+                "date. Today's confirmed figures appear after the close but may still "
+                "change by the next trading day; earlier days are settled."
             ),
         }
 
@@ -275,6 +281,9 @@ class KisTools:
                 }
             )
 
+        # KIS returns the newest slot first. Order by slot number rather than
+        # position so `latest` is the last snapshot of the day.
+        snapshots.sort(key=lambda s: integer(s["slot"]) or 0)
         latest = snapshots[-1] if snapshots else None
         return {
             "available": True,
@@ -329,11 +338,15 @@ class KisTools:
         published = [row for row in series if row["is_published"]]
         pending = [row for row in series if not row["is_published"]]
 
+        note = _CONFIRMED_NOTE
+        if published and published[0]["date"] == now_kst().date().isoformat():
+            note = f"{note} {_SAME_DAY_CONFIRMED_NOTE}"
+
         result: dict[str, Any] = {
             "available": True,
             "data_type": "confirmed",
             "is_confirmed": True,
-            "note": _CONFIRMED_NOTE,
+            "note": note,
             "value_unit": "Net quantities are in shares; *_value_krw_mn is in millions of KRW.",
             "latest": published[0] if published else None,
             "series": series,
