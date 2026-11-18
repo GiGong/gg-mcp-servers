@@ -36,6 +36,7 @@ from kis_mcp.client import KisClient  # noqa: E402
 from kis_mcp.config import load_settings  # noqa: E402
 from kis_mcp.market import KST, MarketCalendar  # noqa: E402
 from kis_mcp import tools as tools_module  # noqa: E402
+from kis_mcp.krx import KrxClient  # noqa: E402
 from kis_mcp.tools import KisTools  # noqa: E402
 
 _ASK = {f"askp{i}": str(258000 + i * 500) for i in range(1, 11)}
@@ -133,10 +134,59 @@ FIXTURES: dict[str, dict] = {
 }
 
 
+FIXTURES["FHKST01010300"] = {
+    "rt_cd": "0",
+    "output": [{"stck_cntg_hour": "131530", "stck_prpr": "258000"}],
+}
+FIXTURES["FHPST01060000"] = {"rt_cd": "0", "output2": []}
+
+# Per-scenario replacements for FIXTURES, and a log of every call made.
+OVERRIDES: dict[str, dict] = {}
+CALLS: list[tuple[str, dict]] = []
+
+
 async def _fake_get(self, path, *, tr_id, params, tr_cont=""):  # noqa: ANN001
-    if tr_id not in FIXTURES:
+    CALLS.append((tr_id, dict(params)))
+    source = OVERRIDES.get(tr_id) or FIXTURES.get(tr_id)
+    if source is None:
         raise AssertionError(f"no fixture for tr_id={tr_id} ({path})")
-    return dict(FIXTURES[tr_id])
+    return dict(source)
+
+
+def _daily(*rows: tuple[str, str, str]) -> dict:
+    """Daily-chart fixture from (yyyymmdd, close, volume), newest first."""
+    return {
+        "rt_cd": "0",
+        "output1": {"hts_kor_isnm": "SK하이닉스"},
+        "output2": [
+            {"stck_bsop_date": d, "stck_clpr": c, "acml_vol": v} for d, c, v in rows
+        ],
+    }
+
+
+def _ticks(*rows: tuple[str, str]) -> dict:
+    return {"rt_cd": "0", "output2": [{"stck_cntg_hour": t, "stck_prpr": p} for t, p in rows]}
+
+
+def _recent(*rows: tuple[str, str]) -> dict:
+    return {"rt_cd": "0", "output": [{"stck_cntg_hour": t, "stck_prpr": p} for t, p in rows]}
+
+
+# 2026-11-03 SK hynix, as observed on the live API. The daily row for the day
+# follows after-hours trades (1,396,000 at 16:28) while the closing auction
+# printed 1,398,000 at 15:30:24.
+NOV3_DAILY = _daily(
+    ("20261103", "1396000", "2225437"),
+    ("20261102", "1472000", "2594536"),
+    ("20261030", "1418000", "3859903"),
+)
+NOV3_TICKS = _ticks(
+    ("153024", "1398000"),
+    ("151959", "1388000"),
+    ("151959", "1387000"),
+    ("151950", "1388000"),
+)
+NOV3_QUOTE = {"rt_cd": "0", "output": {"stck_prpr": "1396000", "stck_sdpr": "1472000"}}
 
 
 _VALID_PHASES = {
@@ -161,6 +211,9 @@ async def main() -> int:
     settings = load_settings(env_file="/nonexistent")
     client = KisClient(settings)
     tools = KisTools(client, MarketCalendar(client))
+    # Pin the tools' clock to the day after the fixtures' newest row.
+    real_now = tools_module.now_kst
+    tools_module.now_kst = lambda: dt.datetime(2026, 8, 13, 10, 30, tzinfo=KST)
 
     print("\nField mapping regression test (synthetic fixtures)\n" + "-" * 58)
 
@@ -256,16 +309,140 @@ async def main() -> int:
     check("exam day note names the shifted hours",
           "one hour late" in exam["note"] and "10:00-16:30" in exam["note"], exam["note"])
 
-    # The same-day caveat depends on today's date, so pin the clock to the
+    # The same-day caveat depends on today's date, so move the clock to the
     # fixture's newest confirmed day.
-    real_now = tools_module.now_kst
     tools_module.now_kst = lambda: dt.datetime(2026, 8, 12, 18, 0, tzinfo=KST)
-    try:
-        same_day = await tools.get_investor_flow("000660")
-    finally:
-        tools_module.now_kst = real_now
+    same_day = await tools.get_investor_flow("000660")
     check("investor_flow flags same-day confirmed figures as preliminary",
-          "preliminary" in same_day["confirmed"]["note"])
+          "preliminary" in same_day["confirmed"]["note"]
+          and same_day["confirmed"]["series"][1]["preliminary"] is True
+          and same_day["confirmed"]["series"][0]["preliminary"] is False)
+
+    print("\nRegular close vs latest trade (fixtures from live observations)\n" + "-" * 58)
+
+    def at(*parts: int) -> dt.datetime:
+        return dt.datetime(*parts, tzinfo=KST)
+
+    def scenario(now: dt.datetime, overrides: dict, krx: KrxClient | None = None) -> KisTools:
+        OVERRIDES.clear()
+        OVERRIDES.update(overrides)
+        CALLS.clear()
+        tools_module.now_kst = lambda: now
+        return KisTools(client, MarketCalendar(client), krx)
+
+    nov3 = {"FHKST03010100": NOV3_DAILY, "FHPST01060000": NOV3_TICKS,
+            "FHKST01010100": NOV3_QUOTE,
+            "FHKST01010300": _recent(("162807", "1396000"), ("162800", "1397000"))}
+
+    t = scenario(at(2026, 11, 3, 16, 28, 7), nov3)
+    quote = await t.get_quote("000660")
+    close, latest = quote["close"], quote["latest_trade"]
+    check("11-03 16:28: close is the 15:30:24 print, not the current price",
+          close["trade_date"] == "2026-11-03" and close["price"] == 1398000.0
+          and close["status"] == "PROVISIONAL"
+          and close["trade_time_kst"] == "2026-11-03T15:30:24+09:00", str(close))
+    check("11-03 16:28: latest trade is the after-hours price with its own time",
+          latest["price"] == 1396000.0 and latest["session"] == "AFTER_HOURS"
+          and latest["venue"] == "UNKNOWN"
+          and latest["as_of_kst"] == "2026-11-03T16:28:07+09:00", str(latest))
+    check("11-03 16:28: price.current keeps the raw KIS value",
+          quote["price"]["current"] == 1396000.0)
+    check("base_price added; prev_close kept as its alias",
+          quote["price"]["base_price"] == 1472000.0 and quote["price"]["prev_close"] == 1472000.0)
+    check("no KRX key: check reports NOT_CONFIGURED, not verified",
+          close["checks"] == [{"source": "krx_openapi", "compares": "close price only",
+                               "result": "NOT_CONFIGURED"}]
+          and close["independent_verified"] is False, str(close["checks"]))
+
+    t = scenario(at(2026, 11, 3, 16, 28, 7), nov3)
+    final = (await t.get_regular_close("000660", "2026-11-02"))["close"]
+    daily_calls = [p for tr, p in CALLS if tr == "FHKST03010100"]
+    check("11-02: FINAL from the J daily chart (1,472,000, not UN's 1,480,000)",
+          final["status"] == "FINAL" and final["price"] == 1472000.0, str(final))
+    # The other daily call is the security-name lookup, which reads no prices.
+    close_reads = [p for p in daily_calls if p["FID_INPUT_DATE_1"] == "20261023"]
+    check("closes are read unadjusted from the J feed only",
+          len(close_reads) == 1 and close_reads[0]["FID_ORG_ADJ_PRC"] == "1"
+          and all(p["FID_COND_MRKT_DIV_CODE"] == "J" for p in daily_calls), str(daily_calls))
+
+    for label, ticks, reason in (
+        ("a trade inside the closing auction window",
+         _ticks(("153024", "1398000"), ("152500", "1390000"), ("151959", "1388000")), "ambiguous"),
+        ("a tick page that stops at the close",
+         _ticks(("153024", "1398000"), ("153024", "1398000")), "reach back"),
+        ("two prices after the close",
+         _ticks(("153124", "1399000"), ("153024", "1398000"), ("151959", "1388000")),
+         "more than one price"),
+    ):
+        t = scenario(at(2026, 11, 3, 16, 28, 7), {**nov3, "FHPST01060000": ticks})
+        same = (await t.get_regular_close("000660", "2026-11-03"))["close"]
+        check(f"11-03: PENDING, not a guess, with {label}",
+              same["status"] == "PENDING" and same["price"] is None
+              and reason in same.get("next_check", ""), str(same))
+
+    t = scenario(at(2026, 11, 19, 15, 45), {
+        "FHKST03010100": _daily(("20261119", "1150000", "900000"), ("20261118", "1144000", "3413164")),
+        "FHPST01060000": _ticks(("153024", "1150000"), ("151959", "1149000")),
+    })
+    exam = (await t.get_regular_close("000660", "2026-11-19"))["close"]
+    check("exam day 15:45: still PENDING (regular session runs to 16:30)",
+          exam["status"] == "PENDING" and "16:30" in exam.get("next_check", ""), str(exam))
+
+    for raw in ("195900", "080500"):
+        t = scenario(at(2026, 11, 9, 8, 10), {
+            "FHKST03010100": _daily(("20261106", "1150000", "3000000"), ("20261105", "1140000", "3100000")),
+            "FHKST01010300": _recent((raw, "1150000")),
+        })
+        monday = await t.get_quote("000660")
+        check(f"Monday 08:10: previous session's tick {raw} is not dated today",
+              monday["latest_trade"]["as_of_kst"] is None
+              and monday["latest_trade"]["session"] == "UNKNOWN"
+              and monday["latest_trade"]["trade_time_raw"] == raw, str(monday["latest_trade"]))
+    check("Monday 08:10: Friday's close waits for the next row (PENDING)",
+          monday["close"]["trade_date"] == "2026-11-06" and monday["close"]["status"] == "PENDING",
+          str(monday["close"]))
+
+    t = scenario(at(2026, 11, 3, 16, 28, 7), {
+        "FHKST03010100": _daily(("20261103", "1396000", "2225437"), ("20261102", "1472000", "0"))})
+    halted = (await t.get_regular_close("000660", "2026-11-02"))["close"]
+    check("a settled day with zero volume is NO_TRADE and keeps the official price",
+          halted["status"] == "NO_TRADE" and halted["price"] == 1472000.0, str(halted))
+
+    t = scenario(at(2026, 11, 3, 16, 28, 7), nov3)
+    future = (await t.get_regular_close("000660", "2026-11-04"))["close"]
+    check("a future date is a non-retryable ERROR",
+          future["status"] == "ERROR" and future["error"]["retryable"] is False)
+
+    t = scenario(at(2026, 11, 3, 16, 28, 7), {
+        **nov3, "CTCA0903R": {"rt_cd": "0", "output": [{"bass_dt": "20261101", "opnd_yn": "N"}]}})
+    sunday = (await t.get_regular_close("000660", "2026-11-01"))["close"]
+    check("a closed market day is NOT_TRADING_DAY", sunday["status"] == "NOT_TRADING_DAY",
+          str(sunday))
+
+    for label, outcomes, expected, verified in (
+        ("KRX agrees", [({"000660": 1472000.0}, "", None)], "MATCH", True),
+        ("KRX disagrees", [({"000660": 1471000.0}, "", None)], "MISMATCH", False),
+        ("KRX not published yet", [(None, "NOT_PUBLISHED", None)] * 2, "NOT_PUBLISHED", False),
+        ("KOSDAQ dataset not approved",
+         [({"005930": 1.0}, "", None), (None, "NOT_AUTHORIZED", "Unauthorized API Call")],
+         "NOT_AUTHORIZED", False),
+    ):
+        krx = KrxClient("fixture-key")
+        replies = iter(outcomes)
+
+        async def fake_dataset(dataset, day, _replies=replies):  # noqa: ANN001
+            return next(_replies)
+
+        krx._dataset = fake_dataset  # type: ignore[method-assign]
+        t = scenario(at(2026, 11, 3, 16, 28, 7), nov3, krx)
+        checked = (await t.get_regular_close("000660", "2026-11-02"))["close"]
+        await krx.aclose()
+        check(f"KRX check: {label} -> {expected}",
+              checked["status"] == "FINAL" and checked["checks"][0]["result"] == expected
+              and checked["independent_verified"] is verified, str(checked["checks"]))
+
+    OVERRIDES.clear()
+    tools_module.now_kst = real_now
 
     await client.aclose()
     print("-" * 58)

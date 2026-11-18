@@ -51,6 +51,9 @@ class Settings:
     kis_timeout: float
     overseas_realtime: bool
 
+    # --- KRX Open API (optional; empty disables the cross-check) ---
+    krx_auth_key: str
+
     # --- MCP ---
     host: str
     port: int
@@ -143,6 +146,7 @@ def load_settings(env_file: Path | None = None) -> Settings:
         kis_rate_limit_per_sec=rate,
         kis_timeout=float(os.getenv("KIS_TIMEOUT", "10")),
         overseas_realtime=_get_bool("KIS_OVERSEAS_REALTIME", False),
+        krx_auth_key=os.getenv("KRX_AUTH_KEY", "").strip(),
         host=os.getenv("MCP_HOST", "127.0.0.1"),
         port=int(os.getenv("MCP_PORT", "8765")),
         mcp_path=os.getenv("MCP_PATH", "/mcp"),

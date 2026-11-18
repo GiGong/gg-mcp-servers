@@ -12,7 +12,9 @@ from typing import Any
 
 from .client import KisClient, KisError
 from .fields import integer, num, sign_label, signed, text, yyyymmdd_to_iso
-from .market import MarketCalendar, kst_iso, now_kst
+from .krx import KrxClient
+from .market import MarketCalendar, hours_for, kst_iso, now_kst
+from .regular_close import CloseResolver, close_error, new_close
 
 logger = logging.getLogger(__name__)
 
@@ -97,6 +99,16 @@ _PROVISIONAL_NOTE = (
     "from the confirmed values."
 )
 _CONFIRMED_NOTE = "Exchange-confirmed daily net buying."
+_CLOSE_READING_GUIDE = (
+    "status says how the price was obtained. FINAL: the unadjusted KIS daily "
+    "chart, settled because a later trading day exists; use it for final "
+    "scoring. PROVISIONAL: today's closing auction print; fine for a provisional "
+    "score, final scoring waits. PENDING: not available yet, see next_check. "
+    "ERROR: see error.retryable. NO_TRADE and NOT_TRADING_DAY: nothing to score, "
+    "stop polling. checks lists independent sources such as the optional KRX "
+    "Open API; a MISMATCH there means hold off on final scoring even when status "
+    "is FINAL. Never use get_quote's price.current as a close."
+)
 _SAME_DAY_CONFIRMED_NOTE = (
     "Today's figures appear shortly after the regular close, before after-hours "
     "trading ends at 20:00 KST, and have been seen to change by the next day. "
@@ -116,9 +128,12 @@ def _source(tr: tuple[str, str], env: str) -> dict[str, str]:
 
 
 class KisTools:
-    def __init__(self, client: KisClient, calendar: MarketCalendar) -> None:
+    def __init__(
+        self, client: KisClient, calendar: MarketCalendar, krx: KrxClient | None = None
+    ) -> None:
         self._client = client
         self._calendar = calendar
+        self._closes = CloseResolver(client, calendar, krx or KrxClient(""))
         # inquire-price carries no security name, only a sector name. Fill it
         # once from the daily-chart endpoint and cache for the process lifetime.
         self._name_cache: dict[str, str | None] = {}
@@ -165,31 +180,40 @@ class KisTools:
 
     async def get_quote(self, symbol: str, market: str = "J") -> dict[str, Any]:
         code = _normalise_symbol(symbol)
+        now = now_kst()
         data = await self._client.get(
             TR_QUOTE[1],
             tr_id=TR_QUOTE[0],
             params={"FID_COND_MRKT_DIV_CODE": market, "FID_INPUT_ISCD": code},
         )
         out = data.get("output") or {}
-        session = await self._calendar.session()
+        session = await self._calendar.session(now)
 
         price = num(out.get("stck_prpr"))
-        prev_close = num(out.get("stck_sdpr"))
+        base_price = num(out.get("stck_sdpr"))
         market_cap_eok = num(out.get("hts_avls"))  # unit: 100 million KRW
+
+        close, latest_trade = await self._close_and_latest(code, now)
 
         return {
             "symbol": code,
             "name": await self._resolve_name(code),
             "market": text(out.get("rprs_mrkt_kor_name")),
             "sector": text(out.get("bstp_kor_isnm")),
-            "as_of_kst": kst_iso(),
+            "as_of_kst": kst_iso(now),
             "market_status": session,
+            "close": close,
+            "latest_trade": latest_trade,
             "price": {
                 "current": price,
                 "open": num(out.get("stck_oprc")),
                 "high": num(out.get("stck_hgpr")),
                 "low": num(out.get("stck_lwpr")),
-                "prev_close": prev_close,
+                "base_price": base_price,
+                # Deprecated alias of base_price, kept for existing readers. It
+                # is the exchange's base price, which differs from the previous
+                # close on ex-rights, ex-dividend and listing days.
+                "prev_close": base_price,
                 "upper_limit": num(out.get("stck_mxpr")),
                 "lower_limit": num(out.get("stck_llam")),
                 "week52_high": num(out.get("w52_hgpr")),
@@ -217,6 +241,51 @@ class KisTools:
             },
             "status_code": text(out.get("iscd_stat_cls_code")),
             "source": _source(TR_QUOTE, self._env),
+        }
+
+    async def _close_and_latest(
+        self, code: str, now: dt.datetime
+    ) -> tuple[dict[str, Any], dict[str, Any]]:
+        """The latest session's regular close and the newest trade, from one chart call.
+
+        The close shown is today's once today's session has closed, otherwise
+        the previous trading day's.
+        """
+        today = now.date()
+        try:
+            rows = await self._closes.daily_rows(code, today - dt.timedelta(days=15), today)
+        except KisError as exc:
+            failed = close_error(new_close(None), str(exc), retryable=True, kis=exc)
+            return failed, await self._closes.latest_trade(code, now, {})
+
+        hours, _ = hours_for(today)
+        closed_today = today.isoformat() in rows and now.timetz().replace(tzinfo=None) > hours.close
+        earlier = [day for day in rows if day < today.isoformat()]
+        if closed_today or not earlier:
+            target = today
+        else:
+            target = dt.date.fromisoformat(max(earlier))
+
+        close = await self._closes.resolve(code, target, now, rows)
+        print_at = close["trade_time_kst"] if close["status"] == "PROVISIONAL" else None
+        latest = await self._closes.latest_trade(code, now, rows, print_at)
+        return close, latest
+
+    async def get_regular_close(self, symbol: str, trade_date: str) -> dict[str, Any]:
+        code = _normalise_symbol(symbol)
+        raw = trade_date.strip().replace("-", "")
+        try:
+            day = dt.datetime.strptime(raw, "%Y%m%d").date()
+        except ValueError as exc:
+            raise ValueError(f"trade_date must be YYYY-MM-DD, got {trade_date!r}") from exc
+
+        now = now_kst()
+        return {
+            "symbol": code,
+            "name": await self._resolve_name(code),
+            "as_of_kst": kst_iso(now),
+            "close": await self._closes.resolve(code, day, now),
+            "reading_guide": _CLOSE_READING_GUIDE,
         }
 
     async def get_investor_flow(self, symbol: str, confirmed_days: int = 5) -> dict[str, Any]:
@@ -312,6 +381,7 @@ class KisTools:
         if isinstance(rows, dict):
             rows = [rows]
 
+        today = now_kst().date().isoformat()
         series = []
         for row in rows[: max(1, days)]:
             foreign = integer(row.get("frgn_ntby_qty"))
@@ -319,12 +389,16 @@ class KisTools:
             # The current day's row carries empty strings for every flow field
             # until after the close.
             published = foreign is not None or institution is not None
+            date = yyyymmdd_to_iso(row.get("stck_bsop_date"))
             series.append(
                 {
-                    "date": yyyymmdd_to_iso(row.get("stck_bsop_date")),
+                    "date": date,
                     "close": num(row.get("stck_clpr")),
                     "change": signed(row.get("prdy_vrss"), row.get("prdy_vrss_sign")),
                     "is_published": published,
+                    # Today's flow can change by the next trading day, and its
+                    # close follows after-hours trades until then.
+                    "preliminary": date == today,
                     "foreign_net_qty": foreign,
                     "institution_net_qty": institution,
                     "individual_net_qty": integer(row.get("prsn_ntby_qty")),
@@ -339,7 +413,7 @@ class KisTools:
         pending = [row for row in series if not row["is_published"]]
 
         note = _CONFIRMED_NOTE
-        if published and published[0]["date"] == now_kst().date().isoformat():
+        if published and published[0]["date"] == today:
             note = f"{note} {_SAME_DAY_CONFIRMED_NOTE}"
 
         result: dict[str, Any] = {
@@ -421,6 +495,11 @@ class KisTools:
             "requested_days": days,
             "returned_days": len(candles),
             "price_basis": "adjusted" if adjusted else "unadjusted",
+            "note": (
+                "The newest candle can still include after-hours trades until the next "
+                "trading day appears, so its close may not be the regular-session close. "
+                "Use get_regular_close for a close to score against."
+            ),
             "range": {
                 "from": candles[0]["date"] if candles else None,
                 "to": candles[-1]["date"] if candles else None,

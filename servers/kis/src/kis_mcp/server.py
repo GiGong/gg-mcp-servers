@@ -16,6 +16,7 @@ from localauth import PassphraseOAuthProvider
 
 from .client import KisClient, KisError
 from .config import Settings, load_settings
+from .krx import KrxClient
 from .logging_setup import setup_logging
 from .market import MarketCalendar
 from .tools import KisTools
@@ -35,8 +36,15 @@ How to read the responses
     `market_status.note`. Prices read on the KRX market code (J) keep changing
     after the regular close until 20:00 KST. In `after_hours` and `closed`, the
     current price, change, volume and today's daily close include those
-    after-hours trades, so they are not the regular-session close. Session hours shift on some days (e.g. the college
-    entrance exam day); the note says so.
+    after-hours trades, so they are not the regular-session close. Session
+    hours shift on some days (e.g. the college entrance exam day); the note
+    says so.
+  - For a regular-session close, use `get_regular_close(symbol, trade_date)`;
+    get_quote returns the same object as `close`. Its `status` says how the
+    price was obtained (FINAL, PROVISIONAL, PENDING, NO_TRADE, NOT_TRADING_DAY,
+    ERROR) and `checks` lists independent sources. Score finally only on FINAL
+    with no MISMATCH in `checks`. `latest_trade` is the newest trade, with its
+    own session and time; it is never the close.
   - `get_investor_flow` returns `provisional` (intraday broker-compiled
     estimate) and `confirmed` (exchange-confirmed) separately. Never mix them.
     The current day's confirmed figures are not published until after the close,
@@ -66,7 +74,9 @@ def _wrap(result_factory):
 def build_server(settings: Settings) -> tuple[FastMCP, KisClient]:
     client = KisClient(settings)
     calendar = MarketCalendar(client)
-    tools = KisTools(client, calendar)
+    krx = KrxClient(settings.krx_auth_key, timeout=settings.kis_timeout)
+    tools = KisTools(client, calendar, krx)
+    logger.info("KRX close cross-check: %s", "on" if krx.configured else "off (KRX_AUTH_KEY unset)")
 
     auth = None
     if settings.auth_mode == "oauth":
@@ -102,12 +112,34 @@ def build_server(settings: Settings) -> tuple[FastMCP, KisClient]:
     ) -> dict[str, Any]:
         """Current quote for a Korean listed security.
 
-        Returns price, percent change, open/high/low, previous close, volume,
+        Returns price, percent change, open/high/low, base price, volume,
         market capitalisation and valuation ratios, along with a KST timestamp
-        and the current market session state. After the regular close the price
-        follows after-hours trades; `market_status` says when that applies.
+        and the current market session state.
+
+        `close` is the latest session's regular close (same object as
+        get_regular_close) and `latest_trade` the newest trade with its own
+        session and time. `price.current` follows after-hours trades after the
+        close and is never a close. `price.prev_close` is a deprecated alias of
+        `price.base_price`.
         """
         return await _wrap(tools.get_quote)(symbol)
+
+    @mcp.tool
+    async def get_regular_close(
+        symbol: Annotated[str, Field(description="Six-digit Korean ticker, e.g. 000660")],
+        trade_date: Annotated[
+            str, Field(description="Trading day in KST, YYYY-MM-DD, e.g. 2026-11-03")
+        ],
+    ) -> dict[str, Any]:
+        """Regular-session close for one trading day, for scoring predictions.
+
+        `close.status`: FINAL (unadjusted KIS daily chart, settled once a later
+        trading day exists), PROVISIONAL (today's closing auction print),
+        PENDING (see `next_check`), NO_TRADE, NOT_TRADING_DAY or ERROR (see
+        `error.retryable`). `close.checks` lists independent sources such as the
+        optional KRX Open API. Score finally only on FINAL with no MISMATCH.
+        """
+        return await _wrap(tools.get_regular_close)(symbol, trade_date)
 
     @mcp.tool
     async def get_investor_flow(

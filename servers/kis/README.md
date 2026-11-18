@@ -22,7 +22,8 @@ repository — not from memory.
 
 | Tool | KIS API | `tr_id` |
 |---|---|---|
-| `get_quote` | 주식현재가 시세 | `FHKST01010100` |
+| `get_quote` | 주식현재가 시세 + 체결 (+ `close`, below) | `FHKST01010100` + `FHKST01010300` |
+| `get_regular_close` | 국내주식 기간별시세 (unadjusted) + 당일시간대별체결 | `FHKST03010100` + `FHPST01060000` |
 | `get_investor_flow` | 종목별 외인기관 추정가집계 + 주식현재가 투자자 | `HHPTJ04160200` + `FHKST01010900` |
 | `get_daily_ohlcv` | 국내주식 기간별시세 | `FHKST03010100` |
 | `get_orderbook` | 주식현재가 호가/예상체결 | `FHKST01010200` |
@@ -69,6 +70,86 @@ The two endpoints are called independently, so one failing does not take the
 other down — the failed side returns `available: false` plus the original KIS
 error code.
 
+## Regular-session close vs. latest trade
+
+Prices read on the KRX market code (J) keep changing after the 15:30 close until
+20:00 as after-hours trades print, and the current day's daily-chart row follows
+them until the next trading day appears. A model that reads the current price at
+16:30 as "today's close" is wrong. So the close is its own object, built by the
+same code in both tools:
+
+- `get_regular_close(symbol, trade_date)` returns it for any trading day. This
+  is the one to score predictions against.
+- `get_quote` returns it as `close` for the latest session, next to
+  `latest_trade` (the newest trade, with its own time and session).
+  `price.current` is unchanged, i.e. the raw KIS value, and is never a close.
+
+```jsonc
+"close": {
+  "trade_date": "2026-11-03", "venue": "KRX", "session": "REGULAR",
+  "price": 1398000, "trade_time_kst": "2026-11-03T15:30:24+09:00",
+  "status": "PROVISIONAL",
+  "source": { "kind": "kis_closing_auction_print", "tr_id": "FHPST01060000", ... },
+  "checks": [ { "source": "krx_openapi", "result": "NOT_PUBLISHED" } ],
+  "independent_verified": false,
+  "next_check": "Settles from the KIS daily chart once the next trading day appears there."
+},
+"latest_trade": {
+  "price": 1396000, "as_of_kst": "2026-11-03T16:28:07+09:00",
+  "session": "AFTER_HOURS", "venue": "UNKNOWN", "feed_code": "J", ...
+}
+```
+
+`status` says how the price was obtained; `checks` says whether anyone else
+agrees. They are separate on purpose, so a new source adds a check rather than a
+new status.
+
+| `status` | Meaning | For scoring |
+|---|---|---|
+| `FINAL` | Unadjusted KIS daily-chart close, read once a later trading day exists in the chart (before that, the row can still move) | Score finally, unless a check says `MISMATCH` |
+| `PROVISIONAL` | Today's closing auction print, accepted only if nothing traded in the auction window, the tick page reaches back past it, and everything after the close printed at one price | Provisional score only |
+| `PENDING` | Not available yet; `next_check` says what to wait for | Ask again later |
+| `NO_TRADE` | Settled day with zero volume; the official price is kept | Nothing to score |
+| `NOT_TRADING_DAY` | Exchange closed that day | Nothing to score |
+| `ERROR` | `error.retryable` says whether to try again | Report it |
+
+Prices are unadjusted so a later split or rights issue cannot rewrite a close
+that was already scored. Verified on the live API: finished days' J daily close
+matched the 15:30 print, the next day's base price and KRX's official close on
+every day checked (2026-10-30, 11-02, 11-03, 11-16, 11-17).
+
+The tick time carries no date, so `latest_trade.as_of_kst` is filled only when
+today's daily row exists with volume (proof that the newest trade is today's).
+Otherwise it stays `null` with the raw `trade_time_raw`. After the close the
+venue is `UNKNOWN`: time alone cannot tell which market printed it.
+
+`price.prev_close` is a deprecated alias of `price.base_price`. It always was
+the exchange base price (`stck_sdpr`), which differs from the previous close on
+ex-rights, ex-dividend and listing days.
+
+### KRX cross-check (optional)
+
+KRX publishes each day's official close through the
+[KRX Open API](https://openapi.krx.co.kr), but only the next day, so it can
+confirm a close and never supply one. Everything works without it.
+
+To turn it on, set `KRX_AUTH_KEY` and apply for **유가증권 일별매매정보**
+(and **코스닥 일별매매정보** for KOSDAQ symbols) on the KRX site; each dataset
+is approved separately. The check then appears in `close.checks`:
+
+| `result` | Meaning |
+|---|---|
+| `MATCH` / `MISMATCH` | KRX's close (`krx_price`) agrees / disagrees. Close price only, not volume: KRX's volume includes after-hours trades |
+| `NOT_CONFIGURED` | No `KRX_AUTH_KEY` |
+| `NOT_PUBLISHED` | KRX has not published that day yet (asked again after 10 minutes) |
+| `NOT_AUTHORIZED` | The key works but the symbol's dataset is not approved |
+| `UNSUPPORTED` | Not in any approved dataset (e.g. ETFs) |
+| `ERROR` | Network failure or a rejected key |
+
+`independent_verified` is true only when a non-KIS source matches and none
+disagrees. One call returns a whole market for a day and is cached, so the
+10,000-calls-per-day limit is not a concern.
+
 ## Things the live API does that the docs do not warn you about
 
 Found by calling the real API, and handled in code:
@@ -104,8 +185,8 @@ Index aliases: `KOSPI`, `KOSDAQ`, `KOSPI200` (domestic); `SOX`, `NASDAQ`,
   current day's daily close. Verified against the
   live API: on 2026-11-03 SK hynix closed the regular session at 1,398,000, yet
   `stck_prpr` read 1,396,000 at 16:28 and 1,399,000 at 16:45. In the
-  `after_hours` and `closed` phases, `market_status.note` says so. Finished days
-  are not affected: their daily close is the regular-session close.
+  `after_hours` and `closed` phases, `market_status.note` says so. For the close,
+  see [Regular-session close vs. latest trade](#regular-session-close-vs-latest-trade).
 - Overseas equities: **delayed** unless your KIS account subscribes to real-time
   overseas data. Set `KIS_OVERSEAS_REALTIME=true` to reflect that; the `delayed`
   field in every response follows this setting.

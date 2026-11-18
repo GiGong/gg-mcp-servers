@@ -21,6 +21,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "src"))
 
 from kis_mcp.client import KisClient  # noqa: E402
 from kis_mcp.config import load_settings  # noqa: E402
+from kis_mcp.krx import KrxClient  # noqa: E402
 from kis_mcp.logging_setup import setup_logging  # noqa: E402
 from kis_mcp.market import MarketCalendar  # noqa: E402
 from kis_mcp.tools import KisTools  # noqa: E402
@@ -98,7 +99,9 @@ async def main() -> int:
     print("-" * 70)
 
     client = KisClient(settings)
-    tools = KisTools(client, MarketCalendar(client))
+    krx = KrxClient(settings.krx_auth_key)
+    tools = KisTools(client, MarketCalendar(client), krx)
+    print(f"KRX cross-check: {'on' if krx.configured else 'off'}")
     report = Report()
     dumps: dict[str, Any] = {}
 
@@ -124,6 +127,12 @@ async def main() -> int:
             expect=["name", "price.current", "change.percent", "volume.shares",
                     "price.prev_close", "valuation.market_cap_krw_eok"],
         )
+        quote = dumps["quote_skhy"] or {}
+        if quote.get("close"):
+            close = quote["close"]
+            print(f"        - close: {close.get('trade_date')} {close.get('price')} "
+                  f"{close.get('status')} checks={[c.get('result') for c in close.get('checks', [])]}")
+            print(f"        - latest trade: {quote.get('latest_trade')}")
         dumps["quote_sec"] = await report.run(
             f"get_quote({SEC}) Samsung Electronics",
             tools.get_quote(SEC),
@@ -156,6 +165,18 @@ async def main() -> int:
         )
         if dumps["ohlcv"] and dumps["ohlcv"].get("candles"):
             print(f"        - last candle: {dumps['ohlcv']['candles'][-1]}")
+            if len(dumps["ohlcv"]["candles"]) >= 2:
+                # The second newest day is settled: a later day exists after it.
+                settled = dumps["ohlcv"]["candles"][-2]["date"]
+                dumps["regular_close"] = await report.run(
+                    f"get_regular_close({SKHY}, {settled})",
+                    tools.get_regular_close(SKHY, settled),
+                    expect=["close.price", "close.status", "close.source.kind"],
+                )
+                if dumps["regular_close"]:
+                    close = dumps["regular_close"]["close"]
+                    print(f"        - {close['status']} {close['price']} "
+                          f"checks={[c.get('result') for c in close['checks']]}")
 
         if args.tier >= 2:
             print("\n[secondary]")
@@ -201,6 +222,7 @@ async def main() -> int:
             )
     finally:
         await client.aclose()
+        await krx.aclose()
 
     print("-" * 70)
     if args.json:

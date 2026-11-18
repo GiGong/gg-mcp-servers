@@ -20,7 +20,7 @@ _REDACTIONS: list[tuple[re.Pattern[str], str]] = [
         re.compile(
             r'(["\']?(?:appkey|appsecret|app_key|app_secret|access_token|refresh_token'
             r"|secretkey|secret_key|authorization|passphrase|signing_secret"
-            r'|client_secret)["\']?\s*[:=]\s*["\']?)([^\s,"\'}\]]+)',
+            r'|client_secret|auth_key)["\']?\s*[:=]\s*["\']?)([^\s,"\'}\]]+)',
             re.I,
         ),
         r"\1<REDACTED>",
