@@ -95,8 +95,13 @@ ESTIMATE_SNAPSHOT_TIMES = {
 _PROVISIONAL_NOTE = (
     "Provisional estimate compiled and entered by brokerage staff during the "
     "session. Foreign figures update at 09:30/11:20/13:20/14:30 KST and "
-    "institutional figures at 10:00/11:20/13:20/14:30 KST. These may differ "
-    "from the confirmed values."
+    "institutional figures at 10:00/11:20/13:20/14:30 KST. Slot 1 carries no "
+    "institutional figure yet, so it is null there. These may differ from the "
+    "confirmed values."
+)
+_SHIFTED_SLOTS_NOTE = (
+    "Today runs on shifted hours, so the usual publication times do not apply "
+    "and approx_kst_time is null. The slot order still holds."
 )
 _CONFIRMED_NOTE = "Exchange-confirmed daily net buying."
 _CLOSE_READING_GUIDE = (
@@ -337,16 +342,27 @@ class KisTools:
         if isinstance(rows, dict):
             rows = [rows]
 
+        # The publication times are for normal hours. On a day with shifted
+        # hours they do not hold (2026-11-19: only slot 1 at 10:39, slot 2 by
+        # 10:52), so leave them out rather than label a slot wrongly.
+        shifted = hours_for(now_kst().date())[1] is not None
+
         snapshots = []
         for row in rows:
             slot = text(row.get("bsop_hour_gb"))
+            institution = integer(row.get("orgn_fake_ntby_qty"))
+            combined = integer(row.get("sum_fake_ntby_qty"))
+            if slot == "1" and institution == 0:
+                # Institutions are first compiled in slot 2. A zero here means
+                # not compiled yet, not zero net buying.
+                institution = combined = None
             snapshots.append(
                 {
                     "slot": slot,
-                    "approx_kst_time": ESTIMATE_SNAPSHOT_TIMES.get(slot or ""),
+                    "approx_kst_time": None if shifted else ESTIMATE_SNAPSHOT_TIMES.get(slot or ""),
                     "foreign_net_qty": integer(row.get("frgn_fake_ntby_qty")),
-                    "institution_net_qty": integer(row.get("orgn_fake_ntby_qty")),
-                    "combined_net_qty": integer(row.get("sum_fake_ntby_qty")),
+                    "institution_net_qty": institution,
+                    "combined_net_qty": combined,
                 }
             )
 
@@ -354,11 +370,14 @@ class KisTools:
         # position so `latest` is the last snapshot of the day.
         snapshots.sort(key=lambda s: integer(s["slot"]) or 0)
         latest = snapshots[-1] if snapshots else None
+        note = _PROVISIONAL_NOTE
+        if shifted:
+            note = f"{note} {_SHIFTED_SLOTS_NOTE}"
         return {
             "available": True,
             "data_type": "provisional_estimate",
             "is_confirmed": False,
-            "note": _PROVISIONAL_NOTE,
+            "note": note,
             "latest": latest,
             "snapshots": snapshots,
             "source": _source(TR_INVESTOR_ESTIMATE, self._env),

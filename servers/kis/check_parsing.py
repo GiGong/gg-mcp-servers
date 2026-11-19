@@ -441,6 +441,24 @@ async def main() -> int:
               checked["status"] == "FINAL" and checked["checks"][0]["result"] == expected
               and checked["independent_verified"] is verified, str(checked["checks"]))
 
+    # Exam day 2026-11-19 as observed at 10:52: slot 2 present, slot 1 has a
+    # zero institutional figure because institutions are not compiled yet.
+    exam_slots = {"rt_cd": "0", "output2": [
+        {"bsop_hour_gb": "2", "frgn_fake_ntby_qty": "-00000000000022000",
+         "orgn_fake_ntby_qty": "-00000000000038000", "sum_fake_ntby_qty": "-00000000000060000"},
+        {"bsop_hour_gb": "1", "frgn_fake_ntby_qty": "000000000000008000",
+         "orgn_fake_ntby_qty": "000000000000000000", "sum_fake_ntby_qty": "000000000000008000"},
+    ]}
+    t = scenario(at(2026, 11, 19, 10, 52), {"HHPTJ04160200": exam_slots})
+    prov = (await t.get_investor_flow("000660"))["provisional"]
+    first, latest = prov["snapshots"][0], prov["latest"]
+    check("slot 1 institution 0 is reported as not compiled (null)",
+          first["slot"] == "1" and first["institution_net_qty"] is None
+          and first["combined_net_qty"] is None and first["foreign_net_qty"] == 8000, str(first))
+    check("shifted-hours day: slot times are null, latest is the newest slot",
+          latest["slot"] == "2" and latest["approx_kst_time"] is None
+          and latest["institution_net_qty"] == -38000 and "shifted hours" in prov["note"], str(latest))
+
     OVERRIDES.clear()
     tools_module.now_kst = real_now
 
