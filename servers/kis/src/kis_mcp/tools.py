@@ -115,9 +115,10 @@ _CLOSE_READING_GUIDE = (
     "is FINAL. Never use get_quote's price.current as a close."
 )
 _SAME_DAY_CONFIRMED_NOTE = (
-    "Today's figures appear shortly after the regular close, before after-hours "
-    "trading ends at 20:00 KST, and have been seen to change by the next day. "
-    "Treat them as preliminary until then."
+    "The newest day's figures appear shortly after its regular close, before "
+    "after-hours trading ends at 20:00 KST, and have been seen to change by the "
+    "next morning. Rows marked preliminary stay so until a later trading day "
+    "appears."
 )
 
 
@@ -314,8 +315,8 @@ class KisTools:
             "reading_guide": (
                 "provisional is an intraday broker-compiled estimate; confirmed is "
                 "the exchange-published daily figure. The two can differ for the same "
-                "date. Today's confirmed figures appear after the close but may still "
-                "change by the next trading day; earlier days are settled."
+                "date. Rows marked preliminary (the newest day) may still change until "
+                "the next trading day appears; earlier days are settled."
             ),
         }
 
@@ -400,7 +401,10 @@ class KisTools:
         if isinstance(rows, dict):
             rows = [rows]
 
-        today = now_kst().date().isoformat()
+        # A day's published figures were seen to change by the next morning and
+        # not after that (2026-11-03 and 11-18), so a row stays preliminary
+        # until a later trading day's row appears, as closes do.
+        newest = max((yyyymmdd_to_iso(r.get("stck_bsop_date")) or "" for r in rows), default="")
         series = []
         for row in rows[: max(1, days)]:
             foreign = integer(row.get("frgn_ntby_qty"))
@@ -415,9 +419,9 @@ class KisTools:
                     "close": num(row.get("stck_clpr")),
                     "change": signed(row.get("prdy_vrss"), row.get("prdy_vrss_sign")),
                     "is_published": published,
-                    # Today's flow can change by the next trading day, and its
-                    # close follows after-hours trades until then.
-                    "preliminary": date == today,
+                    # Its flow can still be revised, and its close follows
+                    # after-hours trades until the next trading day appears.
+                    "preliminary": date == newest,
                     "foreign_net_qty": foreign,
                     "institution_net_qty": institution,
                     "individual_net_qty": integer(row.get("prsn_ntby_qty")),
@@ -432,7 +436,7 @@ class KisTools:
         pending = [row for row in series if not row["is_published"]]
 
         note = _CONFIRMED_NOTE
-        if published and published[0]["date"] == today:
+        if published and published[0]["preliminary"]:
             note = f"{note} {_SAME_DAY_CONFIRMED_NOTE}"
 
         result: dict[str, Any] = {

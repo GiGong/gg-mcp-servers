@@ -96,7 +96,7 @@ same code in both tools:
 },
 "latest_trade": {
   "price": 1396000, "as_of_kst": "2026-11-03T16:28:07+09:00",
-  "session": "AFTER_HOURS", "venue": "UNKNOWN", "feed_code": "J", ...
+  "session": "AFTER_HOURS", "venue": "KRX", "feed_code": "J", ...
 }
 ```
 
@@ -120,8 +120,11 @@ every day checked (2026-10-30, 11-02, 11-03, 11-16, 11-17).
 
 The tick time carries no date, so `latest_trade.as_of_kst` is filled only when
 today's daily row exists with volume (proof that the newest trade is today's).
-Otherwise it stays `null` with the raw `trade_time_raw`. After the close the
-venue is `UNKNOWN`: time alone cannot tell which market printed it.
+Otherwise it stays `null` with the raw `trade_time_raw`. After-hours trades on
+the J feed are KRX's own after-hours sessions: KRX's official daily volume equals
+the J feed's final volume including them (checked 2026-11-03, 11-17, 11-18).
+A trade in the ten minutes after the close that is not the identified closing
+print is `UNKNOWN`.
 
 `price.prev_close` is a deprecated alias of `price.base_price`. It always was
 the exchange base price (`stck_sdpr`), which differs from the previous close on
@@ -149,6 +152,23 @@ is approved separately. The check then appears in `close.checks`:
 `independent_verified` is true only when a non-KIS source matches and none
 disagrees. One call returns a whole market for a day and is cached, so the
 10,000-calls-per-day limit is not a concern.
+
+## Known limitations
+
+- **Days with shifted hours are listed by hand.** `SPECIAL_HOURS` in
+  `market.py` holds only the 2026-11-19 college entrance exam day. Add each
+  year's exam day and any late-opening first trading day yourself; until then
+  those days are judged on normal hours. The KIS holiday endpoint reports only
+  open or closed.
+- **Provisional flow publication times are known for normal days only.** On a
+  shifted-hours day `approx_kst_time` is null; on 2026-11-19 slots appeared
+  roughly an hour later than usual, give or take fifteen minutes.
+- **Confirmed flow revisions are flagged, not tracked.** The newest day's
+  figures have been seen to change by the next morning (2026-11-03, 11-18) and
+  are marked `preliminary`; the server does not store the earlier values or
+  report the difference.
+- **KRX checks cover KOSPI and KOSDAQ shares.** ETFs and other products report
+  `UNSUPPORTED`.
 
 ## Things the live API does that the docs do not warn you about
 
@@ -230,9 +250,13 @@ $EDITOR servers/kis/.env
 
 Fill in your own KIS app key/secret (from
 [KIS Developers](https://apiportal.koreainvestment.com)) and generate the auth
-secrets:
+secrets. The example sets `AUTH_MODE=both`: Claude connects with a fixed
+`Authorization: Bearer <MCP_BEARER_TOKEN>` header, and clients that only speak
+OAuth (ChatGPT, the Gemini app) with the passphrase. `bearer` or `oauth` keeps
+just one of the two; `.env.example` explains each.
 
 ```bash
+python3 -c "import secrets; print('MCP_BEARER_TOKEN=' + secrets.token_urlsafe(32))"
 python3 -c "import secrets; print('OAUTH_PASSPHRASE=' + secrets.token_urlsafe(32))"
 python3 -c "import secrets; print('OAUTH_SIGNING_SECRET=' + secrets.token_urlsafe(48))"
 ```
@@ -251,7 +275,7 @@ uv sync
 ### Checks
 
 ```bash
-# Response field mapping, 22 assertions, no network needed
+# Response field mapping and close logic, no network needed
 .venv/bin/python servers/kis/check_parsing.py
 
 # Live KIS calls, needs servers/kis/.env

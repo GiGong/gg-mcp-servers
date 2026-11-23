@@ -309,14 +309,16 @@ async def main() -> int:
     check("exam day note names the shifted hours",
           "one hour late" in exam["note"] and "10:00-16:30" in exam["note"], exam["note"])
 
-    # The same-day caveat depends on today's date, so move the clock to the
-    # fixture's newest confirmed day.
-    tools_module.now_kst = lambda: dt.datetime(2026, 8, 12, 18, 0, tzinfo=KST)
+    check("investor_flow marks only the newest day preliminary",
+          [r["preliminary"] for r in flow["confirmed"]["series"]] == [True, False])
+    # Evening of the newest day: its figures are published but not yet settled.
+    newest_published = {"rt_cd": "0", "output": FIXTURES["FHKST01010900"]["output"][1:]}
+    OVERRIDES["FHKST01010900"] = newest_published
     same_day = await tools.get_investor_flow("000660")
-    check("investor_flow flags same-day confirmed figures as preliminary",
+    OVERRIDES.clear()
+    check("investor_flow flags the newest published day as preliminary",
           "preliminary" in same_day["confirmed"]["note"]
-          and same_day["confirmed"]["series"][1]["preliminary"] is True
-          and same_day["confirmed"]["series"][0]["preliminary"] is False)
+          and same_day["confirmed"]["latest"]["preliminary"] is True)
 
     print("\nRegular close vs latest trade (fixtures from live observations)\n" + "-" * 58)
 
@@ -343,7 +345,7 @@ async def main() -> int:
           and close["trade_time_kst"] == "2026-11-03T15:30:24+09:00", str(close))
     check("11-03 16:28: latest trade is the after-hours price with its own time",
           latest["price"] == 1396000.0 and latest["session"] == "AFTER_HOURS"
-          and latest["venue"] == "UNKNOWN"
+          and latest["venue"] == "KRX"
           and latest["as_of_kst"] == "2026-11-03T16:28:07+09:00", str(latest))
     check("11-03 16:28: price.current keeps the raw KIS value",
           quote["price"]["current"] == 1396000.0)

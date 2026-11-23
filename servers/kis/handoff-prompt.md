@@ -53,8 +53,9 @@ bracketed placeholders with whatever you are actually tracking.
 
 - 장중에 "오늘 외국인 순매수"를 물으면 → **`provisional`로 답하되 잠정치임과 기준 시각을 명시**한다.
   `confirmed.latest`를 오늘 값인 것처럼 쓰면 안 된다. 날짜가 다르다.
-- 장 마감 후에는 `confirmed`를 쓰되, 오늘 행은 `preliminary: true`다. 다음 거래일까지 바뀔 수
-  있으니 "잠정 확정치"라고 말해라.
+- 장 마감 후에는 `confirmed`를 쓰되, 가장 최근 날짜 행은 `preliminary: true`다. 다음 날 아침까지
+  바뀌는 일이 실제로 있었으니(11/18 외국인 −36,293 → −42,531) "잠정 확정치"라고 말해라.
+  다음 거래일 행이 생기면 `preliminary`가 풀리고, 그 뒤로는 바뀌지 않았다.
 - 수급 관련 가설을 과거 데이터로 채점할 때는 **확정치로만**, 그것도 `preliminary`가 아닌 행으로
   채점한다. 장중 잠정치나 당일 확정치로 미리 채점하면 뒤집힐 수 있다.
 

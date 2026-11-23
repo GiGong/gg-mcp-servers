@@ -349,5 +349,7 @@ class CloseResolver:
         elif closing_print_at and trade["as_of_kst"] == closing_print_at:
             trade["session"], trade["venue"] = "REGULAR", "KRX"
         elif moment >= close_at + _AUCTION:
-            trade["session"] = "AFTER_HOURS"
+            # KRX's official daily volume equals the J feed's final volume
+            # including these trades (2026-11-03/17/18), so they print on KRX.
+            trade["session"], trade["venue"] = "AFTER_HOURS", "KRX"
         return trade
