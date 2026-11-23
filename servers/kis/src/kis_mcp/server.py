@@ -12,7 +12,7 @@ from typing import Annotated, Any
 from fastmcp import FastMCP
 from pydantic import Field
 
-from localauth import PassphraseOAuthProvider
+from localauth import PassphraseOAuthProvider, StaticBearerVerifier
 
 from .client import KisClient, KisError
 from .config import Settings, load_settings
@@ -79,7 +79,7 @@ def build_server(settings: Settings) -> tuple[FastMCP, KisClient]:
     logger.info("KRX close cross-check: %s", "on" if krx.configured else "off (KRX_AUTH_KEY unset)")
 
     auth = None
-    if settings.auth_mode == "oauth":
+    if settings.auth_mode in {"oauth", "both"}:
         auth = PassphraseOAuthProvider(
             base_url=settings.public_url,
             passphrase=settings.oauth_passphrase,
@@ -89,8 +89,16 @@ def build_server(settings: Settings) -> tuple[FastMCP, KisClient]:
             refresh_token_ttl=settings.oauth_refresh_ttl,
             server_label=settings.auth_page_label,
             page_subtitle=settings.auth_page_subtitle,
+            static_bearer_token=settings.bearer_token if settings.auth_mode == "both" else None,
         )
-        logger.info("auth: built-in OAuth 2.1 (passphrase-gated) at %s", settings.public_url)
+        logger.info(
+            "auth: built-in OAuth 2.1 (passphrase-gated) at %s%s",
+            settings.public_url,
+            " + static bearer token" if settings.auth_mode == "both" else "",
+        )
+    elif settings.auth_mode == "bearer":
+        auth = StaticBearerVerifier(settings.bearer_token)
+        logger.info("auth: static bearer token (%d chars); no OAuth routes", len(settings.bearer_token))
     else:
         logger.warning(
             "auth: DISABLED (AUTH_MODE=none). Do not expose this server publicly."

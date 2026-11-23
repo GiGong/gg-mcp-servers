@@ -62,6 +62,7 @@ class Settings:
 
     # --- auth ---
     auth_mode: str
+    bearer_token: str
     oauth_passphrase: str
     oauth_signing_secret: str
     oauth_access_ttl: int
@@ -111,28 +112,36 @@ def load_settings(env_file: Path | None = None) -> Settings:
         raise ConfigError("KIS_RATE_LIMIT_PER_SEC must be > 0")
 
     auth_mode = os.getenv("AUTH_MODE", "oauth").strip().lower()
-    if auth_mode not in {"oauth", "none"}:
-        raise ConfigError(f"AUTH_MODE must be 'oauth' or 'none', got {auth_mode!r}")
+    if auth_mode not in {"oauth", "bearer", "both", "none"}:
+        raise ConfigError(
+            f"AUTH_MODE must be 'oauth', 'bearer', 'both' or 'none', got {auth_mode!r}"
+        )
+
+    bearer_token = os.getenv("MCP_BEARER_TOKEN", "").strip()
+    if auth_mode in {"bearer", "both"} and len(bearer_token) < 32:
+        raise ConfigError(
+            f"MCP_BEARER_TOKEN must be at least 32 characters when AUTH_MODE={auth_mode}."
+        )
 
     passphrase = os.getenv("OAUTH_PASSPHRASE", "")
     signing_secret = os.getenv("OAUTH_SIGNING_SECRET", "")
     public_url = os.getenv("MCP_PUBLIC_URL", "").strip().rstrip("/")
 
-    if auth_mode == "oauth":
+    if auth_mode in {"oauth", "both"}:
         if len(passphrase) < 16:
             raise ConfigError(
-                "OAUTH_PASSPHRASE must be at least 16 characters when AUTH_MODE=oauth."
+                f"OAUTH_PASSPHRASE must be at least 16 characters when AUTH_MODE={auth_mode}."
             )
         if len(signing_secret) < 16:
             raise ConfigError(
-                "OAUTH_SIGNING_SECRET must be at least 16 characters when AUTH_MODE=oauth."
+                f"OAUTH_SIGNING_SECRET must be at least 16 characters when AUTH_MODE={auth_mode}."
             )
         # Allow http on loopback so the OAuth flow can be exercised locally.
         is_loopback = public_url.startswith(("http://127.0.0.1", "http://localhost"))
         if not public_url.startswith("https://") and not is_loopback:
             raise ConfigError(
                 "MCP_PUBLIC_URL must be set to the https:// URL exposed by Cloudflare "
-                "Tunnel when AUTH_MODE=oauth."
+                f"Tunnel when AUTH_MODE={auth_mode}."
             )
 
     log_file_raw = os.getenv("LOG_FILE", "").strip()
@@ -152,6 +161,7 @@ def load_settings(env_file: Path | None = None) -> Settings:
         mcp_path=os.getenv("MCP_PATH", "/mcp"),
         public_url=public_url,
         auth_mode=auth_mode,
+        bearer_token=bearer_token,
         oauth_passphrase=passphrase,
         oauth_signing_secret=signing_secret,
         oauth_access_ttl=int(os.getenv("OAUTH_ACCESS_TOKEN_TTL", "28800")),
