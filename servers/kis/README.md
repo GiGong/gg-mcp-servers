@@ -290,11 +290,13 @@ correctly.
 
 ## Disclaimer
 
+- **Personal use.** Intended to be run with your own keys, for your own use.
 - **Unofficial.** Not affiliated with, endorsed by, or supported by Korea
   Investment & Securities. "KIS" and related names belong to their owners.
 - **You supply your own credentials.** No API keys are contained in or
   distributed with this repository. You are responsible for keeping your KIS app
-  key/secret safe and for complying with the KIS Open API terms of service.
+  key/secret safe and for complying with the KIS Open API terms of service, and
+  with the KRX Open API terms if you set a KRX key.
 - **No market data is redistributed.** This is a client wrapper; all data comes
   from your own authenticated KIS account at request time.
 - **Read-only.** It cannot place, modify, or cancel orders.

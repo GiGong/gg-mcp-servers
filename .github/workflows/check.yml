@@ -1,0 +1,28 @@
+# Offline checks: no API keys, no network calls to KIS, KRX or Lost Ark.
+name: check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    name: Offline checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v9.0.0
+      - name: Install
+        run: uv sync --locked
+      - name: OAuth flow
+        run: .venv/bin/python scripts/check_oauth.py
+      - name: OAuth attacks
+        run: .venv/bin/python scripts/check_security.py
+      - name: KIS response parsing and close logic
+        run: .venv/bin/python servers/kis/check_parsing.py
+      - name: Lost Ark response parsing
+        run: .venv/bin/python servers/lostark/check_parsing.py

@@ -1,6 +1,7 @@
 # mcp-servers
 
-Self-hosted remote MCP servers, plus the shared pieces they run on.
+Self-hosted remote MCP servers, plus the shared pieces they run on. Built for
+personal use: each server runs on your own machine with your own API keys.
 
 Each server runs on a home machine, is exposed over a tunnel, and connects to
 Claude.ai as a custom connector. They all share one authentication module, one
@@ -142,7 +143,9 @@ same port.
 .venv/bin/python scripts/check_public.py --env servers/kis/.env
 ```
 
-Per-server checks live next to the server; see its README.
+Per-server checks live next to the server; see its README. The checks that
+need no credentials or live URL run on every push through GitHub Actions
+(`.github/workflows/check.yml`).
 
 ### Deploy (macOS)
 
