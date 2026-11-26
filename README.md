@@ -1,4 +1,4 @@
-# mcp-servers
+# GG-MCP-Servers
 
 Self-hosted remote MCP servers, plus the shared pieces they run on. Built for
 personal use: each server runs on your own machine with your own API keys.
