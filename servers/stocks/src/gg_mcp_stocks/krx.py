@@ -44,7 +44,7 @@ class KrxClient:
         self._http = (
             httpx.AsyncClient(
                 timeout=httpx.Timeout(timeout),
-                headers={"User-Agent": "kis-mcp/0.1 (read-only)"},
+                headers={"User-Agent": "gg-mcp-stocks/0.1 (read-only)"},
             )
             if auth_key
             else None

@@ -2,7 +2,7 @@
 
 The Open API has no ranking or search endpoint, so the population is whatever
 names the operator lists in the rankers file and collects with
-`lostark-mcp collect`. Rows hold parsed sections rather than raw tooltips.
+`gg-mcp-lostark collect`. Rows hold parsed sections rather than raw tooltips.
 
 The database is made of other players' character names; keep it out of version
 control (the default location, servers/lostark/local/, is gitignored).

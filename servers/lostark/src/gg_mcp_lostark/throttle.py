@@ -4,7 +4,7 @@ Two counters are combined:
 
   - A local sliding window keeps this process under its configured share.
   - The server's X-RateLimit-* headers cover everything else spending the same
-    key, such as `lostark-mcp collect` running in another process.
+    key, such as `gg-mcp-lostark collect` running in another process.
 
 `reserve` makes a caller stop while the server reports that many requests or
 fewer remaining, so a background collector leaves room for interactive use.

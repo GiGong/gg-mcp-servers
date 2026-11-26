@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Render the launchd template for one server and load it.
 #
-#   ./deploy/install.sh kis
-#   LABEL=com.myname.kis-mcp ./deploy/install.sh kis
+#   ./deploy/install.sh stocks
+#   LABEL=com.myname.gg-mcp-stocks ./deploy/install.sh stocks
 #
 # Re-run after editing that server's .env to pick up the new configuration.
 set -euo pipefail
@@ -16,7 +16,7 @@ if [[ -z "$SERVER" ]]; then
 fi
 
 SERVER_DIR="$REPO_DIR/servers/$SERVER"
-LABEL="${LABEL:-com.local.$SERVER-mcp}"
+LABEL="${LABEL:-com.local.gg-mcp-$SERVER}"
 TEMPLATE="$REPO_DIR/deploy/com.example.mcp.plist"
 TARGET="$HOME/Library/LaunchAgents/$LABEL.plist"
 DOMAIN="gui/$(id -u)"
@@ -27,7 +27,7 @@ DOMAIN="gui/$(id -u)"
   exit 1
 }
 
-BIN="$REPO_DIR/.venv/bin/$SERVER-mcp"
+BIN="$REPO_DIR/.venv/bin/gg-mcp-$SERVER"
 [[ -x "$BIN" ]] || {
   echo "error: $BIN not found. Run: uv sync" >&2
   exit 1
@@ -50,11 +50,11 @@ for plist in "$HOME/Library/LaunchAgents/"*.plist; do
   fi
 done
 
-mkdir -p "$HOME/Library/LaunchAgents" "$HOME/Library/Logs/$SERVER-mcp"
+mkdir -p "$HOME/Library/LaunchAgents" "$HOME/Library/Logs/gg-mcp-$SERVER"
 
 sed -e "s|__BIN__|$BIN|g" \
     -e "s|__SERVER_DIR__|$SERVER_DIR|g" \
-    -e "s|__LOG_DIR__|$HOME/Library/Logs/$SERVER-mcp|g" \
+    -e "s|__LOG_DIR__|$HOME/Library/Logs/gg-mcp-$SERVER|g" \
     -e "s|__LABEL__|$LABEL|g" \
     "$TEMPLATE" > "$TARGET"
 
@@ -82,5 +82,5 @@ for _ in $(seq 1 20); do
 done
 
 echo "error: the server did not become healthy on port $PORT." >&2
-echo "       check $HOME/Library/Logs/$SERVER-mcp/stderr.log" >&2
+echo "       check $HOME/Library/Logs/gg-mcp-$SERVER/stderr.log" >&2
 exit 1

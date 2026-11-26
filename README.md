@@ -12,8 +12,8 @@ launchd installer, and one set of checks.
 | Path | What it is |
 |---|---|
 | [`packages/localauth/`](packages/localauth/) | **Passphrase-gated OAuth 2.1 authorization server for FastMCP.** No external identity provider. Usable in any MCP server, not just the ones here. |
-| [`servers/kis/`](servers/kis/) | Read-only market data over the Korea Investment & Securities (KIS) Open API — quotes, daily bars, order book, investor flow, indices, FX. |
-| [`servers/lostark/`](servers/lostark/) | Read-only Lost Ark Open API — character gear and builds sized for a model's context, market and auction prices, crafting profit, build statistics over your own ranker list. |
+| [`servers/stocks/`](servers/stocks/) | **GG-MCP-Stocks.** Read-only stock market data over the Korea Investment & Securities (KIS) Open API — quotes, daily bars, order book, investor flow, indices, FX — with an optional KRX cross-check of closing prices. |
+| [`servers/lostark/`](servers/lostark/) | **GG-MCP-LostArk.** Read-only Lost Ark Open API — character gear and builds sized for a model's context, market and auction prices, crafting profit, build statistics over your own ranker list. |
 | [`scripts/`](scripts/) | Server-agnostic checks: the OAuth flow, and a full round trip against a live public URL. |
 | [`deploy/`](deploy/) | launchd template and installer. |
 
@@ -130,7 +130,7 @@ same port.
 
 | Server | Port | Public hostname |
 |---|---|---|
-| `kis` | 8765 | *(set `MCP_PUBLIC_URL` in `servers/kis/.env`)* |
+| `stocks` | 8765 | *(set `MCP_PUBLIC_URL` in `servers/stocks/.env`)* |
 | `lostark` | 8766 | *(set `MCP_PUBLIC_URL` in `servers/lostark/.env`)* |
 
 ### Checks
@@ -140,7 +140,7 @@ same port.
 .venv/bin/python scripts/check_oauth.py
 
 # Full round trip against a live public URL, after the tunnel is up
-.venv/bin/python scripts/check_public.py --env servers/kis/.env
+.venv/bin/python scripts/check_public.py --env servers/stocks/.env
 ```
 
 Per-server checks live next to the server; see its README. The checks that
@@ -150,15 +150,15 @@ need no credentials or live URL run on every push through GitHub Actions
 ### Deploy (macOS)
 
 ```bash
-./deploy/install.sh kis                          # label: com.local.kis-mcp
-LABEL=com.myname.kis-mcp ./deploy/install.sh kis # or choose your own
+./deploy/install.sh stocks                                # label: com.local.gg-mcp-stocks
+LABEL=com.myname.gg-mcp-stocks ./deploy/install.sh stocks # or choose your own
 ```
 
 `RunAtLoad` plus `KeepAlive` means the service starts at login and restarts on
-abnormal exit. Logs land in `~/Library/Logs/<server>-mcp/`.
+abnormal exit. Logs land in `~/Library/Logs/gg-mcp-<server>/`.
 
 ```bash
-launchctl bootout gui/$(id -u)/com.local.kis-mcp   # uninstall
+launchctl bootout gui/$(id -u)/com.local.gg-mcp-stocks   # uninstall
 ```
 
 ### Expose it
@@ -206,10 +206,10 @@ Add → Custom → Web*; members then click **Connect**.
 
 ```
 servers/<name>/
-├── pyproject.toml      # name = "<name>-mcp", localauth = { workspace = true }
+├── pyproject.toml      # name = "gg-mcp-<name>", localauth = { workspace = true }
 ├── .env.example        # its own port, public URL, passphrase
 ├── README.md
-└── src/<pkg>/
+└── src/gg_mcp_<name>/
 ```
 
 Then `uv sync` and `./deploy/install.sh <name>`. Give it a port no other server

@@ -35,18 +35,18 @@ os.environ.update(
     }
 )
 
-from lostark_mcp import fields, tooltip  # noqa: E402
-from lostark_mcp.armory import MAX_RESPONSE_CHARS, SECTIONS, Armory, ArmoryService  # noqa: E402
-from lostark_mcp.auction import AuctionService  # noqa: E402
-from lostark_mcp.cache import TtlCache  # noqa: E402
-from lostark_mcp.catalog import Catalog  # noqa: E402
-from lostark_mcp.client import LostarkError  # noqa: E402
-from lostark_mcp.config import load_settings  # noqa: E402
-from lostark_mcp.craft import CraftService  # noqa: E402
-from lostark_mcp.market import MarketService  # noqa: E402
-from lostark_mcp.snapshots import SnapshotStore  # noqa: E402
-from lostark_mcp.stats import build_stats  # noqa: E402
-from lostark_mcp.throttle import MinuteQuota, QuotaExhausted  # noqa: E402
+from gg_mcp_lostark import fields, tooltip  # noqa: E402
+from gg_mcp_lostark.armory import MAX_RESPONSE_CHARS, SECTIONS, Armory, ArmoryService  # noqa: E402
+from gg_mcp_lostark.auction import AuctionService  # noqa: E402
+from gg_mcp_lostark.cache import TtlCache  # noqa: E402
+from gg_mcp_lostark.catalog import Catalog  # noqa: E402
+from gg_mcp_lostark.client import LostarkError  # noqa: E402
+from gg_mcp_lostark.config import load_settings  # noqa: E402
+from gg_mcp_lostark.craft import CraftService  # noqa: E402
+from gg_mcp_lostark.market import MarketService  # noqa: E402
+from gg_mcp_lostark.snapshots import SnapshotStore  # noqa: E402
+from gg_mcp_lostark.stats import build_stats  # noqa: E402
+from gg_mcp_lostark.throttle import MinuteQuota, QuotaExhausted  # noqa: E402
 
 PASS = "\033[32m PASS\033[0m"
 FAIL = "\033[31m FAIL\033[0m"

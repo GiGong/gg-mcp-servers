@@ -163,7 +163,7 @@ def build_server(settings: Settings) -> tuple[FastMCP, LostarkClient]:
     else:
         logger.warning("auth: DISABLED (AUTH_MODE=none). Do not expose this server publicly.")
 
-    mcp: FastMCP = FastMCP(name="lostark", instructions=SERVER_INSTRUCTIONS, auth=auth)
+    mcp: FastMCP = FastMCP(name="gg-mcp-lostark", instructions=SERVER_INSTRUCTIONS, auth=auth)
 
     # ---------------- characters ----------------
 
@@ -461,7 +461,7 @@ def build_server(settings: Settings) -> tuple[FastMCP, LostarkClient]:
     ) -> dict[str, Any]:
         """Build statistics over locally collected characters (the operator's ranker list).
 
-        Not an official ranking. Collected by `lostark-mcp collect`; reports sample size.
+        Not an official ranking. Collected by `gg-mcp-lostark collect`; reports sample size.
         """
 
         async def compute() -> dict[str, Any]:
@@ -489,7 +489,7 @@ def main() -> None:
     setup_logging(settings.log_level, settings.log_file)
 
     logger.info(
-        "starting lostark-mcp | key=%s throttle=%d/min auth=%s bind=%s:%s%s",
+        "starting gg-mcp-lostark | key=%s throttle=%d/min auth=%s bind=%s:%s%s",
         settings.masked_api_key(),
         settings.rate_limit_per_min,
         settings.auth_mode,

@@ -11,7 +11,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-# servers/<name>/src/lostark_mcp/config.py -> servers/<name>
+# servers/<name>/src/gg_mcp_lostark/config.py -> servers/<name>
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 # Official endpoint and quota, from the developer portal's getting-started page.
@@ -151,7 +151,7 @@ def load_settings(env_file: Path | None = None, *, for_server: bool = True) -> S
         oauth_access_ttl=int(os.getenv("OAUTH_ACCESS_TOKEN_TTL", "28800")),
         oauth_refresh_ttl=int(os.getenv("OAUTH_REFRESH_TOKEN_TTL", "2592000")),
         oauth_store=_expand(
-            os.getenv("OAUTH_STORE", "~/.cache/lostark-mcp/oauth-store.json")
+            os.getenv("OAUTH_STORE", "~/.cache/gg-mcp-lostark/oauth-store.json")
         ),
         # The login page is reachable without authentication, so the default
         # wording stays neutral. Operators override it in .env.

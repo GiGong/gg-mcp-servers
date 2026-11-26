@@ -24,6 +24,6 @@ jobs:
       - name: OAuth attacks
         run: .venv/bin/python scripts/check_security.py
       - name: KIS response parsing and close logic
-        run: .venv/bin/python servers/kis/check_parsing.py
+        run: .venv/bin/python servers/stocks/check_parsing.py
       - name: Lost Ark response parsing
         run: .venv/bin/python servers/lostark/check_parsing.py

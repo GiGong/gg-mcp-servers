@@ -11,7 +11,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-# servers/<name>/src/kis_mcp/config.py -> servers/<name>
+# servers/<name>/src/gg_mcp_stocks/config.py -> servers/<name>
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 # Official KIS domains, taken from examples_llm/kis_auth.py in the KIS repo.
@@ -151,7 +151,7 @@ def load_settings(env_file: Path | None = None) -> Settings:
         kis_app_key=app_key,
         kis_app_secret=app_secret,
         kis_base_url=KIS_DOMAINS[kis_env],
-        kis_token_cache=_expand(os.getenv("KIS_TOKEN_CACHE", "~/.cache/kis-mcp/token.json")),
+        kis_token_cache=_expand(os.getenv("KIS_TOKEN_CACHE", "~/.cache/gg-mcp-stocks/token.json")),
         kis_rate_limit_per_sec=rate,
         kis_timeout=float(os.getenv("KIS_TIMEOUT", "10")),
         overseas_realtime=_get_bool("KIS_OVERSEAS_REALTIME", False),
@@ -166,7 +166,7 @@ def load_settings(env_file: Path | None = None) -> Settings:
         oauth_signing_secret=signing_secret,
         oauth_access_ttl=int(os.getenv("OAUTH_ACCESS_TOKEN_TTL", "28800")),
         oauth_refresh_ttl=int(os.getenv("OAUTH_REFRESH_TOKEN_TTL", "2592000")),
-        oauth_store=_expand(os.getenv("OAUTH_STORE", "~/.cache/kis-mcp/oauth-store.json")),
+        oauth_store=_expand(os.getenv("OAUTH_STORE", "~/.cache/gg-mcp-stocks/oauth-store.json")),
         # The login page is reachable without authentication, so the default
         # wording stays neutral. Operators override it in .env.
         auth_page_label=os.getenv("AUTH_PAGE_LABEL", "Private connector"),

@@ -85,7 +85,7 @@ def build_stats(
             "kind": "no_data",
             "message": (
                 "No collected snapshots match. Add names to the rankers file and run "
-                "`lostark-mcp collect`."
+                "`gg-mcp-lostark collect`."
             ),
             "classes_collected": store.classes(),
         }

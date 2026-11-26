@@ -22,9 +22,9 @@ os.environ.setdefault("AUTH_MODE", "none")
 
 from fastmcp import Client  # noqa: E402
 
-from lostark_mcp.config import load_settings  # noqa: E402
-from lostark_mcp.logging_setup import setup_logging  # noqa: E402
-from lostark_mcp.server import build_server  # noqa: E402
+from gg_mcp_lostark.config import load_settings  # noqa: E402
+from gg_mcp_lostark.logging_setup import setup_logging  # noqa: E402
+from gg_mcp_lostark.server import build_server  # noqa: E402
 
 OK = "\033[32m OK \033[0m"
 BAD = "\033[31mFAIL\033[0m"

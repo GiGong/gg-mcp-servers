@@ -10,10 +10,10 @@ resolution-markers = [
 
 [manifest]
 members = [
-    "kis-mcp",
+    "gg-mcp-lostark",
+    "gg-mcp-servers",
+    "gg-mcp-stocks",
     "localauth",
-    "lostark-mcp",
-    "mcp-servers",
 ]
 
 [[package]]
@@ -440,6 +440,61 @@ server = [
 ]
 
 [[package]]
+name = "gg-mcp-lostark"
+version = "0.1.0"
+source = { editable = "servers/lostark" }
+dependencies = [
+    { name = "fastmcp" },
+    { name = "httpx" },
+    { name = "localauth" },
+    { name = "python-dotenv" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "fastmcp", specifier = ">=3.4" },
+    { name = "httpx", specifier = ">=0.28" },
+    { name = "localauth", editable = "packages/localauth" },
+    { name = "python-dotenv", specifier = ">=1.0" },
+]
+
+[[package]]
+name = "gg-mcp-servers"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "gg-mcp-lostark" },
+    { name = "gg-mcp-stocks" },
+    { name = "localauth" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "gg-mcp-lostark", editable = "servers/lostark" },
+    { name = "gg-mcp-stocks", editable = "servers/stocks" },
+    { name = "localauth", editable = "packages/localauth" },
+]
+
+[[package]]
+name = "gg-mcp-stocks"
+version = "0.1.0"
+source = { editable = "servers/stocks" }
+dependencies = [
+    { name = "fastmcp" },
+    { name = "httpx" },
+    { name = "localauth" },
+    { name = "python-dotenv" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "fastmcp", specifier = ">=3.4" },
+    { name = "httpx", specifier = ">=0.28" },
+    { name = "localauth", editable = "packages/localauth" },
+    { name = "python-dotenv", specifier = ">=1.0" },
+]
+
+[[package]]
 name = "griffelib"
 version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -642,25 +697,6 @@ wheels = [
 ]
 
 [[package]]
-name = "kis-mcp"
-version = "0.1.0"
-source = { editable = "servers/kis" }
-dependencies = [
-    { name = "fastmcp" },
-    { name = "httpx" },
-    { name = "localauth" },
-    { name = "python-dotenv" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "fastmcp", specifier = ">=3.4" },
-    { name = "httpx", specifier = ">=0.28" },
-    { name = "localauth", editable = "packages/localauth" },
-    { name = "python-dotenv", specifier = ">=1.0" },
-]
-
-[[package]]
 name = "localauth"
 version = "0.1.0"
 source = { editable = "packages/localauth" }
@@ -670,25 +706,6 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [{ name = "fastmcp", specifier = ">=3.4" }]
-
-[[package]]
-name = "lostark-mcp"
-version = "0.1.0"
-source = { editable = "servers/lostark" }
-dependencies = [
-    { name = "fastmcp" },
-    { name = "httpx" },
-    { name = "localauth" },
-    { name = "python-dotenv" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "fastmcp", specifier = ">=3.4" },
-    { name = "httpx", specifier = ">=0.28" },
-    { name = "localauth", editable = "packages/localauth" },
-    { name = "python-dotenv", specifier = ">=1.0" },
-]
 
 [[package]]
 name = "markdown-it-py"
@@ -725,23 +742,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/30/d3/f9acc21dfc886e4f78e2add1a47db46ce16884346afde53f8a064c02c891/mcp-1.29.0.tar.gz", hash = "sha256:52d01f334de1868cc3bb2d6604931126a67631f99a6c5d3b82ba47290315ec36", size = 643148, upload-time = "2026-07-28T13:41:41.939Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/01/c8/248b201f6d753d69fd5d6506011abbb35a946d9142b2ae311a948fd0be3d/mcp-1.29.0-py3-none-any.whl", hash = "sha256:f5a075bb611f23d6f4d080c6a1699fa62772eebc562ba9e66b306ddde1c755f7", size = 223436, upload-time = "2026-07-28T13:41:40.337Z" },
-]
-
-[[package]]
-name = "mcp-servers"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "kis-mcp" },
-    { name = "localauth" },
-    { name = "lostark-mcp" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "kis-mcp", editable = "servers/kis" },
-    { name = "localauth", editable = "packages/localauth" },
-    { name = "lostark-mcp", editable = "servers/lostark" },
 ]
 
 [[package]]

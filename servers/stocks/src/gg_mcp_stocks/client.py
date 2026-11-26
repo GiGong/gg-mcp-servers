@@ -249,7 +249,7 @@ class KisClient:
         self._settings = settings
         self._http = httpx.AsyncClient(
             timeout=httpx.Timeout(settings.kis_timeout),
-            headers={"User-Agent": "kis-mcp/0.1 (read-only)"},
+            headers={"User-Agent": "gg-mcp-stocks/0.1 (read-only)"},
         )
         self._tokens = TokenManager(settings, self._http)
         self._limiter = RateLimiter(settings.kis_rate_limit_per_sec)

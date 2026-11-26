@@ -1,7 +1,7 @@
 """Command line entry point.
 
-    lostark-mcp            run the MCP server (what launchd starts)
-    lostark-mcp collect    snapshot the characters listed in the rankers file
+    gg-mcp-lostark            run the MCP server (what launchd starts)
+    gg-mcp-lostark collect    snapshot the characters listed in the rankers file
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ from pathlib import Path
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(prog="lostark-mcp")
+    parser = argparse.ArgumentParser(prog="gg-mcp-lostark")
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("serve", help="run the MCP server (default)")
     collect_cmd = sub.add_parser("collect", help="snapshot the characters in the rankers file")

@@ -1,4 +1,4 @@
-"""`lostark-mcp collect`: snapshot every character in the rankers file.
+"""`gg-mcp-lostark collect`: snapshot every character in the rankers file.
 
 Runs outside the MCP server because a few hundred characters take minutes at
 the API's 100 requests per minute. It throttles itself to its own share and

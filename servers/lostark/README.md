@@ -1,4 +1,4 @@
-# lostark-mcp
+# GG-MCP-LostArk
 
 A **read-only** MCP server over the official
 [Lost Ark Open API](https://developer-lostark.game.onstove.com) (Korean service).
@@ -125,8 +125,8 @@ There is no ranking API, so statistics come from names you list yourself:
    `local/snapshots.sqlite3`, skipping names collected in the last 20 hours:
 
    ```bash
-   .venv/bin/lostark-mcp collect             # all due names
-   .venv/bin/lostark-mcp collect --dry-run   # just report what is due
+   .venv/bin/gg-mcp-lostark collect             # all due names
+   .venv/bin/gg-mcp-lostark collect --dry-run   # just report what is due
    ```
 
 3. Ask through `stats_builds(character_class=..., aspect=...)`. Aspects:

@@ -1,4 +1,4 @@
-# kis-mcp
+# GG-MCP-Stocks
 
 A **read-only** MCP server over the Korea Investment & Securities (KIS) Open API.
 
@@ -243,9 +243,9 @@ reports only whether a day trades, not its hours, so days with shifted hours
 ## Setup
 
 ```bash
-cp servers/kis/.env.example servers/kis/.env
-chmod 600 servers/kis/.env
-$EDITOR servers/kis/.env
+cp servers/stocks/.env.example servers/stocks/.env
+chmod 600 servers/stocks/.env
+$EDITOR servers/stocks/.env
 ```
 
 Fill in your own KIS app key/secret (from
@@ -269,17 +269,17 @@ Then, from the repository root:
 
 ```bash
 uv sync
-./deploy/install.sh kis
+./deploy/install.sh stocks
 ```
 
 ### Checks
 
 ```bash
 # Response field mapping and close logic, no network needed
-.venv/bin/python servers/kis/check_parsing.py
+.venv/bin/python servers/stocks/check_parsing.py
 
-# Live KIS calls, needs servers/kis/.env
-.venv/bin/python servers/kis/smoke_test.py
+# Live KIS calls, needs servers/stocks/.env
+.venv/bin/python servers/stocks/smoke_test.py
 ```
 
 `handoff-prompt.md` is a briefing you can paste into an analysis conversation so

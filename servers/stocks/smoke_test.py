@@ -19,12 +19,12 @@ from typing import Any
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "src"))
 
-from kis_mcp.client import KisClient  # noqa: E402
-from kis_mcp.config import load_settings  # noqa: E402
-from kis_mcp.krx import KrxClient  # noqa: E402
-from kis_mcp.logging_setup import setup_logging  # noqa: E402
-from kis_mcp.market import MarketCalendar  # noqa: E402
-from kis_mcp.tools import KisTools  # noqa: E402
+from gg_mcp_stocks.client import KisClient  # noqa: E402
+from gg_mcp_stocks.config import load_settings  # noqa: E402
+from gg_mcp_stocks.krx import KrxClient  # noqa: E402
+from gg_mcp_stocks.logging_setup import setup_logging  # noqa: E402
+from gg_mcp_stocks.market import MarketCalendar  # noqa: E402
+from gg_mcp_stocks.tools import KisTools  # noqa: E402
 
 OK = "\033[32m OK \033[0m"
 BAD = "\033[31mFAIL\033[0m"

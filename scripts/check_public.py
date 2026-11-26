@@ -11,8 +11,8 @@ Reproduces the path Claude.ai takes, following the server's AUTH_MODE:
 If the local macOS resolver cannot resolve the hostname, curl's --resolve can
 bypass DNS; the transport still goes through the real tunnel.
 
-    .venv/bin/python scripts/check_public.py --env servers/kis/.env
-    .venv/bin/python scripts/check_public.py --env servers/kis/.env --resolve 1.2.3.4
+    .venv/bin/python scripts/check_public.py --env servers/stocks/.env
+    .venv/bin/python scripts/check_public.py --env servers/stocks/.env --resolve 1.2.3.4
 """
 
 from __future__ import annotations
@@ -102,8 +102,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--env",
-        default="servers/kis/.env",
-        help="Path to the server's .env (default: servers/kis/.env)",
+        default="servers/stocks/.env",
+        help="Path to the server's .env (default: servers/stocks/.env)",
     )
     parser.add_argument("--resolve", help="IP to bypass local DNS with")
     parser.add_argument("--url", help="Public URL (overrides MCP_PUBLIC_URL)")

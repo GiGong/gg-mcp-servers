@@ -105,7 +105,7 @@ def build_server(settings: Settings) -> tuple[FastMCP, KisClient]:
         )
 
     mcp: FastMCP = FastMCP(
-        name="kis-stock-quotes",
+        name="gg-mcp-stocks",
         instructions=SERVER_INSTRUCTIONS,
         auth=auth,
     )
@@ -255,7 +255,7 @@ def main() -> None:
     setup_logging(settings.log_level, settings.log_file)
 
     logger.info(
-        "starting kis-mcp | env=%s appkey=%s throttle=%.1f/s auth=%s bind=%s:%s%s",
+        "starting gg-mcp-stocks | env=%s appkey=%s throttle=%.1f/s auth=%s bind=%s:%s%s",
         settings.kis_env,
         settings.masked_app_key(),
         settings.kis_rate_limit_per_sec,

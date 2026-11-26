@@ -105,7 +105,7 @@ class LostarkClient:
             headers={
                 "accept": "application/json",
                 "authorization": f"bearer {settings.api_key}",
-                "user-agent": "lostark-mcp/0.1 (read-only)",
+                "user-agent": "gg-mcp-lostark/0.1 (read-only)",
             },
         )
         self._maintenance_until = 0.0

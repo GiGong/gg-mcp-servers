@@ -32,12 +32,12 @@ os.environ.update(
     }
 )
 
-from kis_mcp.client import KisClient  # noqa: E402
-from kis_mcp.config import load_settings  # noqa: E402
-from kis_mcp.market import KST, MarketCalendar  # noqa: E402
-from kis_mcp import tools as tools_module  # noqa: E402
-from kis_mcp.krx import KrxClient  # noqa: E402
-from kis_mcp.tools import KisTools  # noqa: E402
+from gg_mcp_stocks.client import KisClient  # noqa: E402
+from gg_mcp_stocks.config import load_settings  # noqa: E402
+from gg_mcp_stocks.market import KST, MarketCalendar  # noqa: E402
+from gg_mcp_stocks import tools as tools_module  # noqa: E402
+from gg_mcp_stocks.krx import KrxClient  # noqa: E402
+from gg_mcp_stocks.tools import KisTools  # noqa: E402
 
 _ASK = {f"askp{i}": str(258000 + i * 500) for i in range(1, 11)}
 _BID = {f"bidp{i}": str(257500 - i * 500) for i in range(1, 11)}
