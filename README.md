@@ -91,6 +91,22 @@ instead of minting a code.
 - PKCE S256 required, authorization codes single-use, refresh tokens rotated.
 - State files are written `0600` via atomic replace.
 
+**Install**
+
+`localauth` is not on PyPI. Install it from this repository:
+
+```bash
+uv add "localauth @ git+https://github.com/GiGong/gg-mcp-servers#subdirectory=packages/localauth"
+pip install "localauth @ git+https://github.com/GiGong/gg-mcp-servers#subdirectory=packages/localauth"
+```
+
+To pin a version, put `@<commit>` before `#subdirectory`.
+
+It is a personal project. The OAuth flow and attack checks
+(`scripts/check_oauth.py`, `scripts/check_security.py`) run on every push, but the
+code has had no external security review. Read it before you put it in front of
+anything that matters.
+
 **Use it**
 
 ```python
